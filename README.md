@@ -16,9 +16,9 @@ As of writing this, I have not yet added the scripts yet, but basically, there w
 
 | OS      | File Format |
 | ------- | ----------- |
-| Windows | .lib        |
-| MacOS   | .a          |
-| Linux   | .a          |
+| Windows | .dll        |
+| MacOS   | .dylib      |
+| Linux   | .so         |
 
 
   
@@ -46,7 +46,7 @@ True if in the currently loaded position needs white to make a move, False if it
 ##### Board
 Instance variable that will probably be represented as an 8x8 2d array of signed integers with a piece's material value representing the piece at that position and the sign representing the color (negative being black) while 0 represents an unoccupied square. This variable will be used in most of the calculations.
 ##### node currentNode
-This variable will simply be a reference to the node that is being analyzed at the moment. We will ==need to implement a thread-safe system for the nodes== since each analyzer thread will share access to the same graph, but that shouldn't be too hard.
+This variable will simply be a reference to the node that is being analyzed at the moment. We will **need to implement a thread-safe system for the nodes** since each analyzer thread will share access to the same graph, but that shouldn't be too hard.
 ##### void loadFromFEN(string FEN)
 Loads the position from the Forsyth-Edwards Notation (FEN) representation of the position. This one shouldn't be too hard.
 ##### void loadFromNode(Node node)
@@ -54,11 +54,11 @@ This will make more sense when I explain the Node struct, but basically, nodes w
 ##### bool isPositionLegal()
 Returns true if the currently loaded position is legal (i.e. opponent king should not be capturable by the current player's pieces).
 ##### void transpose(string move)
-Okay, I'm not sure yet if we should have the move parameter be a string in ==algebraic notation/PGN format or if we should have a more compact representation==, but basically, we want to be able to calculate the new position that results from a move, and if it is a legal move, we add the node to the graph if it doesn't exist yet and then queue it up for calculation.
+Okay, I'm not sure yet if we should have the move parameter be a string in **algebraic notation/PGN format or if we should have a more compact representation**, but basically, we want to be able to calculate the new position that results from a move, and if it is a legal move, we add the node to the graph if it doesn't exist yet and then queue it up for calculation.
 ##### float getHeuristic()
 This will probably be the most important and complex function. For now, we just need to calculate the material balance which just involves adding up all of the values (except for the king) in the `Board` matrix and returning that as a float. 
 ##### getLegalMoves()
-I didn't specify the return type here yet because I'm still not even sure how to store the moves, but basically, this just finds all the legal moves in the current position. To save on memory, and to give the player a more "human-like" opponent, the bot will ==only analyze a limited number of moves== depending on the difficulty. Also, we need to ==organize them by riskiness==. Highest priority will be moves that just immediately take back material that was lost or just moves that immediately capture hanging pieces. Next are low risk moves which are just ones that move a piece to a safe or defended square. For higher difficulties, we'll actually have trades at a higher priority than the low-risk moves. Trades are basically when you capture an opponent's piece with a piece of equal material and expect them to take back. Finally, for only the higher difficulties, we'll have sacrifices which are moves that place a high-valued piece in a square that is being attacked by an opponent piece.
+I didn't specify the return type here yet because I'm still not even sure how to store the moves, but basically, this just finds all the legal moves in the current position. To save on memory, and to give the player a more "human-like" opponent, the bot will **only analyze a limited number of moves** depending on the difficulty. Also, we need to **organize them by riskiness**. Highest priority will be moves that just immediately take back material that was lost or just moves that immediately capture hanging pieces. Next are low risk moves which are just ones that move a piece to a safe or defended square. For higher difficulties, we'll actually have trades at a higher priority than the low-risk moves. Trades are basically when you capture an opponent's piece with a piece of equal material and expect them to take back. Finally, for only the higher difficulties, we'll have sacrifices which are moves that place a high-valued piece in a square that is being attacked by an opponent piece.
 
 
 ### Graph
