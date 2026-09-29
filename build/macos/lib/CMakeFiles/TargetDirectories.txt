@@ -1,0 +1,3 @@
+/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/lib/CMakeFiles/ChessLib.dir
+/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/lib/CMakeFiles/edit_cache.dir
+/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/lib/CMakeFiles/rebuild_cache.dir
