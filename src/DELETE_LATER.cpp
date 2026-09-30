@@ -1,5 +1,5 @@
 #include "ChessFunctions.h"
 
 std::string testInputFunction(const std::string& input){
-    return "Processed: " + input;
+    return "Processed: " + input + " just now";
 }

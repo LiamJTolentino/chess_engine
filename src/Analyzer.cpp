@@ -11,6 +11,7 @@ Analyzer::Analyzer()
         {1,1,1,1,1,1,1,1},
         {5,3,3,9,20,3,3,5}
 
-    }
+    },
+    whiteToPlay(true)
 {
 }

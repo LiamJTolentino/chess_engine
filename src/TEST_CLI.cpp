@@ -3,8 +3,10 @@
 
 int main(){
     std::string input;
+    int i = 0;
 
-    while (std::getline(std::cin, input)){
+    while (i < 4 && std::getline(std::cin, input)){
         std::cout << testInputFunction(input) << std::endl;
+        i++;
     }
 }
