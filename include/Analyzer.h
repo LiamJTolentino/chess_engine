@@ -1,6 +1,12 @@
 #pragma once
 #include <string>
 #include <array>
+#include "ChessFunctions.h"
+#include <map>
+
+
+
+
 // == Analyzer Class == //
 /**
  * @brief Class used for calculating stuff related to chess positions
@@ -13,6 +19,7 @@ private:
     // std::array<std::array<int, 8>, 8> board; 
     float board[8][8];
     bool whiteToPlay;
+    Difficulty diff;
 public:
     /**
      * @brief Construct a new Analyzer from the starting position
@@ -23,16 +30,21 @@ public:
      * @brief Construct a new Analyzer using the given Forsyth-Edwards Notation (FEN)
      * @param FEN String containing the FEN of the position
      */
-    Analyzer(std::string FEN);
+    Analyzer(std::string& FEN);
 
     /**
      * @brief Reads the FEN and sets up all the necessary variables
      */
-    void loadFromFen(std::string FEN);
+    void loadFromFen(std::string& FEN);
 
     bool isWhiteToMove();
 
     bool isPositionLegal();
+
+    /**
+     * @brief True if in the current position, the current player's king is being attacked by an enemy piece
+     */
+    bool isInCheck();
 
     void transpose(std::string move);
 

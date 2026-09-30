@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/liam/Documents/CPP_Projects/chess_engine/src/Analyzer.cpp" "CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o" "gcc" "CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o.d"
+  "/home/liam/Documents/CPP_Projects/chess_engine/src/ChessFunctions.cpp" "CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o" "gcc" "CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o.d"
   "/home/liam/Documents/CPP_Projects/chess_engine/src/DELETE_LATER.cpp" "CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o" "gcc" "CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o.d"
   )
 

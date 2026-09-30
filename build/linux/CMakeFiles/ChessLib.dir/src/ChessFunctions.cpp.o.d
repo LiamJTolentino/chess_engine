@@ -1,7 +1,7 @@
-CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o: \
- /home/liam/Documents/CPP_Projects/chess_engine/src/Analyzer.cpp \
+CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o: \
+ /home/liam/Documents/CPP_Projects/chess_engine/src/ChessFunctions.cpp \
  /usr/include/stdc-predef.h \
- /home/liam/Documents/CPP_Projects/chess_engine/include/Analyzer.h \
+ /home/liam/Documents/CPP_Projects/chess_engine/include/ChessFunctions.h \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -144,13 +144,4 @@ CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/11/bits/charconv.h \
  /usr/include/c++/11/bits/basic_string.tcc /usr/include/c++/11/array \
- /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
- /home/liam/Documents/CPP_Projects/chess_engine/include/ChessFunctions.h \
- /usr/include/c++/11/map /usr/include/c++/11/bits/stl_tree.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/bits/node_handle.h \
- /usr/include/c++/11/bits/stl_map.h /usr/include/c++/11/tuple \
- /usr/include/c++/11/bits/uses_allocator.h \
- /usr/include/c++/11/bits/invoke.h \
- /usr/include/c++/11/bits/stl_multimap.h \
- /usr/include/c++/11/bits/erase_if.h
+ /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h

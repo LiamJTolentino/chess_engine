@@ -153,6 +153,30 @@ src/Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/Analyzer.cpp.s
 .PHONY : src/Analyzer.cpp.s
 
+src/ChessFunctions.o: src/ChessFunctions.cpp.o
+.PHONY : src/ChessFunctions.o
+
+# target to build an object file
+src/ChessFunctions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o
+.PHONY : src/ChessFunctions.cpp.o
+
+src/ChessFunctions.i: src/ChessFunctions.cpp.i
+.PHONY : src/ChessFunctions.i
+
+# target to preprocess a source file
+src/ChessFunctions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.i
+.PHONY : src/ChessFunctions.cpp.i
+
+src/ChessFunctions.s: src/ChessFunctions.cpp.s
+.PHONY : src/ChessFunctions.s
+
+# target to generate assembly for a file
+src/ChessFunctions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.s
+.PHONY : src/ChessFunctions.cpp.s
+
 src/DELETE_LATER.o: src/DELETE_LATER.cpp.o
 .PHONY : src/DELETE_LATER.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... src/Analyzer.o"
 	@echo "... src/Analyzer.i"
 	@echo "... src/Analyzer.s"
+	@echo "... src/ChessFunctions.o"
+	@echo "... src/ChessFunctions.i"
+	@echo "... src/ChessFunctions.s"
 	@echo "... src/DELETE_LATER.o"
 	@echo "... src/DELETE_LATER.i"
 	@echo "... src/DELETE_LATER.s"
