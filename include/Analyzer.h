@@ -39,6 +39,12 @@ public:
 
     bool isWhiteToMove();
 
+    /**
+     * @brief Returns true if the current position is legal. This means that:
+     * 1. Both kings are on the board
+     * 2. Current player cannot capture opponent king
+     * 3. There are no promoted pawns in their last rank
+     */
     bool isPositionLegal();
 
     /**
