@@ -23,6 +23,7 @@ int main(){
         myAnalyzer.loadFromFen(input);
         mat = myAnalyzer.getMaterialDifference();
         std::cout << "Current material: " << mat << std::endl;
+        std::cout << myAnalyzer.boardAsString() << std::endl;
         i++;
     }
 }

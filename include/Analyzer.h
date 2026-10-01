@@ -37,6 +37,10 @@ public:
      */
     void loadFromFen(std::string& FEN);
 
+    std::string getFEN();
+
+    std::string boardAsString();
+
     bool isWhiteToMove();
 
     bool isPositionLegal();

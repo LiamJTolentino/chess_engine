@@ -37,6 +37,23 @@ std::map<char,float> FENmap = {
     { 'K', 20},     // White king
 };
 
+std::map<float,std::string> unicodemap = {
+    { -1, "♟"},     // Black pawn
+    { -3, "♞"},     // Black knight
+    { -3.1, "♝"},   // Black bishop
+    { -5, "♜"},     // Black rook
+    { -9, "♛"},     // Black queen
+    { -20, "♚"},    // Black king
+    { 1, "♙"},      // White pawn
+    { 3, "♘"},      // White knight
+    { 3.1, "♗"},    // White bishop
+    { 5, "♖"},      // White rook
+    { 9, "♕"},      // White queen
+    { 20, "♔"},     // White king
+    { 0, " "}       // Empty
+};
+
+
 void Analyzer::loadFromFen(std::string& FEN)
 {
     // First set everything to 0
@@ -100,6 +117,24 @@ void Analyzer::loadFromFen(std::string& FEN)
         }
         charIndex++;
     }
+}
+
+std::string Analyzer::boardAsString()
+{
+    std::string output = "================\n";
+    for (int row=0; row< 8; row++)
+    {
+        output += "|";
+        for (int col=0; col<8; col++)
+        {
+            output += unicodemap[board[row][col]];
+            output += "|";
+        }
+        output += "\n================\n";
+    }
+    output += (whiteToPlay ? "White" : "Black");
+    output += " to move";
+    return output;
 }
 
 bool Analyzer::isWhiteToMove()
