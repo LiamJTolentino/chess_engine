@@ -19,6 +19,19 @@ Analyzer::Analyzer()
 {
 }
 
+bool Analyzer::isPositionLegal()
+{
+    // First we check if both kings are on the board
+
+
+    // Then we check if the current player can capture the opponent king with a piece
+
+
+    // Then we see if there are any unpromoted pawns in their final rank
+
+    return true;
+}
+
 /**
  * @brief Used for converting FEN
  */
