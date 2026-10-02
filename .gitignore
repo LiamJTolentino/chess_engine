@@ -2,3 +2,5 @@
 build/linux/*
 build/macos/*
 build/windows/*
+CLI_TEST
+MACOS_CLI
