@@ -64,6 +64,11 @@ public:
      * @brief Constructor that initializes as empty square
      */
     BoardSquare();
+
+    /**
+     * @brief Constructor that initializes the piece value
+     */
+    BoardSquare(std::uint8_t initstate);
     
     bool isWhitePiece();
 

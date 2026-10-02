@@ -19,6 +19,11 @@ BoardSquare::BoardSquare()
 {
 }
 
+BoardSquare::BoardSquare(std::uint8_t initstate)
+{
+    state = initstate;
+}
+
 bool BoardSquare::isWhitePiece()
 {
     return state >> 3; // We just need to bitshift to the right by 3 to get the piece color

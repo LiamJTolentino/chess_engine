@@ -1,1 +1,1 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libChessLib.so -o libChessLib.so CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o 
+/usr/bin/c++ -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libChessLib.so -o libChessLib.so CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.o 

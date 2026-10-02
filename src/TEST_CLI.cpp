@@ -7,6 +7,7 @@ int main(){
     int i = 0;
 
     Analyzer myAnalyzer;
+    BoardSquare mySquare(SQstate::BLACK_QUEEN);
 
     std::cout << "Program Started ♔" << std::endl;
     float mat = myAnalyzer.getMaterialDifference();
@@ -24,6 +25,7 @@ int main(){
         mat = myAnalyzer.getMaterialDifference();
         std::cout << "Current material: " << mat << std::endl;
         std::cout << myAnalyzer.boardAsString() << std::endl;
+        std::cout << mySquare.getFEN() << std::endl;
         i++;
     }
 }
