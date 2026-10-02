@@ -72,6 +72,8 @@ public:
     
     bool isWhitePiece();
 
+    std::uint8_t getState();
+
     /**
      * @brief Changes the piece on the square without changing the color
      * @param piece int value of the piece
@@ -79,6 +81,8 @@ public:
     void setPiece(std::uint8_t piece);
 
     void setState(SQstate newstate);
+
+    void setFromFEN(char piece);
 
     void clearSquare();
 

@@ -4,14 +4,14 @@
 
 Analyzer::Analyzer()
     : board {
-        {-5,-3,-3.1,-9,-20,-3.1,-3,-5},
-        {-1,-1,-1,-1,-1,-1,-1,-1},
-        {0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0},
-        {1,1,1,1,1,1,1,1},
-        {5,3,3.1,9,20,3.1,3,5}
+        {BoardSquare(4),BoardSquare(2),BoardSquare(3),BoardSquare(5),BoardSquare(6),BoardSquare(3),BoardSquare(2),BoardSquare(4)},
+        {BoardSquare(1),BoardSquare(1),BoardSquare(1),BoardSquare(1),BoardSquare(1),BoardSquare(1),BoardSquare(1),BoardSquare(1)},
+        {BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0)},
+        {BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0)},
+        {BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0)},
+        {BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0),BoardSquare(0)},
+        {BoardSquare(9),BoardSquare(9),BoardSquare(9),BoardSquare(9),BoardSquare(9),BoardSquare(9),BoardSquare(9),BoardSquare(9)},
+        {BoardSquare(12),BoardSquare(10),BoardSquare(11),BoardSquare(13),BoardSquare(14),BoardSquare(11),BoardSquare(10),BoardSquare(12)}
 
     },
     whiteToPlay(true),
@@ -21,8 +21,21 @@ Analyzer::Analyzer()
 
 bool Analyzer::isPositionLegal()
 {
-    // First we check if both kings are on the board
+    bool bking = false;
+    bool wking = false;
 
+    BoardCoord bkloc;
+    BoardCoord wkloc;
+    // First we check if both kings are on the board
+    for (int row=0; row<8; row++)
+    {
+        for (int col=8; row<8; row++)
+        {
+            if(board[row][col].getState() == SQstate::BLACK_KING) { bking = true; bkloc.row = row; bkloc.col = col;}
+            if(board[row][col].getState() == SQstate::WHITE_KING) { wking = true; bkloc.row = row; bkloc.col = col;}
+        }
+    }
+    if (!(bking && wking)) { return false; }
 
     // Then we check if the current player can capture the opponent king with a piece
 
@@ -32,40 +45,6 @@ bool Analyzer::isPositionLegal()
     return true;
 }
 
-/**
- * @brief Used for converting FEN
- */
-std::map<char,float> FENmap = {
-    { 'p', -1},     // Black pawn
-    { 'n', -3},     // Black knight
-    { 'b', -3.1},   // Black bishop
-    { 'r', -5},     // Black rook
-    { 'q', -9},     // Black queen
-    { 'k', -20},    // Black king
-    { 'P', 1},      // White pawn
-    { 'N', 3},      // White knight
-    { 'B', 3.1},    // White bishop
-    { 'R', 5},      // White rook
-    { 'Q', 9},      // White queen
-    { 'K', 20},     // White king
-};
-
-std::map<float,std::string> unicodemap = {
-    { -1, "♟"},     // Black pawn
-    { -3, "♞"},     // Black knight
-    { -3.1, "♝"},   // Black bishop
-    { -5, "♜"},     // Black rook
-    { -9, "♛"},     // Black queen
-    { -20, "♚"},    // Black king
-    { 1, "♙"},      // White pawn
-    { 3, "♘"},      // White knight
-    { 3.1, "♗"},    // White bishop
-    { 5, "♖"},      // White rook
-    { 9, "♕"},      // White queen
-    { 20, "♔"},     // White king
-    { 0, " "}       // Empty
-};
-
 
 void Analyzer::loadFromFen(std::string& FEN)
 {
@@ -74,7 +53,8 @@ void Analyzer::loadFromFen(std::string& FEN)
     {
         for (int col=0; col<8; col++)
         {
-            board[row][col] = 0.0;
+            // board[row][col] = 0.0;
+            board[row][col].clearSquare();
         }
     }
     // Iterate over each character
@@ -106,7 +86,8 @@ void Analyzer::loadFromFen(std::string& FEN)
         }
         
         // Pieces
-        board[row][col] = FENmap[currentChar];
+        // board[row][col] = FENmap[currentChar];
+        board[row][col].setFromFEN(currentChar);
 
         col++;
         charIndex++;
@@ -140,7 +121,8 @@ std::string Analyzer::boardAsString()
         output += "|";
         for (int col=0; col<8; col++)
         {
-            output += unicodemap[board[row][col]];
+            // output += unicodemap[board[row][col]];
+            output += board[row][col].getUnicode();
             output += "|";
         }
         output += "\n================\n";
@@ -162,7 +144,8 @@ float Analyzer::getMaterialDifference()
     {
         for (int col=0; col<8; col++)
         {
-            total += board[row][col];
+            // total += board[row][col];
+            total += board[row][col].getMaterialValue();
         }
     }
     return total;

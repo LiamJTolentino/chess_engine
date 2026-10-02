@@ -17,7 +17,7 @@ class Analyzer
 {
 private:
     // std::array<std::array<int, 8>, 8> board; 
-    float board[8][8];
+    BoardSquare board[8][8];
     bool whiteToPlay;
     Difficulty diff;
 public:
