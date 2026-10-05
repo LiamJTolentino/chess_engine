@@ -94,6 +94,46 @@ public:
 };
 
 /**
+ * @brief Data structure for storing chess move info and functions to extract information. This is to make sure that we can store move information in as little space as possible to save on memory.
+ * @param mvinfo 16 bit unsigned integer containing all the necessary information to make a legal move on a chess board.
+ * This integer is made up of smaller numbers that tell information about a move.
+ *  
+ * First is a 1-bit value that is only 1 (true) if the move is a pawn promotion. If it is, the next value has to represent a piece that a pawn can promote to.
+ * 
+ * Second is a 3-bit value that tells what piece to set at the destination square, or which direction to castle. 000 (0) - Pawn, 001 (1) - Knight, 010 (2) - Bishop, 011 (3) - Rook, 100 (4) - Queen, 101 (5) - King, 110 (6) - Castle kingside/Short castle ("O-O"), 111 (7) - Castle queenside/Long castle ("O-O-O"). If this value is a castle, we can simply ignore the other values.
+ * 
+ * Remaining four numbers are 3-bit values that tell the start row, start column, destination row, and destination column respectively. Since the chess board is only 8x8, each of these only needs to have 8 distinct values, hence the 3-bits.
+ */
+class ChessMove
+{
+private:
+    std::uint16_t mvinfo;
+public:
+    ChessMove();
+    ChessMove(std::string PGN);
+
+    bool isPiecePromotion();
+
+    int getPieceVal();
+
+    int getStartRow();
+
+    int getStartCol();
+
+    int getDestRow();
+
+    int getDestCol();
+
+    void setStartPos(int start_row, int start_col);
+
+    void setDestPos(int dest_row, int dest_col);
+
+    void setPieceVal(int piece_val);
+
+    void setPawnPromotion(bool isPromotion);
+};
+
+/**
  * @brief Converts a string containing a chessboard coordinate in algebraic notation (e.g. "e4") and returns the indices to be used in the board array
  * @param coord string containing a chessboard coordinate in algebraic notation
  * @return BoardCoord object where row is the row index of the board matrix and col is the column index of the board matrix

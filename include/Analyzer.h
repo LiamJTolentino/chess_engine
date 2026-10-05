@@ -11,7 +11,9 @@
 /**
  * @brief Class used for calculating stuff related to chess positions
  * 
- * @param board 8x8 float array representing all the pieces on the board. Pieces are indicated by their material values with 0.0 being an empty square, 1.0=Pawn, 3.0=Knight, 3.1=Bishop, 5.0=Rook, 9.0=Queen, 20.0=King. Sign indicates the color, so positive values are white pieces while negative values are black pieces.
+ * @param board 8x8 BoardSquare array representing all the pieces on the board. 
+ * @param whiteToPlay True if in the currently loaded position white is to play the next move
+ * @param diff Difficulty enum used to adjust the difficulty of the chess bot by enabling or disabling certain calculations and setting depth of the minimax search.
  */
 class Analyzer
 {
