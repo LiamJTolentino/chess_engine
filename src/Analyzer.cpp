@@ -1,6 +1,7 @@
 #include "Analyzer.h"
 #include "ChessFunctions.h"
 #include <cctype>
+#include <vector>
 
 Analyzer::Analyzer()
     : board {
@@ -60,9 +61,15 @@ bool Analyzer::isPositionLegal()
     return true;
 }
 
-std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range)
+std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range)
 {
     std::vector<Attacker> output;
+    int i = 0;
+    int current_row = from_row;
+    int current_col = from_col;
+    // while(i < range && current_row )
+
+    return output;
 }
 
 void Analyzer::loadFromFen(std::string& FEN)

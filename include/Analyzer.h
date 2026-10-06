@@ -99,4 +99,5 @@ struct Attacker
     BoardSquare* piece;
     std::uint8_t row;
     std::uint8_t col;
+    Attacker();
 };
