@@ -4,3 +4,4 @@ build/macos/**
 build/windows/**
 CLI_TEST
 MACOS_CLI
+TEST_FEN.txt

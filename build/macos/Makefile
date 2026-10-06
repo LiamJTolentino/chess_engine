@@ -153,6 +153,30 @@ src/Analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/Analyzer.cpp.s
 .PHONY : src/Analyzer.cpp.s
 
+src/BoardSquare.o: src/BoardSquare.cpp.o
+.PHONY : src/BoardSquare.o
+
+# target to build an object file
+src/BoardSquare.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.o
+.PHONY : src/BoardSquare.cpp.o
+
+src/BoardSquare.i: src/BoardSquare.cpp.i
+.PHONY : src/BoardSquare.i
+
+# target to preprocess a source file
+src/BoardSquare.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.i
+.PHONY : src/BoardSquare.cpp.i
+
+src/BoardSquare.s: src/BoardSquare.cpp.s
+.PHONY : src/BoardSquare.s
+
+# target to generate assembly for a file
+src/BoardSquare.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.s
+.PHONY : src/BoardSquare.cpp.s
+
 src/ChessFunctions.o: src/ChessFunctions.cpp.o
 .PHONY : src/ChessFunctions.o
 
@@ -213,6 +237,9 @@ help:
 	@echo "... src/Analyzer.o"
 	@echo "... src/Analyzer.i"
 	@echo "... src/Analyzer.s"
+	@echo "... src/BoardSquare.o"
+	@echo "... src/BoardSquare.i"
+	@echo "... src/BoardSquare.s"
 	@echo "... src/ChessFunctions.o"
 	@echo "... src/ChessFunctions.i"
 	@echo "... src/ChessFunctions.s"

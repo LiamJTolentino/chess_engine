@@ -85,12 +85,12 @@ clean: CMakeFiles/ChessLib.dir/clean
 CMakeFiles/ChessLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" --progress-num=1,2,3,4 "Built target ChessLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" --progress-num=1,2,3,4,5 "Built target ChessLib"
 .PHONY : CMakeFiles/ChessLib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ChessLib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" 4
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ChessLib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" 0
 .PHONY : CMakeFiles/ChessLib.dir/rule
@@ -102,7 +102,7 @@ ChessLib: CMakeFiles/ChessLib.dir/rule
 # codegen rule for target.
 CMakeFiles/ChessLib.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ChessLib.dir/build.make CMakeFiles/ChessLib.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" --progress-num=1,2,3,4 "Finished codegen for target ChessLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/liamjvt/Documents/School/2026a/Senior Project/chess_engine/build/macos/CMakeFiles" --progress-num=1,2,3,4,5 "Finished codegen for target ChessLib"
 .PHONY : CMakeFiles/ChessLib.dir/codegen
 
 # clean rule for target.

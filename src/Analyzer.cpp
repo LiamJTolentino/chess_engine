@@ -61,13 +61,22 @@ bool Analyzer::isPositionLegal()
     return true;
 }
 
-std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range)
+std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty)
 {
     std::vector<Attacker> output;
     int i = 0;
-    int current_row = from_row;
-    int current_col = from_col;
-    // while(i < range && current_row )
+    int current_row = from_row + d_row;
+    int current_col = from_col + d_row;
+    BoardSquare* pSquare = getSquareAt(current_row,current_col);
+    while(pSquare && i < range)
+    {
+        if(includeEmpty || !pSquare->isEmptySquare())
+        output.push_back(Attacker(pSquare,current_row,current_col));
+        i++;
+        current_row += d_row;
+        current_col += d_col;
+        pSquare = getSquareAt(current_row,current_col);
+    }
 
     return output;
 }
@@ -175,4 +184,19 @@ float Analyzer::getMaterialDifference()
         }
     }
     return total;
+}
+
+
+
+Attacker::Attacker()
+    : piece(nullptr),
+    row(0),
+    col(0)
+{}
+
+Attacker::Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum)
+{
+    piece = ptrPiece;
+    row = rownum;
+    col = colnum;
 }

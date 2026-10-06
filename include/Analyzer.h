@@ -5,7 +5,18 @@
 #include "ChessFunctions.h"
 #include <map>
 
-
+/**
+ * @brief This is just used for the attack matrix. It stores the piece type attacking this square as well as the location of the attacking piece.
+ * @param piece Pointer to BoardSquare object at the location of the attacking piece
+ */
+struct Attacker
+{
+    BoardSquare* piece;
+    std::uint8_t row;
+    std::uint8_t col;
+    Attacker();
+    Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
+};
 
 
 // == Analyzer Class == //
@@ -68,9 +79,10 @@ public:
      * @param d_row Number of squares along the rank/row to count in a single step
      * @param d_col Number of squares along the file/column to count in a single step
      * @param range Number of steps to count before stopping
+     * @param includeEmpty False by default. Set to true if emtpy squares and en passants should be included.
      * @return Vector of all Attacker objects detected in that direction. Attacker objects contain a pointer to the piece at their location as well as their row and column to help find them in the board matrix.
      */
-    std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range);
+    std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false);
 
     void transpose(std::string move);
 
@@ -90,14 +102,3 @@ public:
 
 
 
-/**
- * @brief This is just used for the attack matrix. It stores the piece type attacking this square as well as the location of the attacking piece.
- * @param piece Pointer to BoardSquare object at the location of the attacking piece
- */
-struct Attacker
-{
-    BoardSquare* piece;
-    std::uint8_t row;
-    std::uint8_t col;
-    Attacker();
-};

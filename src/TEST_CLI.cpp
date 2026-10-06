@@ -1,6 +1,8 @@
 #include "ChessFunctions.h"
 #include "Analyzer.h"
 #include <iostream>
+#include <vector>
+#include <fstream>
 
 int main(){
     std::string input;
@@ -16,16 +18,39 @@ int main(){
 
     BoardCoord bc;
 
-    while (i < 4 && std::getline(std::cin, input)){
-        std::cout << i << std::endl;
-        std::cout << testInputFunction(input) << std::endl;
-        // bc = coordToIndices(input);
-        // std::cout << bc.row << "," << bc.col << std::endl;
-        myAnalyzer.loadFromFen(input);
+    std::string currentFEN;
+    std::ifstream fTestFile("TEST_FEN.txt");
+    std::vector<Attacker> trace;
+
+    while (std::getline(fTestFile,currentFEN))
+    {
+        std::cout << "FEN: " << currentFEN << std::endl;
+        myAnalyzer.loadFromFen(currentFEN);
         mat = myAnalyzer.getMaterialDifference();
+        trace = myAnalyzer.traceFrom(7,0,0,1,8);
         std::cout << "Current material: " << mat << std::endl;
         std::cout << myAnalyzer.boardAsString() << std::endl;
         std::cout << mySquare.getFEN() << std::endl;
-        i++;
+        std::cout << "Showing trace result" << std::endl;
+        for (const Attacker& atk : trace)
+        {
+            std::cout << atk.piece->getUnicode() << " at " << atk.row << "," << atk.col << std::endl;
+        }
     }
+
+    std::cout << "DONE" << std::endl;
+
+    // while (i < 4 && std::getline(std::cin, input)){
+    //     std::cout << i << std::endl;
+    //     std::cout << testInputFunction(input) << std::endl;
+    //     // bc = coordToIndices(input);
+    //     // std::cout << bc.row << "," << bc.col << std::endl;
+    //     myAnalyzer.loadFromFen(input);
+    //     mat = myAnalyzer.getMaterialDifference();
+    //     std::cout << "Current material: " << mat << std::endl;
+    //     std::cout << myAnalyzer.boardAsString() << std::endl;
+    //     std::cout << mySquare.getFEN() << std::endl;
+    //     i++;
+    // }
 }
+

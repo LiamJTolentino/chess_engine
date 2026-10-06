@@ -35,6 +35,11 @@ bool BoardSquare::isWhitePiece()
     return state >> 3; // We just need to bitshift to the right by 3 to get the piece color
 }
 
+bool BoardSquare::isEmptySquare(bool includeEnPassant)
+{
+    return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
+}
+
 std::uint8_t BoardSquare::getPiece()
 {
     return state&7;

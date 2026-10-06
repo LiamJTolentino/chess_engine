@@ -74,6 +74,12 @@ public:
     bool isWhitePiece();
 
     /**
+     * @brief True if this square is unoccupied
+     * @param includeEnPassant Set to true if en passant squares should count as empty
+     */
+    bool isEmptySquare(bool includeEnPassant = true);
+
+    /**
      * @brief Just returns the last 3 bits
      */
     std::uint8_t getPiece();
