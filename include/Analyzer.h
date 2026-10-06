@@ -1,3 +1,7 @@
+/**
+ * @file Analyzer.h
+ * @brief Provides functionality for loading and calculating chess positions
+ */
 #pragma once
 #include <string>
 #include <array>
@@ -84,6 +88,12 @@ public:
      * @return Vector of all Attacker objects detected in that direction. Attacker objects contain a pointer to the piece at their location as well as their row and column to help find them in the board matrix.
      */
     std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false, bool stopAtPiece=false);
+
+    /**
+     * @brief Uses traceFrom to get a vector of all possible squares that a piece at a given square can move to
+     * @param include_defense True if you want to include the squares occupied by pieces of the same color as the specified piece. This is useful for calculating the attack matrix to see if a piece has enough defenders.
+     */
+    std::vector<Attacker> getMovesFromSquare(int sourcerow, int sourcecol, bool include_defense=true);
 
     void transpose(std::string move);
 

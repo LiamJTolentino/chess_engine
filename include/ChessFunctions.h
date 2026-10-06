@@ -1,3 +1,7 @@
+/**
+ * @file ChessFunctions.h
+ * @brief Provides data structures for storing information on a chess position
+ */
 #pragma once
 #include <string>
 #include <array>
