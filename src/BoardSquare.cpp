@@ -40,6 +40,11 @@ bool BoardSquare::isEmptySquare(bool includeEnPassant)
     return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
 }
 
+bool BoardSquare::isPiece(SQtype piecetype)
+{
+    return getPiece() == piecetype;
+}
+
 std::uint8_t BoardSquare::getPiece()
 {
     return state&7;

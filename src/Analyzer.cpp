@@ -2,6 +2,10 @@
 #include "ChessFunctions.h"
 #include <cctype>
 #include <vector>
+#include <utility>
+#include <cmath>
+// #include <fstream>
+// #include <iostream>
 
 Analyzer::Analyzer()
     : board {
@@ -31,29 +35,98 @@ bool Analyzer::isPositionLegal()
 {
     bool bking = false;
     bool wking = false;
+    int numkings = 0;
 
     BoardCoord bkloc;
     BoardCoord wkloc;
-    // First we check if both kings are on the board
+    
+    // First we check if both kings are on the board and there are only 2
     for (int row=0; row<8; row++)
     {
-        for (int col=8; row<8; row++)
+        for (int col=0; col<8; col++)
         {
-            if(board[row][col].getState() == SQstate::BLACK_KING) { bking = true; bkloc.row = row; bkloc.col = col;}
-            if(board[row][col].getState() == SQstate::WHITE_KING) { wking = true; bkloc.row = row; bkloc.col = col;}
+            // std::cout << board[row][col].getUnicode() <<std::endl;
+            if(board[row][col].getState() == SQstate::BLACK_KING) { bking = true; bkloc.row = row; bkloc.col = col; numkings++;}
+            if(board[row][col].getState() == SQstate::WHITE_KING) { wking = true; bkloc.row = row; bkloc.col = col; numkings++;}
         }
     }
-    if (!(bking && wking)) { return false; }
+    if (!(bking && wking) || numkings != 2) { return false; }
 
     // Then we check if the current player can capture the opponent king with a piece
-    BoardSquare* squarePtr;
+    // First make sure the kings aren't touching
+    
+    if(std::abs(bkloc.row - wkloc.row) <= 1 || std::abs(bkloc.col - wkloc.col) <= 1)
+    { return false; }
     BoardCoord& ekloc = (whiteToPlay ? bkloc : wkloc); // Which one is the enemy king?
 
+    // Looking for pawn attacks
+    BoardSquare* squarePtr;
+    
+    squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col + 1);
+    
+    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
+    
+    squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col - 1);
+    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
 
+    std::vector<Attacker> attackers;
+    
+    // Looking for knights attacking
+    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
+        {1, 2},
+        {2, 1},
+        {-1, 2},
+        {-2,1},
+        {1, -2},
+        {2, -1},
+        {-1, -2},
+        {-2, -1}
+    }) {
+        attackers.clear();
+        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 1, false,true);
+        if(!attackers.empty() 
+        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
+        && attackers.at(0).piece->isPiece(SQtype::TYPE_KNIGHT)) 
+        { return false; }
+    }
+    
+    // Looking for bishops and queens
+    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
+        {1, 1},
+        {1, -1},
+        {-1, 1},
+        {-1, -1}
+    }) {
+        attackers.clear();
+        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
+        if(!attackers.empty() 
+        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
+        && ((attackers.at(0).piece->isPiece(SQtype::TYPE_BISHOP)
+        || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
+        { return false; }
+    }
+    
+    // Looking for rooks and queens
+    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
+        {0, 1},
+        {1, 0},
+        {0, -1},
+        {-1, 0}
+    }) {
+        attackers.clear();
+        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
+        if(!attackers.empty() 
+        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
+        && ((attackers.at(0).piece->isPiece(SQtype::TYPE_ROOK)
+        || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
+        { return false; }
+    }
+    
     // Then we see if there are any unpromoted pawns in their final rank
     for (int col=0; col<8; col++){
         if(board[0][col].getState() == SQstate::WHITE_PAWN || board[7][col].getState() == SQstate::BLACK_PAWN)
         {
+            
             return false;
         }
     }
@@ -61,17 +134,20 @@ bool Analyzer::isPositionLegal()
     return true;
 }
 
-std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty)
+std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty,bool stopAtPiece)
 {
     std::vector<Attacker> output;
     int i = 0;
     int current_row = from_row + d_row;
-    int current_col = from_col + d_row;
+    int current_col = from_col + d_col;
     BoardSquare* pSquare = getSquareAt(current_row,current_col);
     while(pSquare && i < range)
     {
         if(includeEmpty || !pSquare->isEmptySquare())
-        output.push_back(Attacker(pSquare,current_row,current_col));
+        {
+            output.push_back(Attacker(pSquare,current_row,current_col));
+            if(stopAtPiece && !pSquare->isEmptySquare()){ break; }
+        }
         i++;
         current_row += d_row;
         current_col += d_col;

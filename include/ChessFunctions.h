@@ -52,6 +52,20 @@ enum SQstate : std::uint8_t{
 };
 
 /**
+ * @brief Same as SQstate but without piece color. Useful for when you just want the piece type
+ */
+enum SQtype : std::uint8_t{
+    TYPE_EMPTY = 0,         // 0000
+    TYPE_PAWN = 1,         // 0001
+    TYPE_KNIGHT = 2,       // 0010
+    TYPE_BISHOP = 3,       // 0011
+    TYPE_ROOK = 4,         // 0100
+    TYPE_QUEEN = 5,        // 0101
+    TYPE_KING = 6,         // 0110
+    TYPE_EN_PASSANT = 7,   // 0111
+};
+
+/**
  * @brief Used for retrieving information about a square on the board. 
  * 
  * @param state 8-bit int defined by the SQstate enum
@@ -78,6 +92,8 @@ public:
      * @param includeEnPassant Set to true if en passant squares should count as empty
      */
     bool isEmptySquare(bool includeEnPassant = true);
+
+    bool isPiece(SQtype piecetype);
 
     /**
      * @brief Just returns the last 3 bits

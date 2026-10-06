@@ -76,13 +76,14 @@ public:
      * @brief Used for move calculations.
      * @param from_row Row to start tracing from
      * @param from_col Column to start tracing from
-     * @param d_row Number of squares along the rank/row to count in a single step
-     * @param d_col Number of squares along the file/column to count in a single step
+     * @param d_row Number of squares to add to the rank/row in a single step
+     * @param d_col Number of squares to add to the file/column in a single step
      * @param range Number of steps to count before stopping
      * @param includeEmpty False by default. Set to true if emtpy squares and en passants should be included.
+     * @param stopAtPiece False by default. Set to true if trace should stop at the first piece it finds. This essentially returns a vector of legal moves in that direction.
      * @return Vector of all Attacker objects detected in that direction. Attacker objects contain a pointer to the piece at their location as well as their row and column to help find them in the board matrix.
      */
-    std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false);
+    std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false, bool stopAtPiece=false);
 
     void transpose(std::string move);
 
