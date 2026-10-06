@@ -19,6 +19,13 @@ Analyzer::Analyzer()
 {
 }
 
+BoardSquare* Analyzer::getSquareAt(int row, int col)
+{
+    if (row > 7 || row < 0 || col > 7 || col < 0) { return nullptr;} // Out of range
+
+    return &board[row][col];
+}
+
 bool Analyzer::isPositionLegal()
 {
     bool bking = false;
@@ -38,13 +45,25 @@ bool Analyzer::isPositionLegal()
     if (!(bking && wking)) { return false; }
 
     // Then we check if the current player can capture the opponent king with a piece
+    BoardSquare* squarePtr;
+    BoardCoord& ekloc = (whiteToPlay ? bkloc : wkloc); // Which one is the enemy king?
 
 
     // Then we see if there are any unpromoted pawns in their final rank
+    for (int col=0; col<8; col++){
+        if(board[0][col].getState() == SQstate::WHITE_PAWN || board[7][col].getState() == SQstate::BLACK_PAWN)
+        {
+            return false;
+        }
+    }
 
     return true;
 }
 
+std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range)
+{
+    std::vector<Attacker> output;
+}
 
 void Analyzer::loadFromFen(std::string& FEN)
 {

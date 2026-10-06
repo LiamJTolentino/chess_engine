@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <array>
+#include <vector>
 #include <cstdint>
 #ifndef CHESS_FUNCTIONS_H
 #define CHESS_FUNCTIONS_H
@@ -72,6 +73,11 @@ public:
     
     bool isWhitePiece();
 
+    /**
+     * @brief Just returns the last 3 bits
+     */
+    std::uint8_t getPiece();
+
     std::uint8_t getState();
 
     /**
@@ -110,6 +116,7 @@ private:
     std::uint16_t mvinfo;
 public:
     ChessMove();
+    ChessMove(bool promotion, int piece, int start_row, int start_col, int dest_row, int dest_col);
     ChessMove(std::string PGN);
 
     bool isPiecePromotion();

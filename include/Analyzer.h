@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <array>
+#include <vector>
 #include "ChessFunctions.h"
 #include <map>
 
@@ -22,6 +23,8 @@ private:
     BoardSquare board[8][8];
     bool whiteToPlay;
     Difficulty diff;
+
+    BoardSquare* getSquareAt(int row, int col);
 public:
     /**
      * @brief Construct a new Analyzer from the starting position
@@ -58,6 +61,17 @@ public:
      */
     bool isInCheck();
 
+    /**
+     * @brief Used for move calculations.
+     * @param from_row Row to start tracing from
+     * @param from_col Column to start tracing from
+     * @param d_row Number of squares along the rank/row to count in a single step
+     * @param d_col Number of squares along the file/column to count in a single step
+     * @param range Number of steps to count before stopping
+     * @return Vector of all Attacker objects detected in that direction. Attacker objects contain a pointer to the piece at their location as well as their row and column to help find them in the board matrix.
+     */
+    std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range);
+
     void transpose(std::string move);
 
     /**
@@ -72,4 +86,17 @@ public:
      * @note Returns as float because we might implement something later on that modifies the values of individual pieces like passed pawns.
      */
     float getMaterialDifference();
+};
+
+
+
+/**
+ * @brief This is just used for the attack matrix. It stores the piece type attacking this square as well as the location of the attacking piece.
+ * @param piece Pointer to BoardSquare object at the location of the attacking piece
+ */
+struct Attacker
+{
+    BoardSquare* piece;
+    std::uint8_t row;
+    std::uint8_t col;
 };
