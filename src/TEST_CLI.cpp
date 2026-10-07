@@ -45,8 +45,11 @@ int main(){
     std::vector<Attacker> trace;
     std::string legality;
 
+    int lineNum = 1;
+
     while (std::getline(fTestFile,currentFEN))
     {
+        std::cout << "\nLine: " << lineNum << std::endl;
         std::cout << "FEN: " << currentFEN << std::endl;
         myAnalyzer.loadFromFen(currentFEN);
         mat = myAnalyzer.getMaterialDifference();
@@ -64,6 +67,7 @@ int main(){
         std::cout << "Checking legality" << std::endl;
         legality = (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal");
         std::cout << "Legal position: " << legality << std::endl;
+        lineNum++;
     }
 
     std::cout << "DONE" << std::endl;

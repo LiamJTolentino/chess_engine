@@ -113,6 +113,7 @@ public:
      * 1. Both kings are on the board
      * 2. Current player cannot capture opponent king
      * 3. There are no promoted pawns in their last rank
+     * @note TODO: Redo the logic for this using attack_matrix once that has been implemented
      */
     bool isPositionLegal();
 
