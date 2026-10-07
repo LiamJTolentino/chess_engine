@@ -1,3 +1,8 @@
+/**
+ * @file NodeGraph.h
+ * @brief Provides functionality for minimax graph traversals
+ */
+
 #pragma once
 
 
