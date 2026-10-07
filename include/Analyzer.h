@@ -34,6 +34,13 @@ public:
     AttackSquare();
 
     /**
+     * @brief Gets the total number of pieces targetting this square
+     */
+    int getTotalAttackers();
+
+    
+
+    /**
      * @brief Returns a copy of the internal attacks vector
      */
     std::vector<Attacker> getAttackVector();
