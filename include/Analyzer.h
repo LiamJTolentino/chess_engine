@@ -22,6 +22,28 @@ struct Attacker
     Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
 };
 
+/** 
+ * @brief Wrapper class for everything related to the attack matrix
+ * @param attacks Vector of Attacker objects representing all the pieces that are targetting this square.
+ */
+class AttackSquare
+{
+private:
+    std::vector<Attacker> attacks;
+public:
+    AttackSquare();
+
+    /**
+     * @brief Returns a copy of the internal attacks vector
+     */
+    std::vector<Attacker> getAttackVector();
+
+    /**
+     * @brief Clears the attacks vector
+     */
+    void clear();
+};
+
 
 // == Analyzer Class == //
 /**
@@ -38,6 +60,7 @@ private:
     BoardSquare board[8][8];
     bool whiteToPlay;
     Difficulty diff;
+    Attacker attack_matrix[8][8];
 
     BoardSquare* getSquareAt(int row, int col);
 public:
