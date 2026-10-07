@@ -4,6 +4,28 @@
 #include <vector>
 #include <fstream>
 
+
+int range(int a, int b)
+{
+    static long long int i;
+    static int state = 0;
+    switch (state) {
+    case 0: /* start of function */
+        state = 1;
+        for (i = a; i < b; i++) {
+            return i;
+
+        /* Returns control */
+        case 1:
+            std::cout << "control at range"
+                 << std::endl; /* resume control straight
+                           after the return */
+        }
+    }
+    state = 0;
+    return 0;
+}
+
 int main(){
     std::string input;
     int i = 0;
@@ -60,5 +82,13 @@ int main(){
     //     std::cout << mySquare.getFEN() << std::endl;
     //     i++;
     // }
-}
 
+    std::vector<int> myNumbers;
+
+    int j;
+    for (; j = range(1, 5);){
+        std::cout << "control at main: j = " << j << std::endl;
+        myNumbers.push_back(j);
+        std::cout << "myNumbers has " << myNumbers.size() << std::endl;
+    }
+}

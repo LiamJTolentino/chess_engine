@@ -31,7 +31,7 @@ class AttackSquare
 private:
     std::vector<Attacker> attacks;
 public:
-    AttackSquare();
+    // AttackSquare();
 
     /**
      * @brief Gets the total number of pieces targetting this square
@@ -67,9 +67,22 @@ private:
     BoardSquare board[8][8];
     bool whiteToPlay;
     Difficulty diff;
-    Attacker attack_matrix[8][8];
+    AttackSquare attack_matrix[8][8];
+    bool whiteShortCastle;
+    bool whiteLongCastle;
+    bool blackShortCastle;
+    bool blackLongCastle;
 
+    /**
+     * @brief Returns a pointer to the BoardSquare object stored at the given coordinate
+     */
     BoardSquare* getSquareAt(int row, int col);
+
+    /**
+     * @brief For each square on the board, we want to know what pieces are able to move into that square given the current position. For that, we have the attack_matrix which contains an AttackSquare object at each corresponding index which will be useful for finding legal moves, calculating tactics, etc.
+     * @note Only call this ONCE after a position has been loaded. 
+     */
+    void calculateAttackMatrix();
 public:
     /**
      * @brief Construct a new Analyzer from the starting position
@@ -92,6 +105,8 @@ public:
     std::string boardAsString();
 
     bool isWhiteToMove();
+
+    
 
     /**
      * @brief Returns true if the current position is legal. This means that:
@@ -127,6 +142,8 @@ public:
 
     void transpose(std::string move);
 
+// == Everything below is related to heuristic calculations == //
+
     /**
      * @brief Uses a bunch of other calculations to determine the overall heuristic of the position.
      * @note TODO: Figure out what to do with checks and checkmate and stuff.
@@ -139,6 +156,11 @@ public:
      * @note Returns as float because we might implement something later on that modifies the values of individual pieces like passed pawns.
      */
     float getMaterialDifference();
+
+    /**
+     * @brief Used for the heuristic calculation. Uses the attack_matrix
+     */
+    float getHangingScore();
 };
 
 

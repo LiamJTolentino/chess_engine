@@ -157,10 +157,10 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     return output;
 }
 
-std::vector<Attacker> Analyzer::getMovesFromSquare(int sourcerow, int sourcecol, bool include_defense=true)
-{
-    return;
-}
+// std::vector<Attacker> Analyzer::getMovesFromSquare(int sourcerow, int sourcecol, bool include_defense)
+// {
+//     return;
+// }
 
 void Analyzer::loadFromFen(std::string& FEN)
 {

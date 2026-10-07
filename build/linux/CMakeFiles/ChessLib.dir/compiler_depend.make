@@ -174,6 +174,11 @@ CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o: ../../src/Analyzer.cpp \
   /usr/include/c++/11/array \
   /usr/include/c++/11/utility \
   /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
   ../../include/ChessFunctions.h \
   /usr/include/c++/11/map \
   /usr/include/c++/11/bits/stl_tree.h \
@@ -184,7 +189,32 @@ CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o: ../../src/Analyzer.cpp \
   /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/invoke.h \
   /usr/include/c++/11/bits/stl_multimap.h \
-  /usr/include/c++/11/bits/erase_if.h
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/cmath \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/include/c++/11/bits/specfun.h \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/tr1/gamma.tcc \
+  /usr/include/c++/11/tr1/special_function_util.h \
+  /usr/include/c++/11/tr1/bessel_function.tcc \
+  /usr/include/c++/11/tr1/beta_function.tcc \
+  /usr/include/c++/11/tr1/ell_integral.tcc \
+  /usr/include/c++/11/tr1/exp_integral.tcc \
+  /usr/include/c++/11/tr1/hypergeometric.tcc \
+  /usr/include/c++/11/tr1/legendre_function.tcc \
+  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/11/tr1/poly_hermite.tcc \
+  /usr/include/c++/11/tr1/poly_laguerre.tcc \
+  /usr/include/c++/11/tr1/riemann_zeta.tcc
 
 CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.o: ../../src/BoardSquare.cpp \
   /usr/include/stdc-predef.h \
@@ -358,7 +388,12 @@ CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.o: ../../src/BoardSquare.cpp \
   /usr/include/c++/11/bits/basic_string.tcc \
   /usr/include/c++/11/array \
   /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc
 
 CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o: ../../src/ChessFunctions.cpp \
   /usr/include/stdc-predef.h \
@@ -532,7 +567,12 @@ CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o: ../../src/ChessFunctions.cpp \
   /usr/include/c++/11/bits/basic_string.tcc \
   /usr/include/c++/11/array \
   /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc
 
 CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
   /usr/include/stdc-predef.h \
@@ -706,16 +746,61 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
   /usr/include/c++/11/bits/basic_string.tcc \
   /usr/include/c++/11/array \
   /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc
 
+
+/usr/include/c++/11/tr1/riemann_zeta.tcc:
+
+/usr/include/c++/11/tr1/poly_hermite.tcc:
+
+/usr/include/c++/11/tr1/legendre_function.tcc:
+
+/usr/include/c++/11/tr1/beta_function.tcc:
+
+/usr/include/c++/11/tr1/bessel_function.tcc:
+
+/usr/include/c++/11/tr1/gamma.tcc:
+
+/usr/include/c++/11/limits:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/math.h:
 
 /usr/include/c++/11/bits/erase_if.h:
 
 /usr/include/c++/11/bits/uses_allocator.h:
 
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+
 /usr/include/c++/11/bits/stl_map.h:
 
 ../../include/ChessFunctions.h:
+
+/usr/include/c++/11/bits/vector.tcc:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
+/usr/include/c++/11/bits/stl_vector.h:
+
+/usr/include/c++/11/bits/stl_uninitialized.h:
+
+/usr/include/c++/11/vector:
 
 /usr/include/c++/11/bits/stl_relops.h:
 
@@ -727,7 +812,11 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 
 /usr/include/c++/11/bits/charconv.h:
 
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/c++/11/tr1/ell_integral.tcc:
 
 /usr/include/asm-generic/errno.h:
 
@@ -879,6 +968,8 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
+/usr/include/c++/11/tr1/exp_integral.tcc:
+
 /usr/include/c++/11/bits/stl_construct.h:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
@@ -916,6 +1007,8 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
 
 /usr/include/c++/11/initializer_list:
+
+/usr/include/c++/11/tr1/special_function_util.h:
 
 /usr/include/c++/11/bits/postypes.h:
 
@@ -977,6 +1070,8 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 
 /usr/include/c++/11/compare:
 
+/usr/include/c++/11/bits/specfun.h:
+
 /usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/c++/11/cstdint:
@@ -986,6 +1081,8 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
 /usr/include/c++/11/bits/stl_algo.h:
 
@@ -1005,7 +1102,11 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 
 /usr/include/c++/11/cctype:
 
+/usr/include/c++/11/cmath:
+
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
+
+/usr/include/c++/11/tr1/hypergeometric.tcc:
 
 /usr/include/c++/11/bits/localefwd.h:
 
@@ -1021,11 +1122,15 @@ CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o: ../../src/DELETE_LATER.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
+/usr/include/c++/11/tr1/modified_bessel_func.tcc:
+
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/c++/11/ext/alloc_traits.h:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
+
+/usr/include/c++/11/tr1/poly_laguerre.tcc:
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
 
