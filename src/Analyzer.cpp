@@ -5,8 +5,8 @@
 #include <utility>
 #include <cmath>
 // #include <fstream>
-#include <iostream>
-#include <cstdint>
+// #include <iostream>
+// #include <cstdint>
 
 Analyzer::Analyzer()
     : board {
@@ -40,41 +40,40 @@ bool Analyzer::isPositionLegal()
 
     BoardCoord bkloc;
     BoardCoord wkloc;
-    std::cout << "Counting Kings" << std::endl;
     // == First we check if both kings are on the board and there are only 2
     for (int row=0; row<8; row++)
     {
         for (int col=0; col<8; col++)
         {
-            // std::cout << board[row][col].getUnicode() <<std::endl;
+            // 
             if(board[row][col].getState() == SQstate::BLACK_KING) { bking = true; bkloc.row = row; bkloc.col = col; numkings++;}
             if(board[row][col].getState() == SQstate::WHITE_KING) { wking = true; wkloc.row = row; wkloc.col = col; numkings++;}
         }
     }
-    if (!(bking && wking) || numkings != 2) { std::cout<< "Illegal because numkings " << numkings <<std::endl; return false; }
+    if (!(bking && wking) || numkings != 2) { return false; }
 
     // == Then we check if the current player can capture the opponent king with a piece
     // First make sure the kings aren't touching
-    std::cout << "Are kings touching?" << std::endl;
-    std::cout << "Vert dist: " << std::abs(bkloc.row - wkloc.row) << std::endl;
-    std::cout << "Horiz dist: " << std::abs(bkloc.col - wkloc.col) << std::endl;
+    
+    
+    
     if(std::abs(bkloc.row - wkloc.row) <= 1 && std::abs(bkloc.col - wkloc.col) <= 1)
-    { std::cout<< "Illegal because Kings touch" <<std::endl; return false; }
+    { return false; }
     BoardCoord& ekloc = (whiteToPlay ? bkloc : wkloc); // Which one is the enemy king?
 
     // Looking for pawn attacks
-    std::cout << "Can pawn take?" << std::endl;
+    
     BoardSquare* squarePtr;
     
     squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col + 1);
     
-    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { std::cout<< "Illegal because Pawn can take king on " << ekloc.row << ", " << ekloc.col <<std::endl; return false; }
+    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
     
     squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col - 1);
-    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { std::cout<< "Illegal because Pawn can take king on " << ekloc.row << ", " << ekloc.col <<std::endl; return false; }
+    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
 
     std::vector<Attacker> attackers;
-    std::cout << "Can Knight take?" << std::endl;
+    
     
     // Looking for knights attacking
     for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
@@ -92,9 +91,9 @@ bool Analyzer::isPositionLegal()
         if(!attackers.empty() 
         && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
         && attackers.at(0).piece->isPiece(SQtype::TYPE_KNIGHT)) 
-        { std::cout<< "Illegal because " << attackers.at(0).piece->getUnicode() << " at " << static_cast<int>(attackers.at(0).row) << ", " << static_cast<int>(attackers.at(0).col) << " can take king on " << ekloc.row << ", " << ekloc.col <<std::endl; return false; }
+        { return false; }
     }
-    std::cout << "Can bishop take?" << std::endl;
+    
     // Looking for bishops and queens
     for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
         {1, 1},
@@ -108,9 +107,9 @@ bool Analyzer::isPositionLegal()
         && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
         && ((attackers.at(0).piece->isPiece(SQtype::TYPE_BISHOP)
         || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
-        { std::cout<< "Illegal because " << attackers.at(0).piece->getUnicode() << " at " << static_cast<int>(attackers.at(0).row) << ", " << static_cast<int>(attackers.at(0).col) << " can take king on " << ekloc.row << ", " << ekloc.col <<std::endl; return false;}
+        {  return false;}
     }
-    std::cout << "Can rook take?" << std::endl;
+    
     // Looking for rooks and queens
     for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
         {0, 1},
@@ -124,14 +123,13 @@ bool Analyzer::isPositionLegal()
         && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
         && ((attackers.at(0).piece->isPiece(SQtype::TYPE_ROOK)
         || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
-        { std::cout<< "Illegal because " << attackers.at(0).piece->getUnicode() << " at " << static_cast<int>(attackers.at(0).row) << ", " << static_cast<int>(attackers.at(0).col) << " can take king on " << ekloc.row << ", " << ekloc.col <<std::endl; return false;}
+        {  return false;}
     }
-    std::cout << "Unpromoted pawns?" << std::endl;
+    
     // Then we see if there are any unpromoted pawns in their final rank
     for (int col=0; col<8; col++){
         if(board[0][col].getState() == SQstate::WHITE_PAWN || board[7][col].getState() == SQstate::BLACK_PAWN)
         {
-            std::cout<< "Illegal because Pawn in column " << col << " is not promoted." <<std::endl;
             return false;
         }
     }
@@ -150,9 +148,7 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     {
         if(includeEmpty || !pSquare->isEmptySquare())
         {
-            std::cout << "Current row " << static_cast<int>(current_row) << std::endl;
             output.push_back(Attacker(pSquare,current_row,current_col));
-            std::cout << output.back().row << std::endl;
             if(stopAtPiece && !pSquare->isEmptySquare()){ break; }
         }
         i++;
@@ -287,7 +283,4 @@ Attacker::Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t coln
     row(rownum),
     col(colnum)
 {
-    // piece = ptrPiece;
-    // row = rownum;
-    // col = colnum;
 }
