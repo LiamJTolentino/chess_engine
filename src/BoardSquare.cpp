@@ -140,12 +140,13 @@ std::vector<Ray> BoardSquare::getPieceRays()
     std::vector<Ray> output;
     output.reserve(8); // A piece can have at most 8 directions to move in, so we only need that much.
     int piecetype = getPiece();
+    int row_step;
     
     switch (piecetype)
     {
     case SQtype::TYPE_PAWN:
         // Pawns can only move forward, so row_step depends on piece color. White pawns move in the negative, while black pawns move in the positive
-        int row_step = (isWhitePiece()? -1 : 1);
+        row_step = (isWhitePiece()? -1 : 1);
         output.push_back(Ray{row_step,0,1}); // Forward pawn move
         output.push_back(Ray{row_step,-1,1}); // Pawn captures to the left
         output.push_back(Ray{row_step,1,1}); // Pawn captures to the right

@@ -3,7 +3,8 @@
  * @brief Contains stuff for Analyzer.h to use for calculating piece movement
  */
 #pragma once
-#include "Analyzer.h"
+// #include "Analyzer.h"
+class Analyzer;
 // == Helper Classes == //
 
 /**
