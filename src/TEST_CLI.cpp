@@ -9,12 +9,20 @@ int range(int a, int b)
 {
     static long long int i;
     static int state = 0;
+    // std::cout << "Before the switch statement" << std::endl;
+    std::cout<< "a=" << a << "\tb=" << b << std::endl;
+    std::cout << "state: " << state << std::endl;
+    std::cout << "i = " << i << std::endl;
     switch (state) {
     case 0: /* start of function */
         state = 1;
+        std::cout << "\tstate: " << state << std::endl;
+        std::cout << "\ti = " << i << std::endl;
         for (i = a; i < b; i++) {
+            std::cout << "\t\tstate: " << state << std::endl;
+            std::cout << "\t\ti = " << i << std::endl;
             return i;
-
+        std::cout << "after return i = " << i << std::endl;
         /* Returns control */
         case 1:
             std::cout << "control at range"
@@ -22,7 +30,12 @@ int range(int a, int b)
                            after the return */
         }
     }
+    std::cout << "Loop ended" << std::endl;
+    std::cout << "state: " << state << std::endl;
+    std::cout << "i = " << i << std::endl;
     state = 0;
+    std::cout << "state: " << state << std::endl;
+    std::cout << "i = " << i << std::endl;
     return 0;
 }
 
@@ -90,9 +103,15 @@ int main(){
     std::vector<int> myNumbers;
 
     int j;
-    for (; j = range(1, 5);){
-        std::cout << "control at main: j = " << j << std::endl;
+    for (; j = range(6, 9);){
+        std::cout << "==control at main: j = " << j << std::endl;
         myNumbers.push_back(j);
-        std::cout << "myNumbers has " << myNumbers.size() << std::endl;
+        std::cout << "==myNumbers has " << myNumbers.size() << std::endl;
+    }
+    std::cout << "==ANOTHER LOOP==" << std::endl;
+    for (; j = range(1, 5);){
+        std::cout << "==control at main: j = " << j << std::endl;
+        myNumbers.push_back(j);
+        std::cout << "==myNumbers has " << myNumbers.size() << std::endl;
     }
 }
