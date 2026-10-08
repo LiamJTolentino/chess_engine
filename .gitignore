@@ -2,6 +2,9 @@
 build/linux/**
 build/macos/**
 build/windows/**
+!*.so
+!*.dylib
+!*.dll
 CLI_TEST
 MACOS_CLI
 .vscode/*
