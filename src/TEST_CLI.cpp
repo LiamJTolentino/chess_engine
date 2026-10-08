@@ -21,6 +21,7 @@ int range(int a, int b)
         for (i = a; i < b; i++) {
             std::cout << "\t\tstate: " << state << std::endl;
             std::cout << "\t\ti = " << i << std::endl;
+            std::cout<< "\t\ta=" << a << "\tb=" << b << std::endl;
             return i;
         std::cout << "after return i = " << i << std::endl;
         /* Returns control */
@@ -114,4 +115,9 @@ int main(){
         myNumbers.push_back(j);
         std::cout << "==myNumbers has " << myNumbers.size() << std::endl;
     }
+    std::cout << "\nweird test" << std::endl;
+    j = range(3,4);
+    std::cout << "==control at main: j = " << j << std::endl;
+    j = range(6,7);
+    std::cout << "==control at main: j = " << j << std::endl;
 }

@@ -7,49 +7,8 @@
 #include <array>
 #include <vector>
 #include "ChessFunctions.h"
+#include "Tracer.h"
 #include <map>
-
-/**
- * @brief This is just used for the attack matrix. It stores the piece type attacking this square as well as the location of the attacking piece.
- * @param piece Pointer to BoardSquare object at the location of the attacking piece
- */
-struct Attacker
-{
-    BoardSquare* piece;
-    std::uint8_t row;
-    std::uint8_t col;
-    Attacker();
-    Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
-};
-
-/** 
- * @brief Wrapper class for everything related to the attack matrix
- * @param attacks Vector of Attacker objects representing all the pieces that are targetting this square.
- */
-class AttackSquare
-{
-private:
-    std::vector<Attacker> attacks;
-public:
-    // AttackSquare();
-
-    /**
-     * @brief Gets the total number of pieces targetting this square
-     */
-    int getTotalAttackers();
-
-    
-
-    /**
-     * @brief Returns a copy of the internal attacks vector
-     */
-    std::vector<Attacker> getAttackVector();
-
-    /**
-     * @brief Clears the attacks vector
-     */
-    void clear();
-};
 
 
 // == Analyzer Class == //
@@ -83,6 +42,8 @@ private:
      * @note Only call this ONCE after a position has been loaded. 
      */
     void calculateAttackMatrix();
+
+    
 public:
     /**
      * @brief Construct a new Analyzer from the starting position
