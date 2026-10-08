@@ -125,9 +125,29 @@ public:
     float getMaterialDifference();
 
     /**
-     * @brief Used for the heuristic calculation. Uses the attack_matrix
+     * @brief Used for the heuristic calculation. 
+     * Uses the attack_matrix to detect pieces that are underdefended.
      */
     float getHangingScore();
+
+    /**
+     * @brief Used for the heuristic calculation. 
+     * Detects strong chess structures like pawn structures, fianchettos, connected rooks, knight and bishop outposts, Queen+bishop/Queen+rook batteries, etc. The idea is to reward the bot for reaching positions with these basic chess principles while also encouraging it to dismantle the opponent's position.
+     */
+    float getStructureScore();
+
+    /**
+     * @brief Used for the heuristic calculation early into the game. 
+     * The idea is to detect Chess opening principles like control of the center, knights and bishops out of the back rank, etc.
+     * In this way, we program the bot to follow basic opening principles rather than hardcoding book moves like with Stockfish.
+     */
+    float getDevelopmentScore();
+
+    /**
+     * @brief Used for the heuristic calculation.
+     * Uses the attack_matrix to calculate how much of the empty squares on the board are controlled by each side. Highly strategic squares like the four central squares (e4, d4, e5, d5) and long diagonals will be weighted higher.
+     */
+    float getTerritorialScore();
 };
 
 

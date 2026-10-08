@@ -2,7 +2,8 @@
 #include "Analyzer.h"
 #include "ChessFunctions.h"
 
-// Constructors
+// == Tracer == //
+
 
 Tracer::Tracer(Analyzer* evalboard,
             int start_row, int start_col,
@@ -19,6 +20,20 @@ Tracer::Tracer(Analyzer* evalboard,
         {}
 
 
+/**
+ * @todo Make it return for different overloads of Iterator based on certain conditions
+ */
+Tracer::Iterator Tracer::begin() const
+{
+    return Iterator(evalboard, start_row, start_col, d_row, d_col,skip_empty);
+}
+
+Tracer::Iterator Tracer::end() const
+{
+    return Iterator{};
+}
+
+// == Iterator == //
 
 // Dereferencing
 Attacker Tracer::Iterator::operator*() const
@@ -46,12 +61,3 @@ bool Tracer::Iterator::operator!=(const Iterator& other) const
     return evalboard != other.evalboard;
 }
 
-Tracer::Iterator Tracer::begin() const
-{
-    return Iterator(evalboard, start_row, start_col, d_row, d_col);
-}
-
-Tracer::Iterator Tracer::end() const
-{
-    return Iterator{};
-}

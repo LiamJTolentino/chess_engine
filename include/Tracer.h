@@ -50,7 +50,9 @@ public:
 
 
 // == Tracer Class == //
-
+/**
+ * @brief Used for calculating piece moves and attacks.
+ */
 class Tracer
 {
 private:
@@ -85,15 +87,31 @@ public:
 
         Iterator(Analyzer* evalboard,
                 int row, int col,
-                int row_step, int col_step);
+                int row_step, int col_step,
+                bool skip_empty);
+
+        /**
+         * @brief Constructor to use for when we want to figure out the traces based on the piece type
+         */
+        Iterator(Analyzer* evalboard,
+                int row, int col,
+                bool skip_empty);
         
         Analyzer* evalboard = nullptr;
         int row = 0;
         int col = 0;
         int row_step = 0;
         int col_step = 0;
+        bool skip_empty;
+        std::vector<Ray> rayQueue;
         
     };
+    /**
+     * @brief Creates the Iterator object that will be used for tracing
+     */
     Iterator begin() const;
+    /**
+     * @brief Returns a default iterator. When the begin Iterator equals this one (in this case, when evalboard becomes nullptr), the loop ends
+     */
     Iterator end() const;
 };
