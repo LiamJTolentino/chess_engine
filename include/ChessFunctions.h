@@ -1,4 +1,8 @@
 /**
+ * @mainpage Something
+ */
+
+/**
  * @file ChessFunctions.h
  * @brief Provides data structures for storing information on a chess position
  */
