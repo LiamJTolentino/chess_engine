@@ -62,14 +62,24 @@ enum SQstate : std::uint8_t{
  * @brief Same as SQstate but without piece color. Useful for when you just want the piece type
  */
 enum SQtype : std::uint8_t{
-    TYPE_EMPTY = 0,         // 0000
-    TYPE_PAWN = 1,         // 0001
-    TYPE_KNIGHT = 2,       // 0010
-    TYPE_BISHOP = 3,       // 0011
-    TYPE_ROOK = 4,         // 0100
-    TYPE_QUEEN = 5,        // 0101
-    TYPE_KING = 6,         // 0110
-    TYPE_EN_PASSANT = 7,   // 0111
+    TYPE_EMPTY = 0,         // 000
+    TYPE_PAWN = 1,         // 001
+    TYPE_KNIGHT = 2,       // 010
+    TYPE_BISHOP = 3,       // 011
+    TYPE_ROOK = 4,         // 100
+    TYPE_QUEEN = 5,        // 101
+    TYPE_KING = 6,         // 110
+    TYPE_EN_PASSANT = 7,   // 111
+};
+
+/**
+ * @brief Used by the Tracer class to indicate directions to scan in
+ */
+struct Ray
+{
+    int row_step;
+    int col_step;
+    int range;
 };
 
 /**
@@ -122,6 +132,11 @@ public:
     void clearSquare();
 
     float getMaterialValue();
+
+    /**
+     * @brief If this square has a chess piece, this will return the directions in which the piece can move. If it is an empty square or en passant, it returns an empty vector.
+     */
+    std::vector<Ray> getPieceRays();
 
     std::string getUnicode();
     
