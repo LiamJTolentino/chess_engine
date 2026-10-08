@@ -32,10 +32,7 @@ private:
     bool blackShortCastle;
     bool blackLongCastle;
 
-    /**
-     * @brief Returns a pointer to the BoardSquare object stored at the given coordinate
-     */
-    BoardSquare* getSquareAt(int row, int col);
+    
 
     /**
      * @brief For each square on the board, we want to know what pieces are able to move into that square given the current position. For that, we have the attack_matrix which contains an AttackSquare object at each corresponding index which will be useful for finding legal moves, calculating tactics, etc.
@@ -43,7 +40,15 @@ private:
      */
     void calculateAttackMatrix();
 
-    
+    // Tracer stuff
+    Tracer tracerRange(int from_row, int from_col, int d_row, int d_col);
+    friend class Tracer;
+protected:
+    friend class Tracer::Iterator;
+    /**
+     * @brief Returns a pointer to the BoardSquare object stored at the given coordinate
+     */
+    BoardSquare* getSquareAt(int row, int col);
 public:
     /**
      * @brief Construct a new Analyzer from the starting position

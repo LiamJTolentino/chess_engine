@@ -3,6 +3,7 @@
  * @brief Contains stuff for Analyzer.h to use for calculating piece movement
  */
 #pragma once
+#include "Analyzer.h"
 // == Helper Classes == //
 
 /**
@@ -63,7 +64,7 @@ private:
     int trace_range;
     bool skip_empty;
 
-    Tracer(Analyzer& evalboard,
+    Tracer(Analyzer* evalboard,
                 int start_row, int start_col,
                 int d_row, int d_col,
                 int trace_range,
@@ -73,7 +74,7 @@ public:
     class Iterator
     {
     public:
-        Attacker* operator*() const;
+        Attacker operator*() const;
         Iterator& operator++();
 
         bool operator!=(const Iterator& other) const;
