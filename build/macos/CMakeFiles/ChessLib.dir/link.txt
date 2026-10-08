@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -arch arm64 -dynamiclib -Wl,-headerpad_max_install_names -o libChessLib.dylib -install_name @rpath/libChessLib.dylib CMakeFiles/ChessLib.dir/src/Analyzer.cpp.o CMakeFiles/ChessLib.dir/src/DELETE_LATER.cpp.o CMakeFiles/ChessLib.dir/src/ChessFunctions.cpp.o CMakeFiles/ChessLib.dir/src/BoardSquare.cpp.o

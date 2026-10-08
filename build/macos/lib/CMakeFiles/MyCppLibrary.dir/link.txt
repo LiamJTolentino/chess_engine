@@ -1,1 +1,0 @@
-/usr/bin/c++  -arch arm64 -dynamiclib -Wl,-headerpad_max_install_names -o libMyCppLibrary.dylib -install_name @rpath/libMyCppLibrary.dylib CMakeFiles/MyCppLibrary.dir/src/Analyzer.cpp.o CMakeFiles/MyCppLibrary.dir/src/DELETE_LATER.cpp.o
