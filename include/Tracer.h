@@ -78,6 +78,10 @@ public:
     {
     public:
         Attacker operator*() const;
+        /**
+         * @brief In the for loop, this is what is called at the end of the loop to move to the next iteration.
+         * This is where most of the tracing logic stuff will go.
+         */
         Iterator& operator++();
 
         bool operator!=(const Iterator& other) const;

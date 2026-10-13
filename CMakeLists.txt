@@ -17,10 +17,10 @@ target_include_directories(ChessLib
         ${PROJECT_SOURCE_DIR}/include
 )
 
-find_package(Doxygen REQUIRED)
+# find_package(Doxygen REQUIRED)
 
-doxygen_add_docs(
-    docs
-    ${PROJECT_SOURCE_DIR}/include
-    COMMENT "Generating API documentation"
-)
+# doxygen_add_docs(
+#     docs
+#     ${PROJECT_SOURCE_DIR}/include
+#     COMMENT "Generating API documentation"
+# )
