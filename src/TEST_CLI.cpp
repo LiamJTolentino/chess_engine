@@ -42,7 +42,7 @@ int main(){
         {
             std::cout << atk.piece->getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
         }
-        myAnalyzer.TESTprintMoves();
+        std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
         // std::cout << std::flush;
         std::cout << "Checking legality" << std::endl;
         legality = (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal");

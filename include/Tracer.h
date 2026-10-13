@@ -3,6 +3,7 @@
  * @brief Contains stuff for Analyzer.h to use for calculating piece movement
  */
 #pragma once
+#include "ChessFunctions.h"
 #include <vector>
 // #include "Analyzer.h"
 class Analyzer;
@@ -63,12 +64,10 @@ private:
     Analyzer* pAnalyzer;
     int start_row;
     int start_col;
-    int d_row;
-    int d_col;
-    int trace_range;
-    int step;
-    bool pieceMode = false;
-    
+    int d_row = 0;
+    int d_col = 0;
+    int trace_range = 0;
+
 public:
     Tracer(Analyzer* pAnalyzer,
                 int start_row, int start_col,

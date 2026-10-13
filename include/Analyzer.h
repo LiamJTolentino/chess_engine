@@ -106,7 +106,7 @@ public:
     std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false, bool stopAtPiece=false);
 
     //DELETE LATER
-    void TESTprintMoves();
+    std::string TESTprintMoves();
 
     /**
      * @brief Uses traceFrom to get a vector of all possible squares that a piece at a given square can move to

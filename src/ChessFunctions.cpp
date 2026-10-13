@@ -16,3 +16,12 @@ BoardCoord coordToIndices(const std::string& coord)
     output.col = files.find(file);
     return output;
 }
+
+std::string indicesToCoord(int row,int col)
+{
+    std::string files = "abcdefgh";
+    std::string output = "";
+    output += files[col];
+    output += std::to_string(8-row);
+    return output;
+}

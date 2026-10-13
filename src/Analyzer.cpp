@@ -1,11 +1,12 @@
 #include "Analyzer.h"
 #include "ChessFunctions.h"
+#include "Tracer.h"
 #include <cctype>
 #include <vector>
 #include <utility>
 #include <cmath>
 // #include <fstream>
-#include <iostream>
+// #include <iostream>
 // #include <cstdint>
 
 Analyzer::Analyzer()
@@ -148,19 +149,29 @@ Tracer Analyzer::tracerRange(int from_row, int from_col)
     return Tracer(this,from_row,from_col);
 }
 
-void Analyzer::TESTprintMoves()
+std::string Analyzer::TESTprintMoves()
 {
+    std::string output;
     for (int row=0; row< 8; row++)
     {
         for (int col=0; col<8; col++)
         {
-            for(Attacker atk : tracerRange(row,col))
-            {
-                std::cout<< getSquareAt(row,col) << " attacks " << atk.piece->getUnicode() <<std::endl;
+            if (!getSquareAt(row,col)->isEmptySquare())
+            {    
+                for(Attacker atk : tracerRange(row,col))
+                {
+                    output += getSquareAt(row,col)->getUnicode();
+                    output += " at " + indicesToCoord(row,col);
+                    output += " attacks ";
+                    output += atk.piece->getUnicode();
+                    output += " at ";
+                    output += indicesToCoord(atk.row,atk.col);
+                }
+                output += "\n";
             }
-            
         }
     }
+    return output;
 }
 
 std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty,bool stopAtPiece)

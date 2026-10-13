@@ -17,6 +17,12 @@ Tracer::Tracer(Analyzer* pAnalyzer,
         trace_range(trace_range)
         {}
 
+Tracer::Tracer(Analyzer* pAnalyzer,
+            int start_row, int start_col)
+        : pAnalyzer(pAnalyzer),
+        start_row(start_row),
+        start_col(start_col)
+        {}
 
 /**
  * @todo Make it return for different overloads of Iterator based on certain conditions

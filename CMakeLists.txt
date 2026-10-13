@@ -7,9 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(ChessLib SHARED
     src/Analyzer.cpp
-    src/DELETE_LATER.cpp
-    src/ChessFunctions.cpp
     src/BoardSquare.cpp
+    src/ChessFunctions.cpp
+    src/DELETE_LATER.cpp
+    src/Tracer.cpp
 )
 
 target_include_directories(ChessLib
