@@ -140,6 +140,11 @@ public:
          * @brief Returns a pointer to the current square at board[row][col]
          */
         BoardSquare* CurrentSquare();
+
+        /**
+         * @brief Pops the next ray in queue and resets to the start square
+         */
+        void Rotate();
         
         Analyzer* pAnalyzer = nullptr;
         int start_row = 0;
@@ -151,6 +156,8 @@ public:
         int col_step = 0;
         int trace_range = 0;
         bool xray = false;
+
+        bool rotate_now;
         BoardSquare* startSquare;
         std::vector<Ray> rayQueue;
         

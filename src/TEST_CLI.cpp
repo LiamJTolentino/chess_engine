@@ -10,7 +10,7 @@ int main(){
     int i = 0;
 
     Analyzer myAnalyzer;
-    BoardSquare mySquare(SQstate::BLACK_QUEEN);
+    // BoardSquare mySquare(SQstate::BLACK_QUEEN);
 
     std::cout << "Program Started ♔" << std::endl;
     float mat = myAnalyzer.getMaterialDifference();
@@ -28,6 +28,7 @@ int main(){
 
     while (std::getline(fTestFile,currentFEN))
     {
+        if (currentFEN.rfind('#',0)==0){ continue; }
         std::cout << "\nLine: " << lineNum << std::endl;
         std::cout << "FEN: " << currentFEN << std::endl;
         myAnalyzer.loadFromFen(currentFEN);
@@ -36,7 +37,7 @@ int main(){
         // trace = myAnalyzer.traceFrom(7,0,0,1,8);
         std::cout << "Current material: " << mat << std::endl;
         std::cout << myAnalyzer.boardAsString() << std::endl;
-        std::cout << mySquare.getFEN() << std::endl;
+        // std::cout << mySquare.getFEN() << std::endl;
         std::cout << "Showing trace result" << std::endl;
         for (const Attacker& atk : trace)
         {

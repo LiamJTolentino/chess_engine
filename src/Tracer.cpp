@@ -1,7 +1,7 @@
 #include "Tracer.h"
 #include "Analyzer.h"
 #include "ChessFunctions.h"
-
+// #include <iostream>
 // == Tracer == //
 
 
@@ -55,7 +55,8 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
           col(col),
           row_step(row_step),
           col_step(col_step),
-          trace_range(trace_range)
+          trace_range(trace_range),
+          rotate_now(false)
 {
     if(pAnalyzer != nullptr && pAnalyzer->getSquareAt(row,col) == nullptr)
     {
@@ -71,7 +72,8 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
                 int row, int col)
         : pAnalyzer(pAnalyzer),
           row(row),
-          col(col)
+          col(col),
+          rotate_now(false)
 {
     if(pAnalyzer != nullptr && pAnalyzer->getSquareAt(row,col) == nullptr)
     {
@@ -107,32 +109,65 @@ Attacker Tracer::Iterator::operator*() const
 // Increment
 Tracer::Iterator& Tracer::Iterator::operator++()
 {
+    if(rotate_now){ Rotate(); }
     row += row_step;
     col += col_step;
     step += 1;
 
+    // if(CurrentSquare()->isPiece(SQtype::TYPE_ROOK))
+    // {
+    //     throw std::runtime_error("Hi");
+    //     std::cout<< indicesToCoord(row,col)
+    //     << " rayQueue: " << std::to_string(rayQueue.size())
+    //     <<std::endl;
+    // }
+    // std::string pp = (CurrentSquare()).getUnicode();
+    // std::cout<< indicesToCoord(start_row,start_col) << " atk:\t"
+    //     << (CurrentSquare()==nullptr?" ":CurrentSquare()->getUnicode())
+    //     << indicesToCoord(row,col)
+    //     << " rayQueue: " << std::to_string(rayQueue.size()) << "|\t"
+    //     << step << " of " << trace_range << "\t"
+    //     << row_step << "," << col_step
+    //     <<std::endl;
+
+    
     if(CurrentSquare() == nullptr
         || step >= trace_range
-        || !startSquare->canCapture(*(CurrentSquare())))
+        // || !CurrentSquare()->isEmptySquare()
+        // || !startSquare->canCapture(*(CurrentSquare()))
+        )
     {
-        step = 0;
-        while(!rayQueue.empty()) // Find the next valid ray
+        while(!rayQueue.empty()) // If the piece still has more traces
         {
-            Ray nextRay = rayQueue.back();
-            rayQueue.pop_back();
-            row_step = nextRay.row_step;
-            col_step = nextRay.col_step;
-            row = start_row + row_step;
-            col = start_col + col_step;
-            trace_range = nextRay.range;
-            if(CurrentSquare())
+            // std::cout<<"\tRotated"<<std::endl;
+            Rotate();
+            row += row_step;
+            col += col_step;
+            step += 1;
+            if(CurrentSquare() != nullptr)
             {
+                // std::cout<<"\tReturned"<< CurrentSquare()->getUnicode() <<std::endl;
                 return *this;
             }
         }
+        
         pAnalyzer = nullptr;
+        return *this;
     }
-
+    if(!CurrentSquare()->isEmptySquare())
+    {
+        if(rotate_now) // At this point in the code, rotate_now can only be true if Rotate failed
+        {
+            pAnalyzer = nullptr;
+            return *this;
+        }
+        // std::cout<<"\tRotated1"<<std::endl;
+        // Rotate();
+        rotate_now = true;
+        // std::cout<<"\tReturned1"<< CurrentSquare()->getUnicode() <<std::endl;
+        // return *this;
+    }
+    // std::cout<<"\tReturned2"<< CurrentSquare()->getUnicode() <<std::endl;
     return *this;
 }
 
@@ -146,4 +181,19 @@ BoardSquare* Tracer::Iterator::CurrentSquare()
 {
     if(pAnalyzer == nullptr){ return nullptr; }
     return pAnalyzer->getSquareAt(row,col);
+}
+
+void Tracer::Iterator::Rotate()
+{
+    if(rayQueue.empty()){ return; }
+    Ray nextRay = rayQueue.back();
+    rayQueue.pop_back();
+    step = 0;
+    row_step = nextRay.row_step;
+    col_step = nextRay.col_step;
+    row = start_row;
+    col = start_col;
+    trace_range = nextRay.range;
+    rotate_now = false;
+    // return true;
 }

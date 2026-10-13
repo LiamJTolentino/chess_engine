@@ -68,9 +68,15 @@ void Analyzer::attacksFromSquare(int row, int col)
     for(Attacker target : tracerRange(row,col))
     {
         if(pSquare != target.piece
-            && !target.piece->isEmptySquare() && pSquare->canCapture(*target.piece))
+            // && !target.piece->isEmptySquare() 
+            // && pSquare->canCapture(*target.piece)
+            )
         {
             attack_matrix[target.row][target.col].addAttacker(pSquare,row,col);
+            // if(pSquare->isPiece(SQtype::TYPE_ROOK))
+            // {
+            //     std::cout<< "R" << indicesToCoord(row,col) << "x" << target.piece->getUnicode() << indicesToCoord(target.row,target.col) <<std::endl;
+            // }
         }
     }
 }
