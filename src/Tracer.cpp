@@ -122,14 +122,16 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     //     <<std::endl;
     // }
     // std::string pp = (CurrentSquare()).getUnicode();
-    // std::cout<< indicesToCoord(start_row,start_col) << " atk:\t"
+    // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN))
+    // {
+    //     std::cout<< indicesToCoord(start_row,start_col) << " atk:\t"
     //     << (CurrentSquare()==nullptr?" ":CurrentSquare()->getUnicode())
     //     << indicesToCoord(row,col)
     //     << " rayQueue: " << std::to_string(rayQueue.size()) << "|\t"
     //     << step << " of " << trace_range << "\t"
     //     << row_step << "," << col_step
     //     <<std::endl;
-
+    // }
     
     if(CurrentSquare() == nullptr
         || step >= trace_range
@@ -147,11 +149,14 @@ Tracer::Iterator& Tracer::Iterator::operator++()
             if(CurrentSquare() != nullptr)
             {
                 // std::cout<<"\tReturned"<< CurrentSquare()->getUnicode() <<std::endl;
+                // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned=="<<std::endl;} 
+                rotate_now = true;
                 return *this;
             }
         }
         
         pAnalyzer = nullptr;
+        // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned null=="<<std::endl;} 
         return *this;
     }
     if(!CurrentSquare()->isEmptySquare())
@@ -159,6 +164,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
         if(rotate_now) // At this point in the code, rotate_now can only be true if Rotate failed
         {
             pAnalyzer = nullptr;
+            // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned null=="<<std::endl;} 
             return *this;
         }
         // std::cout<<"\tRotated1"<<std::endl;
@@ -168,6 +174,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
         // return *this;
     }
     // std::cout<<"\tReturned2"<< CurrentSquare()->getUnicode() <<std::endl;
+    // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned=="<<std::endl;} 
     return *this;
 }
 

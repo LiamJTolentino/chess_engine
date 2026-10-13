@@ -94,65 +94,66 @@ public:
     /**
      * @brief Constructor that initializes as empty square
      */
-    BoardSquare();
+    BoardSquare();//
 
     /**
      * @brief Constructor that initializes the piece value
      */
-    BoardSquare(std::uint8_t initstate);
+    BoardSquare(std::uint8_t initstate);//
     
-    bool isWhitePiece();
+    bool isWhitePiece();//
 
     /**
      * @brief Return true if this piece can capture other (other must be either empty, en passant, or opposite color piece)
      */
-    bool canCapture(BoardSquare& other);
+    bool canCapture(BoardSquare& other);//
 
     /**
      * @brief True if this square is unoccupied
      * @param includeEnPassant Set to true if en passant squares should count as empty
      */
-    bool isEmptySquare(bool includeEnPassant = true);
+    bool isEmptySquare(bool includeEnPassant = true);//
 
-    bool isPiece(SQtype piecetype);
+    bool isPiece(SQtype piecetype);//
 
     /**
      * @brief Just returns the last 3 bits
      */
-    std::uint8_t getPiece();
+    std::uint8_t getPiece();//
 
-    std::uint8_t getState();
+    std::uint8_t getState();//
 
     /**
      * @brief Changes the piece on the square without changing the color
      * @param piece int value of the piece
      */
-    void setPiece(std::uint8_t piece);
+    void setPiece(std::uint8_t piece);//
 
-    void setState(SQstate newstate);
+    void setState(SQstate newstate);//
 
-    void setFromFEN(char piece);
+    void setFromFEN(char piece);//
 
-    void clearSquare();
+    void clearSquare();//
 
-    float getMaterialValue();
+    float getMaterialValue();//
 
     /**
      * @brief If this square has a chess piece, this will return the directions in which the piece can move. If it is an empty square or en passant, it returns an empty vector.
      */
-    std::vector<Ray> getPieceRays();
+    std::vector<Ray> getPieceRays();//
 
-    std::string getUnicode();
+    std::string getUnicode();//
     
-    std::string getFEN();
+    std::string getFEN();//
 };
 
 /**
  * @brief Data structure for storing chess move info and functions to extract information. This is to make sure that we can store move information in as little space as possible to save on memory.
+ * @file ChessMove.cpp
  * @param mvinfo 16 bit unsigned integer containing all the necessary information to make a legal move on a chess board.
  * This integer is made up of smaller numbers that tell information about a move.
  *  
- * First is a 1-bit value that is only 1 (true) if the move is a pawn promotion. If it is, the next value has to represent a piece that a pawn can promote to.
+ * First is a 1-bit value that is only 1 (true) if the move is a pawn promotion (or en passant). If it is, the next value has to represent a piece that a pawn can promote to.
  * 
  * Second is a 3-bit value that tells what piece to set at the destination square, or which direction to castle. 000 (0) - Pawn, 001 (1) - Knight, 010 (2) - Bishop, 011 (3) - Rook, 100 (4) - Queen, 101 (5) - King, 110 (6) - Castle kingside/Short castle ("O-O"), 111 (7) - Castle queenside/Long castle ("O-O-O"). If this value is a castle, we can simply ignore the other values.
  * 
@@ -163,29 +164,33 @@ class ChessMove
 private:
     std::uint16_t mvinfo;
 public:
-    ChessMove();
-    ChessMove(bool promotion, int piece, int start_row, int start_col, int dest_row, int dest_col);
+    ChessMove() = default;
+    ChessMove(bool promotion, int piece, int start_row, int start_col, int dest_row, int dest_col);//
     ChessMove(std::string PGN);
 
-    bool isPiecePromotion();
+    /**
+     * @brief Returns the first bit which determines if the specified move is a pawn promotion or en passant. This is to avoid ambiguity with moves like d8=Q vs Qd8 which both end up with a queen on the d8 square.
+     * En passant is not ambiguous, but we indicate it with this bit anyway because it involves three changes as the captured pawn is not on the destination square.
+     */
+    bool isPawnMove();//
 
-    int getPieceVal();
+    int getPieceVal();//
 
-    int getStartRow();
+    int getStartRow();//
 
-    int getStartCol();
+    int getStartCol();//
 
-    int getDestRow();
+    int getDestRow();//
 
-    int getDestCol();
+    int getDestCol();//
 
-    void setStartPos(int start_row, int start_col);
+    void setStartPos(std::uint8_t start_row, std::uint8_t start_col);//
 
-    void setDestPos(int dest_row, int dest_col);
+    void setDestPos(std::uint8_t dest_row, std::uint8_t dest_col);//
 
-    void setPieceVal(int piece_val);
+    void setPieceVal(std::uint8_t piece_val);//
 
-    void setPawnPromotion(bool isPromotion);
+    void setPawnMove(bool isPromotion);//
 };
 
 /**
@@ -193,11 +198,11 @@ public:
  * @param coord string containing a chessboard coordinate in algebraic notation
  * @return BoardCoord object where row is the row index of the board matrix and col is the column index of the board matrix
  */
-BoardCoord coordToIndices(const std::string& coord);
+BoardCoord coordToIndices(const std::string& coord);//
 
 /**
  * @brief Takes the row and column of an element in the board matrix and returns it in algebraic notation.
  */
-std::string indicesToCoord(int row, int col);
+std::string indicesToCoord(int row, int col);//
 
 #endif
