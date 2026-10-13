@@ -158,14 +158,16 @@ std::string Analyzer::TESTprintMoves()
         {
             if (!getSquareAt(row,col)->isEmptySquare())
             {    
+                output += getSquareAt(row,col)->getUnicode();
+                output += " at " + indicesToCoord(row,col);
+                output += " attacks:\n";
                 for(Attacker atk : tracerRange(row,col))
                 {
-                    output += getSquareAt(row,col)->getUnicode();
-                    output += " at " + indicesToCoord(row,col);
-                    output += " attacks ";
+                    output += "\t";
                     output += atk.piece->getUnicode();
                     output += " at ";
                     output += indicesToCoord(atk.row,atk.col);
+                    output += "\n";
                 }
                 output += "\n";
             }

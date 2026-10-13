@@ -67,6 +67,7 @@ private:
     int d_row = 0;
     int d_col = 0;
     int trace_range = 0;
+    bool piece_mode = false;
 
 public:
     Tracer(Analyzer* pAnalyzer,

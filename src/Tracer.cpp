@@ -21,7 +21,8 @@ Tracer::Tracer(Analyzer* pAnalyzer,
             int start_row, int start_col)
         : pAnalyzer(pAnalyzer),
         start_row(start_row),
-        start_col(start_col)
+        start_col(start_col),
+        piece_mode(true)
         {}
 
 /**
@@ -29,6 +30,10 @@ Tracer::Tracer(Analyzer* pAnalyzer,
  */
 Tracer::Iterator Tracer::begin() const
 {
+    if(piece_mode)
+    {
+        return Iterator(pAnalyzer, start_row, start_col);
+    }
     return Iterator(pAnalyzer, start_row, start_col, d_row, d_col);
 }
 
@@ -96,6 +101,7 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
 Attacker Tracer::Iterator::operator*() const
 {
     return Attacker(pAnalyzer->getSquareAt(row,col),row,col);
+    // return Attacker(CurrentSquare(),row,col);
 }
 
 // Increment
@@ -119,8 +125,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
             row = start_row + row_step;
             col = start_col + col_step;
             trace_range = nextRay.range;
-            if(CurrentSquare()
-                && startSquare->canCapture(*(CurrentSquare())))
+            if(CurrentSquare())
             {
                 return *this;
             }
