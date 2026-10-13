@@ -5,7 +5,7 @@
 #include <utility>
 #include <cmath>
 // #include <fstream>
-// #include <iostream>
+#include <iostream>
 // #include <cstdint>
 
 Analyzer::Analyzer()
@@ -135,6 +135,32 @@ bool Analyzer::isPositionLegal()
     }
 
     return true;
+}
+
+Tracer Analyzer::tracerRange(int from_row, int from_col, int d_row, int d_col)
+{
+    return Tracer(this, from_row, from_col,
+                d_row, d_col,8);
+}
+
+Tracer Analyzer::tracerRange(int from_row, int from_col)
+{
+    return Tracer(this,from_row,from_col);
+}
+
+void Analyzer::TESTprintMoves()
+{
+    for (int row=0; row< 8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            for(Attacker atk : tracerRange(row,col))
+            {
+                std::cout<< getSquareAt(row,col) << " attacks " << atk.piece->getUnicode() <<std::endl;
+            }
+            
+        }
+    }
 }
 
 std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty,bool stopAtPiece)

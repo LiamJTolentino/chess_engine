@@ -42,6 +42,10 @@ private:
 
     // Tracer stuff
     Tracer tracerRange(int from_row, int from_col, int d_row, int d_col);
+    /**
+     * @brief Given the piece at board[from_row,from_col] return a Tracer object that iterates through all the squares that the piece can move to.
+     */
+    Tracer tracerRange(int from_row, int from_col);
     friend class Tracer;
 protected:
     friend class Tracer::Iterator;
@@ -100,6 +104,9 @@ public:
      * @return Vector of all Attacker objects detected in that direction. Attacker objects contain a pointer to the piece at their location as well as their row and column to help find them in the board matrix.
      */
     std::vector<Attacker> traceFrom(int from_row, int from_col, int d_row,int d_col, int range, bool includeEmpty=false, bool stopAtPiece=false);
+
+    //DELETE LATER
+    void TESTprintMoves();
 
     /**
      * @brief Uses traceFrom to get a vector of all possible squares that a piece at a given square can move to

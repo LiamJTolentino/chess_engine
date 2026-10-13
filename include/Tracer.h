@@ -3,6 +3,7 @@
  * @brief Contains stuff for Analyzer.h to use for calculating piece movement
  */
 #pragma once
+#include <vector>
 // #include "Analyzer.h"
 class Analyzer;
 // == Helper Classes == //
@@ -59,21 +60,41 @@ class Tracer
 private:
     friend class Analyzer;
 
-    Analyzer* evalboard;
+    Analyzer* pAnalyzer;
     int start_row;
     int start_col;
     int d_row;
     int d_col;
     int trace_range;
-    bool skip_empty;
-
-    Tracer(Analyzer* evalboard,
+    int step;
+    bool pieceMode = false;
+    
+public:
+    Tracer(Analyzer* pAnalyzer,
                 int start_row, int start_col,
                 int d_row, int d_col,
-                int trace_range,
-                bool skip_empty);
+                int trace_range);
+    
+    /**
+     * @brief Constructor overload for when you want to iterate over all the squares the piece at start_row,start_col can move to and not just in the given direction.
+     */
+    Tracer(Analyzer* pAnalyzer,
+                int start_row, int start_col);
 
-public:
+    /**
+     * @brief Nested Iterator class for the tracer
+     * @param pAnalyzer Pointer to the Analyzer object containing the board
+     * @param row Current row
+     * @param col Current column
+     * @param row_step Number of squares along the vertical to scan in one step
+     * @param col_step Number of squares along the horizontal to scan in one step
+     * @param trace_range Number of steps to scan in
+     * @param rayQueue Vector of ray objects containing the directions the piece at board[start_row][start_col] can move in
+     * @param step Current step in the iteration
+     * @param start_row Starting row of the square to return to
+     * @param start_col Starting column of the square to return to
+     * @param startSquare pointer to the start square
+     */
     class Iterator
     {
     public:
@@ -90,24 +111,33 @@ public:
         friend class Tracer;
         Iterator() = default;
 
-        Iterator(Analyzer* evalboard,
+        Iterator(Analyzer* pAnalyzer,
                 int row, int col,
                 int row_step, int col_step,
-                bool skip_empty);
+                int trace_range=1);
 
         /**
          * @brief Constructor to use for when we want to figure out the traces based on the piece type
          */
-        Iterator(Analyzer* evalboard,
-                int row, int col,
-                bool skip_empty);
+        Iterator(Analyzer* pAnalyzer,
+                int row, int col);
+
+        /**
+         * @brief Returns a pointer to the current square at board[row][col]
+         */
+        BoardSquare* CurrentSquare();
         
-        Analyzer* evalboard = nullptr;
+        Analyzer* pAnalyzer = nullptr;
+        int start_row = 0;
+        int start_col = 0;
         int row = 0;
         int col = 0;
+        int step = 0;
         int row_step = 0;
         int col_step = 0;
-        bool skip_empty;
+        int trace_range = 0;
+        bool xray = false;
+        BoardSquare* startSquare;
         std::vector<Ray> rayQueue;
         
     };
@@ -116,7 +146,7 @@ public:
      */
     Iterator begin() const;
     /**
-     * @brief Returns a default iterator. When the begin Iterator equals this one (in this case, when evalboard becomes nullptr), the loop ends
+     * @brief Returns a default iterator. When the begin Iterator equals this one (in this case, when pAnalyzer becomes nullptr), the loop ends
      */
     Iterator end() const;
 };

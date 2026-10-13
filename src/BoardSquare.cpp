@@ -35,6 +35,13 @@ bool BoardSquare::isWhitePiece()
     return state >> 3; // We just need to bitshift to the right by 3 to get the piece color
 }
 
+bool BoardSquare::canCapture(BoardSquare& other)
+{
+    if(isEmptySquare()){return false;} // Obviously empty squares can't capture
+    if(other.isEmptySquare()){return true;} // Pieces can always move to empty squares (unless they're pinned to the king, but we're not worrying about that rn)
+    return isWhitePiece() != other.isWhitePiece(); // Pieces can only capture opponent pieces
+}
+
 bool BoardSquare::isEmptySquare(bool includeEnPassant)
 {
     return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);

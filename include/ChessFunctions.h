@@ -70,6 +70,9 @@ enum SQtype : std::uint8_t{
 
 /**
  * @brief Used by the Tracer class to indicate directions to scan in
+ * @param row_step Number of squares along the vertical to scan in one step
+ * @param col_step Number of squares along the horizontal to scan in one step
+ * @param range Number of steps to scan for
  */
 struct Ray
 {
@@ -99,6 +102,11 @@ public:
     BoardSquare(std::uint8_t initstate);
     
     bool isWhitePiece();
+
+    /**
+     * @brief Return true if this piece can capture other (other must be either empty, en passant, or opposite color piece)
+     */
+    bool canCapture(BoardSquare& other);
 
     /**
      * @brief True if this square is unoccupied
