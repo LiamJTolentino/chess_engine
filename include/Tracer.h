@@ -38,6 +38,15 @@ public:
      */
     int getTotalAttackers();
 
+    /**
+     * @brief Gets the total number of pieces of a given color targetting this square
+     */
+    int getTotalAttackers(bool whitePieces);
+
+    /**
+     * @brief Total white pieces attacking minus total black pieces attacking. Used in the heuristic calculations to determine if a piece is sufficiently defended.
+     */
+    float getAttackImbalance();
     
 
     /**
@@ -49,6 +58,11 @@ public:
      * @brief Clears the attacks vector
      */
     void clear();
+
+    void addAttacker(Attacker atk);
+    void addAttacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
+
+    std::string TESTshow();
 };
 
 

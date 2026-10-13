@@ -24,6 +24,7 @@ Analyzer::Analyzer()
     whiteToPlay(true),
     diff(Difficulty::EASY)
 {
+    calculateAttackMatrix();
 }
 
 BoardSquare* Analyzer::getSquareAt(int row, int col)
@@ -31,6 +32,47 @@ BoardSquare* Analyzer::getSquareAt(int row, int col)
     if (row > 7 || row < 0 || col > 7 || col < 0) { return nullptr;} // Out of range
 
     return &board[row][col];
+}
+
+// Prepare for some really shitty ass code
+void Analyzer::calculateAttackMatrix()
+{
+    // Reset matrix
+    for (int row=0; row< 8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            attack_matrix[row][col].clear();
+        }
+    }
+
+    // Iterate through board
+    for (int row=0; row< 8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            attacksFromSquare(row,col);
+        }
+    }
+}
+
+// TODO: Implement pawn moves
+void Analyzer::attacksFromSquare(int row, int col)
+{
+    BoardSquare* pSquare = getSquareAt(row,col);
+    if(pSquare->isEmptySquare()){ return; }
+    if(pSquare->isPiece(SQtype::TYPE_PAWN))
+    {
+        return; // Skipping pawns for now as they are a bit tricky
+    }
+    for(Attacker target : tracerRange(row,col))
+    {
+        if(pSquare != target.piece
+            && !target.piece->isEmptySquare() && pSquare->canCapture(*target.piece))
+        {
+            attack_matrix[target.row][target.col].addAttacker(pSquare,row,col);
+        }
+    }
 }
 
 bool Analyzer::isPositionLegal()
@@ -156,25 +198,50 @@ std::string Analyzer::TESTprintMoves()
     {
         for (int col=0; col<8; col++)
         {
-            if (!getSquareAt(row,col)->isEmptySquare())
-            {    
-                output += getSquareAt(row,col)->getUnicode();
-                output += " at " + indicesToCoord(row,col);
-                output += " attacks:\n";
-                for(Attacker atk : tracerRange(row,col))
+            BoardSquare* pSquare = getSquareAt(row,col);
+            if(pSquare && !pSquare->isEmptySquare())
+            {
+                AttackSquare& atk = attack_matrix[row][col];
+                int numDefenders = atk.getTotalAttackers(pSquare->isWhitePiece());
+                int numAttackers = atk.getTotalAttackers(!pSquare->isWhitePiece());
+                output += pSquare->getUnicode() + " on " + indicesToCoord(row,col) + " is ";
+                if(numDefenders==0 && numAttackers > 0)
                 {
-                    output += "\t";
-                    output += atk.piece->getUnicode();
-                    output += " at ";
-                    output += indicesToCoord(atk.row,atk.col);
-                    output += "\n";
+                    output += "hanging";
+                }else if(numDefenders<numAttackers){
+                    output += "underdefended";
+                }else{
+                    output += "Okay";
                 }
+                
+                // output += "\t" + std::to_string(atk.getAttackImbalance());
+                output += "\n\t" + atk.TESTshow();
                 output += "\n";
             }
+            // if (!getSquareAt(row,col)->isEmptySquare())
+            // {    
+            //     output += getSquareAt(row,col)->getUnicode();
+            //     output += " at " + indicesToCoord(row,col);
+            //     output += " defends:\n";
+            //     for(Attacker atk : tracerRange(row,col))
+            //     {
+            //         if(getSquareAt(row,col) != atk.piece
+            //             && !atk.piece->isEmptySquare() && !getSquareAt(row,col)->canCapture(*atk.piece))
+            //         {
+            //             output += "\t";
+            //             output += atk.piece->getUnicode();
+            //             output += " at ";
+            //             output += indicesToCoord(atk.row,atk.col);
+            //             output += "\n";
+            //         }
+            //     }
+            //     output += "\n";
+            // }
         }
     }
     return output;
 }
+
 
 std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row, int d_col, int range, bool includeEmpty,bool stopAtPiece)
 {
@@ -199,11 +266,7 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     return output;
 }
 
-// std::vector<Attacker> Analyzer::getMovesFromSquare(int sourcerow, int sourcecol, bool include_defense)
-// {
-//     return;
-// }
-
+// TODO: Implement En Passant
 void Analyzer::loadFromFen(std::string& FEN)
 {
     // First set everything to 0
@@ -269,6 +332,8 @@ void Analyzer::loadFromFen(std::string& FEN)
         }
         charIndex++;
     }
+
+    calculateAttackMatrix();
 }
 
 std::string Analyzer::boardAsString()
@@ -310,6 +375,7 @@ float Analyzer::getMaterialDifference()
 }
 
 
+// == Attack Square Stuff == //
 
 Attacker::Attacker()
     : piece(nullptr),
@@ -322,4 +388,57 @@ Attacker::Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t coln
     row(rownum),
     col(colnum)
 {
+}
+
+int AttackSquare::getTotalAttackers()
+{
+    return attacks.size();
+}
+
+int AttackSquare::getTotalAttackers(bool whitePieces)
+{
+    int total = 0;
+    for(const Attacker& atk : attacks)
+    {
+        total += (atk.piece->isWhitePiece() == whitePieces ? 1 : 0);
+    }
+    return total;
+}
+
+float AttackSquare::getAttackImbalance()
+{
+    float total = 0.0;
+    for(const Attacker& atk : attacks)
+    {
+        total += (atk.piece->isWhitePiece() ? 1.0 : -1.0);
+    }
+    return total;
+}
+
+
+void AttackSquare::addAttacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum)
+{
+    Attacker to_add = Attacker(ptrPiece,rownum,colnum);
+    attacks.push_back(to_add);
+}
+
+void AttackSquare::addAttacker(Attacker atk)
+{
+    attacks.push_back(atk);
+}
+
+void AttackSquare::clear()
+{
+    attacks.clear();
+}
+
+std::string AttackSquare::TESTshow()
+{
+    std::string output = "";
+    for(const Attacker& atk : attacks)
+    {
+        output += atk.piece->getUnicode() + indicesToCoord(atk.row,atk.col);
+        output += "\t";
+    }
+    return output;
 }

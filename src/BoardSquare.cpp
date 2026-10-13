@@ -154,9 +154,10 @@ std::vector<Ray> BoardSquare::getPieceRays()
     case SQtype::TYPE_PAWN:
         // Pawns can only move forward, so row_step depends on piece color. White pawns move in the negative, while black pawns move in the positive
         row_step = (isWhitePiece()? -1 : 1);
-        output.push_back(Ray{row_step,0,1}); // Forward pawn move
+        
         output.push_back(Ray{row_step,-1,1}); // Pawn captures to the left
         output.push_back(Ray{row_step,1,1}); // Pawn captures to the right
+        output.push_back(Ray{row_step,0,2}); // Forward pawn move
         break;
     case SQtype::TYPE_KNIGHT:
         // Knights move two steps in one direction and one step orthogonally

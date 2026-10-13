@@ -40,6 +40,11 @@ private:
      */
     void calculateAttackMatrix();
 
+    /**
+     * @brief Only run this in calculateAttackMatrix
+     */
+    void attacksFromSquare(int row, int col);
+
     // Tracer stuff
     Tracer tracerRange(int from_row, int from_col, int d_row, int d_col);
     /**
