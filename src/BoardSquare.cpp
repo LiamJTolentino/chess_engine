@@ -30,34 +30,34 @@ BoardSquare::BoardSquare(std::uint8_t initstate)
     state = initstate;
 }
 
-bool BoardSquare::isWhitePiece()
+bool BoardSquare::isWhitePiece() const
 {
     return state >> 3; // We just need to bitshift to the right by 3 to get the piece color
 }
 
-bool BoardSquare::canCapture(BoardSquare& other)
+bool BoardSquare::canCapture(BoardSquare& other) const
 {
     if(isEmptySquare()){return false;} // Obviously empty squares can't capture
     if(other.isEmptySquare()){return true;} // Pieces can always move to empty squares (unless they're pinned to the king, but we're not worrying about that rn)
     return isWhitePiece() != other.isWhitePiece(); // Pieces can only capture opponent pieces
 }
 
-bool BoardSquare::isEmptySquare(bool includeEnPassant)
+bool BoardSquare::isEmptySquare(bool includeEnPassant) const
 {
     return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
 }
 
-bool BoardSquare::isPiece(SQtype piecetype)
+bool BoardSquare::isPiece(SQtype piecetype) const
 {
     return getPiece() == piecetype;
 }
 
-std::uint8_t BoardSquare::getPiece()
+std::uint8_t BoardSquare::getPiece() const
 {
     return state&7;
 }
 
-std::uint8_t BoardSquare::getState()
+std::uint8_t BoardSquare::getState() const
 {
     return state;
 }
@@ -127,22 +127,22 @@ void BoardSquare::clearSquare()
     state = EMPTY_SQUARE;
 }
 
-float BoardSquare::getMaterialValue()
+float BoardSquare::getMaterialValue() const
 {
     return material[state];
 }
 
-std::string BoardSquare::getFEN()
+std::string BoardSquare::getFEN() const
 {
     return fen[state];
 }
 
-std::string BoardSquare::getUnicode()
+std::string BoardSquare::getUnicode() const
 {
     return unicodes[state];
 }
 
-std::vector<Ray> BoardSquare::getPieceRays()
+std::vector<Ray> BoardSquare::getPieceRays() const
 {
     std::vector<Ray> output;
     output.reserve(8); // A piece can have at most 8 directions to move in, so we only need that much.

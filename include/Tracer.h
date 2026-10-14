@@ -36,23 +36,23 @@ public:
     /**
      * @brief Gets the total number of pieces targetting this square
      */
-    int getTotalAttackers();
+    int getTotalAttackers() const;
 
     /**
      * @brief Gets the total number of pieces of a given color targetting this square
      */
-    int getTotalAttackers(bool whitePieces);
+    int getTotalAttackers(bool whitePieces) const;
 
     /**
      * @brief Total white pieces attacking minus total black pieces attacking. Used in the heuristic calculations to determine if a piece is sufficiently defended.
      */
-    float getAttackImbalance();
+    float getAttackImbalance() const;
     
 
     /**
      * @brief Returns a copy of the internal attacks vector
      */
-    std::vector<Attacker> getAttackVector();
+    std::vector<Attacker> getAttackVector() const;
 
     /**
      * @brief Clears the attacks vector
@@ -62,7 +62,7 @@ public:
     void addAttacker(Attacker atk);
     void addAttacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
 
-    std::string TESTshow();
+    std::string TESTshow() const;
 };
 
 
@@ -139,7 +139,7 @@ public:
         /**
          * @brief Returns a pointer to the current square at board[row][col]
          */
-        BoardSquare* CurrentSquare();
+        BoardSquare* CurrentSquare();//
 
         /**
          * @brief Pops the next ray in queue and resets to the start square

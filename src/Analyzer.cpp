@@ -396,12 +396,12 @@ Attacker::Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t coln
 {
 }
 
-int AttackSquare::getTotalAttackers()
+int AttackSquare::getTotalAttackers() const
 {
     return attacks.size();
 }
 
-int AttackSquare::getTotalAttackers(bool whitePieces)
+int AttackSquare::getTotalAttackers(bool whitePieces) const
 {
     int total = 0;
     for(const Attacker& atk : attacks)
@@ -411,7 +411,7 @@ int AttackSquare::getTotalAttackers(bool whitePieces)
     return total;
 }
 
-float AttackSquare::getAttackImbalance()
+float AttackSquare::getAttackImbalance() const
 {
     float total = 0.0;
     for(const Attacker& atk : attacks)
@@ -438,7 +438,7 @@ void AttackSquare::clear()
     attacks.clear();
 }
 
-std::string AttackSquare::TESTshow()
+std::string AttackSquare::TESTshow() const
 {
     std::string output = "";
     for(const Attacker& atk : attacks)

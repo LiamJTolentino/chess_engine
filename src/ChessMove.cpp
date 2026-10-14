@@ -20,32 +20,32 @@ ChessMove::ChessMove(bool promotion,
     mvinfo += dest_col&7;
 }
 
-bool ChessMove::isPawnMove()
+bool ChessMove::isPawnMove() const
 {
     return mvinfo>>15;
 }
 
-int ChessMove::getPieceVal()
+int ChessMove::getPieceVal() const
 {
     return (mvinfo>>12)&7;
 }
 
-int ChessMove::getStartRow()
+int ChessMove::getStartRow() const
 {
     return (mvinfo>>9)&7;
 }
 
-int ChessMove::getStartCol()
+int ChessMove::getStartCol() const
 {
     return (mvinfo>>6)&7;
 }
 
-int ChessMove::getDestRow()
+int ChessMove::getDestRow() const
 {
     return (mvinfo>>3)&7;
 }
 
-int ChessMove::getDestCol()
+int ChessMove::getDestCol() const
 {
     return mvinfo&7;
 }

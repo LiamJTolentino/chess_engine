@@ -101,27 +101,27 @@ public:
      */
     BoardSquare(std::uint8_t initstate);//
     
-    bool isWhitePiece();//
+    bool isWhitePiece() const;//
 
     /**
      * @brief Return true if this piece can capture other (other must be either empty, en passant, or opposite color piece)
      */
-    bool canCapture(BoardSquare& other);//
+    bool canCapture(BoardSquare& other) const;//
 
     /**
      * @brief True if this square is unoccupied
      * @param includeEnPassant Set to true if en passant squares should count as empty
      */
-    bool isEmptySquare(bool includeEnPassant = true);//
+    bool isEmptySquare(bool includeEnPassant = true) const;//
 
-    bool isPiece(SQtype piecetype);//
+    bool isPiece(SQtype piecetype) const;//
 
     /**
      * @brief Just returns the last 3 bits
      */
-    std::uint8_t getPiece();//
+    std::uint8_t getPiece() const;//
 
-    std::uint8_t getState();//
+    std::uint8_t getState() const;//
 
     /**
      * @brief Changes the piece on the square without changing the color
@@ -135,16 +135,16 @@ public:
 
     void clearSquare();//
 
-    float getMaterialValue();//
+    float getMaterialValue() const;//
 
     /**
      * @brief If this square has a chess piece, this will return the directions in which the piece can move. If it is an empty square or en passant, it returns an empty vector.
      */
-    std::vector<Ray> getPieceRays();//
+    std::vector<Ray> getPieceRays() const;//
 
-    std::string getUnicode();//
+    std::string getUnicode() const;//
     
-    std::string getFEN();//
+    std::string getFEN() const;//
 };
 
 /**
@@ -172,17 +172,17 @@ public:
      * @brief Returns the first bit which determines if the specified move is a pawn promotion or en passant. This is to avoid ambiguity with moves like d8=Q vs Qd8 which both end up with a queen on the d8 square.
      * En passant is not ambiguous, but we indicate it with this bit anyway because it involves three changes as the captured pawn is not on the destination square.
      */
-    bool isPawnMove();//
+    bool isPawnMove() const;//
 
-    int getPieceVal();//
+    int getPieceVal() const;//
 
-    int getStartRow();//
+    int getStartRow() const;//
 
-    int getStartCol();//
+    int getStartCol() const;//
 
-    int getDestRow();//
+    int getDestRow() const;//
 
-    int getDestCol();//
+    int getDestCol() const;//
 
     void setStartPos(std::uint8_t start_row, std::uint8_t start_col);//
 
@@ -204,5 +204,6 @@ BoardCoord coordToIndices(const std::string& coord);//
  * @brief Takes the row and column of an element in the board matrix and returns it in algebraic notation.
  */
 std::string indicesToCoord(int row, int col);//
+
 
 #endif
