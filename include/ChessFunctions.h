@@ -83,8 +83,9 @@ struct Ray
 
 /**
  * @brief Used for retrieving information about a square on the board. 
- * 
+ * @file BoardSquare.cpp
  * @param state 8-bit int defined by the SQstate enum
+ * @todo In every implementation that returns or passes a pointer to a BoardSquare object, have it use the value of the BoardSquare itself. This is because pointers/addresses are 64 bits while a single BoardSquare object is only 8 bits, so we're actually wasting memory.
  */
 class BoardSquare
 {
@@ -149,6 +150,7 @@ public:
 
 /**
  * @brief Data structure for storing chess move info and functions to extract information. This is to make sure that we can store move information in as little space as possible to save on memory.
+ * @todo Like with the BoardSquare class, the ChessMove class takes up less memory than a pointer to its object. We need to make sure we're only passing by value.
  * @file ChessMove.cpp
  * @param mvinfo 16 bit unsigned integer containing all the necessary information to make a legal move on a chess board.
  * This integer is made up of smaller numbers that tell information about a move.
