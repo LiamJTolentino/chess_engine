@@ -142,10 +142,9 @@ std::string BoardSquare::getUnicode() const
     return unicodes[state];
 }
 
-std::vector<Ray> BoardSquare::getPieceRays() const
+RayStack BoardSquare::getPieceRays() const
 {
-    std::vector<Ray> output;
-    output.reserve(8); // A piece can have at most 8 directions to move in, so we only need that much.
+    RayStack output;
     int piecetype = getPiece();
     int row_step;
     
@@ -155,56 +154,56 @@ std::vector<Ray> BoardSquare::getPieceRays() const
         // Pawns can only move forward, so row_step depends on piece color. White pawns move in the negative, while black pawns move in the positive
         row_step = (isWhitePiece()? -1 : 1);
         
-        output.push_back(Ray{row_step,-1,1}); // Pawn captures to the left
-        output.push_back(Ray{row_step,1,1}); // Pawn captures to the right
-        output.push_back(Ray{row_step,0,2}); // Forward pawn move
+        output.Push(Ray{row_step,-1,1}); // Pawn captures to the left
+        output.Push(Ray{row_step,1,1}); // Pawn captures to the right
+        output.Push(Ray{row_step,0,2}); // Forward pawn move
         break;
     case SQtype::TYPE_KNIGHT:
         // Knights move two steps in one direction and one step orthogonally
-        output.push_back(Ray{1,2,1});
-        output.push_back(Ray{2,1,1});
-        output.push_back(Ray{1,-2,1});
-        output.push_back(Ray{2,-1,1});
-        output.push_back(Ray{-1,2,1});
-        output.push_back(Ray{-2,1,1});
-        output.push_back(Ray{-1,-2,1});
-        output.push_back(Ray{-2,-1,1});
+        output.Push(Ray{1,2,1});
+        output.Push(Ray{2,1,1});
+        output.Push(Ray{1,-2,1});
+        output.Push(Ray{2,-1,1});
+        output.Push(Ray{-1,2,1});
+        output.Push(Ray{-2,1,1});
+        output.Push(Ray{-1,-2,1});
+        output.Push(Ray{-2,-1,1});
         break;
     case SQtype::TYPE_BISHOP:
         // Bishops move along diagonals for any distance. 
-        output.push_back(Ray{1,1,8});
-        output.push_back(Ray{1,-1,8});
-        output.push_back(Ray{-1,1,8});
-        output.push_back(Ray{-1,-1,8});
+        output.Push(Ray{1,1,8});
+        output.Push(Ray{1,-1,8});
+        output.Push(Ray{-1,1,8});
+        output.Push(Ray{-1,-1,8});
         break;
     case SQtype::TYPE_ROOK:
         // Rooks can move along ranks and files for any distance
-        output.push_back(Ray{0,1,8});
-        output.push_back(Ray{1,0,8});
-        output.push_back(Ray{0,-1,8});
-        output.push_back(Ray{-1,0,8});
+        output.Push(Ray{0,1,8});
+        output.Push(Ray{1,0,8});
+        output.Push(Ray{0,-1,8});
+        output.Push(Ray{-1,0,8});
         break;
     case SQtype::TYPE_QUEEN:
         // Queens can move like bishops and rooks
-        output.push_back(Ray{1,1,8});
-        output.push_back(Ray{1,-1,8});
-        output.push_back(Ray{-1,1,8});
-        output.push_back(Ray{-1,-1,8});
-        output.push_back(Ray{0,1,8});
-        output.push_back(Ray{1,0,8});
-        output.push_back(Ray{0,-1,8});
-        output.push_back(Ray{-1,0,8});
+        output.Push(Ray{1,1,8});
+        output.Push(Ray{1,-1,8});
+        output.Push(Ray{-1,1,8});
+        output.Push(Ray{-1,-1,8});
+        output.Push(Ray{0,1,8});
+        output.Push(Ray{1,0,8});
+        output.Push(Ray{0,-1,8});
+        output.Push(Ray{-1,0,8});
         break;
     case SQtype::TYPE_KING:
         // Kings can move in any of the 8 directions, but for only one square
-        output.push_back(Ray{1,1,1});
-        output.push_back(Ray{1,-1,1});
-        output.push_back(Ray{-1,1,1});
-        output.push_back(Ray{-1,-1,1});
-        output.push_back(Ray{0,1,1});
-        output.push_back(Ray{1,0,1});
-        output.push_back(Ray{0,-1,1});
-        output.push_back(Ray{-1,0,1});
+        output.Push(Ray{1,1,1});
+        output.Push(Ray{1,-1,1});
+        output.Push(Ray{-1,1,1});
+        output.Push(Ray{-1,-1,1});
+        output.Push(Ray{0,1,1});
+        output.Push(Ray{1,0,1});
+        output.Push(Ray{0,-1,1});
+        output.Push(Ray{-1,0,1});
         break;
     default:
         break;

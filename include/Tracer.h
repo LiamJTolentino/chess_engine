@@ -103,7 +103,7 @@ public:
      * @param row_step Number of squares along the vertical to scan in one step
      * @param col_step Number of squares along the horizontal to scan in one step
      * @param trace_range Number of steps to scan in
-     * @param rayQueue Vector of ray objects containing the directions the piece at board[start_row][start_col] can move in
+     * @param rayQueue RayStack of ray objects containing the directions the piece at board[start_row][start_col] can move in
      * @param step Current step in the iteration
      * @param start_row Starting row of the square to return to
      * @param start_col Starting column of the square to return to
@@ -159,7 +159,7 @@ public:
 
         bool rotate_now;
         BoardSquare* startSquare;
-        std::vector<Ray> rayQueue;
+        RayStack rayQueue;
         
     };
     /**

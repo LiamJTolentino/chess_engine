@@ -91,7 +91,7 @@ private:
     std::size_t top = 0; // Number of rays stored
 public:
     // Return true if successful
-    bool Push(const Ray& value);
+    bool Push(const Ray& value);//
     // Decrements top. Return true if successful.
     bool Pop();
     // Returns a read-only pointer to the top of the stack
@@ -161,9 +161,9 @@ public:
     float getMaterialValue() const;//
 
     /**
-     * @brief If this square has a chess piece, this will return the directions in which the piece can move. If it is an empty square or en passant, it returns an empty vector.
+     * @brief If this square has a chess piece, this will return the directions in which the piece can move. If it is an empty square or en passant, it returns an empty stack.
      */
-    std::vector<Ray> getPieceRays() const;//
+    RayStack getPieceRays() const;//
 
     std::string getUnicode() const;//
     

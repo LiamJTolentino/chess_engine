@@ -84,8 +84,8 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     if(!current_square->isEmptySquare())
     {
         rayQueue = current_square->getPieceRays();
-        Ray firstray = rayQueue.back();
-        rayQueue.pop_back();
+        Ray firstray = rayQueue.Top();
+        rayQueue.Pop();
 
         row_step = firstray.row_step;
         col_step = firstray.col_step;
@@ -193,8 +193,8 @@ BoardSquare* Tracer::Iterator::CurrentSquare()
 void Tracer::Iterator::Rotate()
 {
     if(rayQueue.empty()){ return; }
-    Ray nextRay = rayQueue.back();
-    rayQueue.pop_back();
+    Ray nextRay = rayQueue.Top();
+    rayQueue.Pop();
     step = 0;
     row_step = nextRay.row_step;
     col_step = nextRay.col_step;
