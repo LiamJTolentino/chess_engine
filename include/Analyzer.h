@@ -46,7 +46,7 @@ private:
     void attacksFromSquare(int row, int col);
 
     // Tracer stuff
-    Tracer tracerRange(int from_row, int from_col, int d_row, int d_col);
+    Tracer tracerRange(int from_row, int from_col, int d_row, int d_col, int range);
     /**
      * @brief Given the piece at board[from_row,from_col] return a Tracer object that iterates through all the squares that the piece can move to.
      */

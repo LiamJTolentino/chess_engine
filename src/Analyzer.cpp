@@ -6,7 +6,7 @@
 #include <utility>
 #include <cmath>
 // #include <fstream>
-// #include <iostream>
+#include <iostream>
 // #include <cstdint>
 
 Analyzer::Analyzer()
@@ -60,10 +60,34 @@ void Analyzer::calculateAttackMatrix()
 void Analyzer::attacksFromSquare(int row, int col)
 {
     BoardSquare* pSquare = getSquareAt(row,col);
-    if(pSquare->isEmptySquare()){ return; }
+    int row_step;
+    int step_range;
+    if(pSquare->isEmptySquare()){ return; } // Empty squares obviously can't attack
+    // Probably the dumbest way to implement pawn moves
     if(pSquare->isPiece(SQtype::TYPE_PAWN))
     {
-        return; // Skipping pawns for now as they are a bit tricky
+        row_step = (pSquare->isWhitePiece()?-1:1); // Pawn move direction
+        step_range = (2*row + 5*row_step == 7 ? 2:1); // Really stupid and convoluted way of determinining if a pawn is on its starting rank, but it works somehow.
+        // std::cout<< "\tAL> " << pSquare->getUnicode() << indicesToCoord(row,col) << " " << row_step << " " << step_range <<std::endl;
+        for(Attacker target : tracerRange(row,col,row_step,0,step_range))
+        {
+            if(target.piece.isEmptySquare()) // Pawns can only move forward into empty squares
+            {
+                attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
+            }
+        }
+        // Diagonal pawn moves can be handled by the regular tracerRange
+        for(Attacker target : tracerRange(row,col))
+        {
+            // std::cout<< "\tAL:" << pSquare->getUnicode() << indicesToCoord(row,col) << " attacks " << target.piece.getUnicode() << indicesToCoord(target.row,target.col)  <<std::endl;
+            if(row != target.row && col != target.col
+                && !target.piece.isEmptySquare(false) // Since pawns can En Passant, we don't count En Passant squares as empty
+                )
+            {
+                attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
+            }
+        }
+        return;
     }
     for(Attacker target : tracerRange(row,col))
     {
@@ -186,10 +210,10 @@ bool Analyzer::isPositionLegal()
     return true;
 }
 
-Tracer Analyzer::tracerRange(int from_row, int from_col, int d_row, int d_col)
+Tracer Analyzer::tracerRange(int from_row, int from_col, int d_row, int d_col,int range)
 {
     return Tracer(this, from_row, from_col,
-                d_row, d_col,8);
+                d_row, d_col,range);
 }
 
 Tracer Analyzer::tracerRange(int from_row, int from_col)

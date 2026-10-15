@@ -1,7 +1,7 @@
 #include "Tracer.h"
 #include "Analyzer.h"
 #include "ChessFunctions.h"
-// #include <iostream>
+#include <iostream>
 // == Tracer == //
 
 
@@ -34,7 +34,7 @@ Tracer::Iterator Tracer::begin() const
     {
         return Iterator(pAnalyzer, start_row, start_col);
     }
-    return Iterator(pAnalyzer, start_row, start_col, d_row, d_col);
+    return Iterator(pAnalyzer, start_row, start_col, d_row, d_col, trace_range);
 }
 
 Tracer::Iterator Tracer::end() const
@@ -64,7 +64,11 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     }
     start_row = row;
     start_col = col;
-    startSquare = pAnalyzer->getSquareAt(start_row,start_col);
+    startSquare = *(pAnalyzer->getSquareAt(start_row,start_col));
+    // if(startSquare.isPiece(TYPE_PAWN))
+    // {
+    // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
+    // }
 }
 
 // TODO: Clean up this logic it's a damn mess
@@ -85,7 +89,8 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     {
         rayQueue = current_square->getPieceRays();
         Ray firstray = rayQueue.Top();
-        rayQueue.Pop();
+        // rayQueue.Pop();
+        rotate_now = true;
 
         row_step = firstray.row_step;
         col_step = firstray.col_step;
@@ -95,13 +100,22 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     }
     start_row = row;
     start_col = col;
-    startSquare = pAnalyzer->getSquareAt(start_row,start_col);
+    startSquare = *(pAnalyzer->getSquareAt(start_row,start_col));
+    // if(startSquare.isPiece(TYPE_PAWN))
+    // {
+    // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
+    // }
 }
 
 
 // Dereferencing
 Attacker Tracer::Iterator::operator*() const
 {
+    if(startSquare.isPiece(TYPE_PAWN)){
+    std::cout<< "__Returned:"<< indicesToCoord(row,col) 
+    << "\tStep:\t" << step << "/" << trace_range
+    <<std::endl;
+    }
     return Attacker(*(pAnalyzer->getSquareAt(row,col)),row,col);
     // return Attacker(CurrentSquare(),row,col);
 }
@@ -109,10 +123,19 @@ Attacker Tracer::Iterator::operator*() const
 // Increment
 Tracer::Iterator& Tracer::Iterator::operator++()
 {
+    // if(startSquare.isPiece(TYPE_PAWN))
+    // {
+    //     std::cout << "++" <<std::endl;
+    // }
     if(rotate_now){ Rotate(); }
     row += row_step;
     col += col_step;
     step += 1;
+    // if(startSquare.isPiece(TYPE_PAWN))
+    // {
+    // std::cout<< "\t" << startSquare.getUnicode() << " takes " << indicesToCoord(row,col) << std::endl;
+    // std::cout<< "\t\trayQueue size: " << rayQueue.size() << std::endl;
+    // }
 
     // if(CurrentSquare()->isPiece(SQtype::TYPE_ROOK))
     // {
@@ -134,7 +157,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     // }
     
     if(CurrentSquare() == nullptr
-        || step >= trace_range
+        || step > trace_range
         // || !CurrentSquare()->isEmptySquare()
         // || !startSquare->canCapture(*(CurrentSquare()))
         )
@@ -202,5 +225,11 @@ void Tracer::Iterator::Rotate()
     col = start_col;
     trace_range = nextRay.range;
     rotate_now = false;
+    // if(CurrentSquare()->isPiece(TYPE_PAWN))
+    // {
+    //     std::cout<< "\t==Rotated" <<std::endl;
+    // // std::cout<< CurrentSquare()->getUnicode() << indicesToCoord(start_row,start_col) << std::endl;
+    //     std::cout<< "\t==rayQueue size: " << rayQueue.size() << std::endl;
+    // }
     // return true;
 }

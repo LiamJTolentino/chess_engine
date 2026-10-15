@@ -156,7 +156,7 @@ RayStack BoardSquare::getPieceRays() const
         
         output.Push(Ray{row_step,-1,1}); // Pawn captures to the left
         output.Push(Ray{row_step,1,1}); // Pawn captures to the right
-        output.Push(Ray{row_step,0,2}); // Forward pawn move
+        // output.Push(Ray{row_step,0,2}); // Forward pawn move
         break;
     case SQtype::TYPE_KNIGHT:
         // Knights move two steps in one direction and one step orthogonally

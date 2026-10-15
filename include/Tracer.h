@@ -158,7 +158,7 @@ public:
         bool xray = false;
 
         bool rotate_now;
-        BoardSquare* startSquare;
+        BoardSquare startSquare;
         RayStack rayQueue;
         
     };
