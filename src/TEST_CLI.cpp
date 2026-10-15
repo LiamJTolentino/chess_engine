@@ -41,7 +41,7 @@ int main(){
         std::cout << "Showing trace result" << std::endl;
         for (const Attacker& atk : trace)
         {
-            std::cout << atk.piece->getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
+            std::cout << atk.piece.getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
         }
         std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
         // std::cout << std::flush;

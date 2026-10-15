@@ -102,7 +102,7 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
 // Dereferencing
 Attacker Tracer::Iterator::operator*() const
 {
-    return Attacker(pAnalyzer->getSquareAt(row,col),row,col);
+    return Attacker(*(pAnalyzer->getSquareAt(row,col)),row,col);
     // return Attacker(CurrentSquare(),row,col);
 }
 

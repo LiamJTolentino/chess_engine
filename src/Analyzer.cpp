@@ -67,15 +67,15 @@ void Analyzer::attacksFromSquare(int row, int col)
     }
     for(Attacker target : tracerRange(row,col))
     {
-        if(pSquare != target.piece
-            // && !target.piece->isEmptySquare() 
+        if(pSquare->getState() != target.piece.getState()
+            // && !target.piece.isEmptySquare() 
             // && pSquare->canCapture(*target.piece)
             )
         {
-            attack_matrix[target.row][target.col].addAttacker(pSquare,row,col);
+            attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
             // if(pSquare->isPiece(SQtype::TYPE_ROOK))
             // {
-            //     std::cout<< "R" << indicesToCoord(row,col) << "x" << target.piece->getUnicode() << indicesToCoord(target.row,target.col) <<std::endl;
+            //     std::cout<< "R" << indicesToCoord(row,col) << "x" << target.piece.getUnicode() << indicesToCoord(target.row,target.col) <<std::endl;
             // }
         }
     }
@@ -138,8 +138,8 @@ bool Analyzer::isPositionLegal()
         attackers.clear();
         attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 1, false,true);
         if(!attackers.empty() 
-        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
-        && attackers.at(0).piece->isPiece(SQtype::TYPE_KNIGHT)) 
+        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
+        && attackers.at(0).piece.isPiece(SQtype::TYPE_KNIGHT)) 
         { return false; }
     }
     
@@ -153,9 +153,9 @@ bool Analyzer::isPositionLegal()
         attackers.clear();
         attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
         if(!attackers.empty() 
-        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
-        && ((attackers.at(0).piece->isPiece(SQtype::TYPE_BISHOP)
-        || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
+        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
+        && ((attackers.at(0).piece.isPiece(SQtype::TYPE_BISHOP)
+        || attackers.at(0).piece.isPiece(SQtype::TYPE_QUEEN)))) 
         {  return false;}
     }
     
@@ -169,9 +169,9 @@ bool Analyzer::isPositionLegal()
         attackers.clear();
         attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
         if(!attackers.empty() 
-        && attackers.at(0).piece->isWhitePiece() == whiteToPlay 
-        && ((attackers.at(0).piece->isPiece(SQtype::TYPE_ROOK)
-        || attackers.at(0).piece->isPiece(SQtype::TYPE_QUEEN)))) 
+        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
+        && ((attackers.at(0).piece.isPiece(SQtype::TYPE_ROOK)
+        || attackers.at(0).piece.isPiece(SQtype::TYPE_QUEEN)))) 
         {  return false;}
     }
     
@@ -232,10 +232,10 @@ std::string Analyzer::TESTprintMoves()
             //     for(Attacker atk : tracerRange(row,col))
             //     {
             //         if(getSquareAt(row,col) != atk.piece
-            //             && !atk.piece->isEmptySquare() && !getSquareAt(row,col)->canCapture(*atk.piece))
+            //             && !atk.piece.isEmptySquare() && !getSquareAt(row,col)->canCapture(*atk.piece))
             //         {
             //             output += "\t";
-            //             output += atk.piece->getUnicode();
+            //             output += atk.piece.getUnicode();
             //             output += " at ";
             //             output += indicesToCoord(atk.row,atk.col);
             //             output += "\n";
@@ -260,7 +260,7 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     {
         if(includeEmpty || !pSquare->isEmptySquare())
         {
-            output.push_back(Attacker(pSquare,current_row,current_col));
+            output.push_back(Attacker(*pSquare,current_row,current_col));
             if(stopAtPiece && !pSquare->isEmptySquare()){ break; }
         }
         i++;
@@ -384,13 +384,13 @@ float Analyzer::getMaterialDifference()
 // == Attack Square Stuff == //
 
 Attacker::Attacker()
-    : piece(nullptr),
+    : piece(BoardSquare(0)),
     row(0),
     col(0)
 {}
 
-Attacker::Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum)
-    : piece(ptrPiece),
+Attacker::Attacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum)
+    : piece(piece),
     row(rownum),
     col(colnum)
 {
@@ -406,7 +406,7 @@ int AttackSquare::getTotalAttackers(bool whitePieces) const
     int total = 0;
     for(const Attacker& atk : attacks)
     {
-        total += (atk.piece->isWhitePiece() == whitePieces ? 1 : 0);
+        total += (atk.piece.isWhitePiece() == whitePieces ? 1 : 0);
     }
     return total;
 }
@@ -416,15 +416,15 @@ float AttackSquare::getAttackImbalance() const
     float total = 0.0;
     for(const Attacker& atk : attacks)
     {
-        total += (atk.piece->isWhitePiece() ? 1.0 : -1.0);
+        total += (atk.piece.isWhitePiece() ? 1.0 : -1.0);
     }
     return total;
 }
 
 
-void AttackSquare::addAttacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum)
+void AttackSquare::addAttacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum)
 {
-    Attacker to_add = Attacker(ptrPiece,rownum,colnum);
+    Attacker to_add = Attacker(piece,rownum,colnum);
     attacks.push_back(to_add);
 }
 
@@ -443,7 +443,7 @@ std::string AttackSquare::TESTshow() const
     std::string output = "";
     for(const Attacker& atk : attacks)
     {
-        output += atk.piece->getUnicode() + indicesToCoord(atk.row,atk.col);
+        output += atk.piece.getUnicode() + indicesToCoord(atk.row,atk.col);
         output += "\t";
     }
     return output;

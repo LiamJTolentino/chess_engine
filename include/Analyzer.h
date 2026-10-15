@@ -56,6 +56,7 @@ protected:
     friend class Tracer::Iterator;
     /**
      * @brief Returns a pointer to the BoardSquare object stored at the given coordinate
+     * @todo Redo this to return a BoardSquare object instead of a pointer. BoardSquares only have 8 bits as opposed to the 64 bits of a pointer, so this will be a lot more efficient and will be safer. Instead of nullptr, out of bounds coordinates will return the value 8 which is an invalid piece.
      */
     BoardSquare* getSquareAt(int row, int col);
 public:

@@ -15,11 +15,11 @@ class Analyzer;
  */
 struct Attacker
 {
-    BoardSquare* piece;
+    BoardSquare piece;
     std::uint8_t row;
     std::uint8_t col;
     Attacker();
-    Attacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
+    Attacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum);
 };
 
 /** 
@@ -60,7 +60,7 @@ public:
     void clear();
 
     void addAttacker(Attacker atk);
-    void addAttacker(BoardSquare* ptrPiece, std::uint8_t rownum, std::uint8_t colnum);
+    void addAttacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum);
 
     std::string TESTshow() const;
 };
