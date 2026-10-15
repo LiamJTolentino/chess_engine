@@ -105,6 +105,7 @@ void Analyzer::attacksFromSquare(int row, int col)
     }
 }
 
+// TODO: Redo the king check stuff using the attack matrix instead
 bool Analyzer::isPositionLegal()
 {
     bool bking = false;
