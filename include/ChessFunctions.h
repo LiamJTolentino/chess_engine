@@ -82,6 +82,28 @@ struct Ray
 };
 
 /**
+ * @brief Used by the Tracer class to keep track of which Rays need to be cast. Previously we were using vectors, but in this way, it allocates to stack instead of heap which should be faster.
+ */
+class RayStack
+{
+private:
+    std::array<Ray, 8> ray_list{}; // Array to hold the Ray objects. Limited to 8.
+    std::size_t top = 0; // Number of rays stored
+public:
+    // Return true if successful
+    bool Push(const Ray& value);
+    // Decrements top. Return true if successful.
+    bool Pop();
+    // Returns a read-only pointer to the top of the stack
+    const Ray* const Peek() const;
+    // Returns the ray at the top of the stack
+    Ray Top() const;
+
+    std::size_t size() const;
+    bool empty() const;
+};
+
+/**
  * @brief Used for retrieving information about a square on the board. 
  * @file BoardSquare.cpp
  * @param state 8-bit int defined by the SQstate enum
