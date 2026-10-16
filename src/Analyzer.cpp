@@ -1,6 +1,7 @@
 #include "Analyzer.h"
 #include "ChessFunctions.h"
 #include "Tracer.h"
+#include "CompactPosition.h"
 #include <cctype>
 #include <vector>
 #include <utility>

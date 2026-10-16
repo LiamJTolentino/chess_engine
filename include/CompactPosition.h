@@ -9,19 +9,39 @@
 class Analyzer; // From Analyzer.h
 
 /**
- * @brief Compacted representation of a chess board. Each square is represented in 4 bits 
+ * @brief Compacted representation of a chess board with 264 bits or 33 bytes in memory for each object. Each square is represented in 4 bits, so with 8 squares per row, we represent each row with 32 bits. Another 8 bits are used to store information about the current player as well as castling rights.
+ * @param board Array of 8 unsigned long integers that each represent a row/rank on the board. 
+ * @param extra_info 8-bit integer containing information about which side is playing and castling rights.
+ * As for now, only the last 5 bits matter, so we will dicuss in terms of bits from the right.
+ * The 5th bit from the right tells if white is to play in the current position. The following two bits tell which sides white can castle and the last two bits are which sides black can castle.
+ * 
+ * Take for example the FEN rnb1kbnr/pp1q1ppp/2pp4/8/3QPB2/2N5/PPP2PPP/1R2KBNR b Kkq - 3 6, specifically at the "b Kkq". 
+ * b means it is black's turn to move ([0]0000). 
+ * Capital K means white can short castle/kingside castle (0[1]000). 
+ * The lack of a capital Q means white cannot castle queenside (in this case, because the rook on a1 already moved) (01[0]00).
+ * Lowercase k means black can short castle/kingside castle (010[1]0).
+ * Finally, lowercase q means black can long castle/queenside castle (0101[1])
+ * And so the value of extra_info for that position is 01011 or 13 in decimal.
  */
 class Position
 {
 private:
-    std::array<std::uint64_t,8> board; // Board stored as an array of long ints where each element is a whole row
+    std::array<std::uint32_t,8> board; // Board stored as an array of long ints where each element is a whole row
     std::uint8_t extra_info; // Contains info about castling and which side is playing
+
+
+    // Sets the square at row,col to be the value of the given BoardSquare. 
+    void SetSquare(std::uint8_t row,std::uint8_t col,BoardSquare square);
 public:
     /**
      * @brief Constructs the position from FEN
      */
     Position(std::string FEN);
 
+    /**
+     * @brief Constructs the position from the currently loaded position in the provided Analyzer object
+     * @param pAnalyzer Read-only pointer to an Analyzer object that has the position loaded.
+     */
     Position(const Analyzer* const pAnalyzer);
 
     // Returns a BoardSquare object representing the piece at row,col

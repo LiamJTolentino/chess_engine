@@ -8,6 +8,7 @@
 #include <vector>
 #include "ChessFunctions.h"
 #include "Tracer.h"
+#include "CompactPosition.h"
 #include <map>
 
 
@@ -75,6 +76,12 @@ public:
      * @brief Reads the FEN and sets up all the necessary variables
      */
     void loadFromFen(std::string& FEN);
+
+    /**
+     * @brief Loads the provided compact position object into this analyzer.
+     * @param pPos Read-only pointer to a Position object. Use pPos->GetSquareAt(row,col) to get the piece.
+     */
+    void loadFromPosition(const Position* const pPos);
 
     std::string getFEN();
 
