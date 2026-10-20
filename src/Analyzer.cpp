@@ -145,71 +145,12 @@ bool Analyzer::isPositionLegal()
     { return false; }
     BoardCoord& ekloc = (whiteToPlay ? bkloc : wkloc); // Which one is the enemy king?
 
-    // Looking for pawn attacks
-    
-    BoardSquare* squarePtr;
-    
-    squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col + 1);
-    
-    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
-    
-    squarePtr = getSquareAt(ekloc.row + (whiteToPlay ? 1 : -1),ekloc.col - 1);
-    if(squarePtr && squarePtr->isWhitePiece() == whiteToPlay && squarePtr->isPiece(SQtype::TYPE_PAWN)) { return false; }
+    // Looking for attacks on the enemy king
+    AttackSquare kingatk = attack_matrix[ekloc.row][ekloc.col];
+    if(kingatk.getTotalAttackers(whiteToPlay) > 0){
+        return false;
+    }
 
-    std::vector<Attacker> attackers;
-    
-    
-    // Looking for knights attacking
-    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
-        {1, 2},
-        {2, 1},
-        {-1, 2},
-        {-2,1},
-        {1, -2},
-        {2, -1},
-        {-1, -2},
-        {-2, -1}
-    }) {
-        attackers.clear();
-        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 1, false,true);
-        if(!attackers.empty() 
-        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
-        && attackers.at(0).piece.isPiece(SQtype::TYPE_KNIGHT)) 
-        { return false; }
-    }
-    
-    // Looking for bishops and queens
-    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
-        {1, 1},
-        {1, -1},
-        {-1, 1},
-        {-1, -1}
-    }) {
-        attackers.clear();
-        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
-        if(!attackers.empty() 
-        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
-        && ((attackers.at(0).piece.isPiece(SQtype::TYPE_BISHOP)
-        || attackers.at(0).piece.isPiece(SQtype::TYPE_QUEEN)))) 
-        {  return false;}
-    }
-    
-    // Looking for rooks and queens
-    for (const auto& [dr, dc] : std::vector<std::pair<int, int>>{
-        {0, 1},
-        {1, 0},
-        {0, -1},
-        {-1, 0}
-    }) {
-        attackers.clear();
-        attackers = traceFrom(ekloc.row, ekloc.col, dr, dc, 8, false,true);
-        if(!attackers.empty() 
-        && attackers.at(0).piece.isWhitePiece() == whiteToPlay 
-        && ((attackers.at(0).piece.isPiece(SQtype::TYPE_ROOK)
-        || attackers.at(0).piece.isPiece(SQtype::TYPE_QUEEN)))) 
-        {  return false;}
-    }
-    
     // Then we see if there are any unpromoted pawns in their final rank
     for (int col=0; col<8; col++){
         if(board[0][col].getState() == SQstate::WHITE_PAWN || board[7][col].getState() == SQstate::BLACK_PAWN)

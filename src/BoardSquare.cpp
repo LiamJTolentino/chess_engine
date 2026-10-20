@@ -90,6 +90,8 @@ std::uint8_t BoardSquare::getState() const
     return state;
 }
 
+// == Setters == //
+
 void BoardSquare::setPiece(std::uint8_t piece)
 {
     if (piece == 0){ clearSquare(); return;} // If a piece is white, we might get 1000 which we don't want, so we just clear the square

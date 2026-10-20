@@ -101,17 +101,17 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     start_row = row;
     start_col = col;
     startSquare = pAnalyzer->SquareAt(start_row,start_col);
-    // if(startSquare.isPiece(TYPE_PAWN))
-    // {
+    if(startSquare.isPiece(TYPE_BISHOP))
+    {
     // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
-    // }
+    }
 }
 
 
 // Dereferencing
 Attacker Tracer::Iterator::operator*() const
 {
-    // if(startSquare.isPiece(TYPE_PAWN)){
+    // if(startSquare.isPiece(TYPE_BISHOP)){
     // std::cout<< "__Returned:"<< indicesToCoord(row,col) 
     // << "\tStep:\t" << step << "/" << trace_range
     // <<std::endl;
@@ -123,10 +123,10 @@ Attacker Tracer::Iterator::operator*() const
 // Increment
 Tracer::Iterator& Tracer::Iterator::operator++()
 {
-    // if(startSquare.isPiece(TYPE_PAWN))
-    // {
-    //     std::cout << "++" <<std::endl;
-    // }
+    if(startSquare.isPiece(TYPE_BISHOP))
+    {
+        // std::cout << "++" <<std::endl;
+    }
     if(rotate_now){ Rotate(); }
     row += row_step;
     col += col_step;
@@ -145,10 +145,10 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     //     <<std::endl;
     // }
     // std::string pp = (CurrentSquare()).getUnicode();
-    // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN))
+    // if(startSquare.isPiece(TYPE_BISHOP))
     // {
     //     std::cout<< indicesToCoord(start_row,start_col) << " atk:\t"
-    //     << (CurrentSquare()==nullptr?" ":CurrentSquare()->getUnicode())
+    //     << (!CurrentSquare().isValid()?" ":CurrentSquare().getUnicode())
     //     << indicesToCoord(row,col)
     //     << " rayQueue: " << std::to_string(rayQueue.size()) << "|\t"
     //     << step << " of " << trace_range << "\t"
@@ -162,6 +162,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
         // || !startSquare->canCapture(*(CurrentSquare()))
         )
     {
+        // std::cout<<"\tOUTTABOUNDS"<<std::endl;
         while(!rayQueue.empty()) // If the piece still has more traces
         {
             // std::cout<<"\tRotated"<<std::endl;
@@ -171,9 +172,10 @@ Tracer::Iterator& Tracer::Iterator::operator++()
             step += 1;
             if(CurrentSquare().isValid())
             {
+                // std::cout<<"\tBUMPED2"<<std::endl;
                 // std::cout<<"\tReturned"<< CurrentSquare()->getUnicode() <<std::endl;
                 // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned=="<<std::endl;} 
-                rotate_now = true;
+                // rotate_now = true;
                 return *this;
             }
         }
@@ -184,6 +186,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     }
     if(!CurrentSquare().isEmptySquare())
     {
+        // std::cout<<"\tBUMPED"<<std::endl;
         if(rotate_now) // At this point in the code, rotate_now can only be true if Rotate failed
         {
             pAnalyzer = nullptr;
@@ -225,7 +228,7 @@ void Tracer::Iterator::Rotate()
     col = start_col;
     trace_range = nextRay.range;
     rotate_now = false;
-    // if(CurrentSquare()->isPiece(TYPE_PAWN))
+    // if(CurrentSquare().isPiece(TYPE_BISHOP))
     // {
     //     std::cout<< "\t==Rotated" <<std::endl;
     // // std::cout<< CurrentSquare()->getUnicode() << indicesToCoord(start_row,start_col) << std::endl;

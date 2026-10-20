@@ -38,28 +38,29 @@ int main(){
         std::cout << "Current material: " << mat << std::endl;
         std::cout << myAnalyzer.boardAsString() << std::endl;
         // std::cout << mySquare.getFEN() << std::endl;
-        std::cout << "Showing trace result" << std::endl;
-        for (const Attacker& atk : trace)
-        {
-            std::cout << atk.piece.getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
-        }
-        std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
+        // std::cout << "Showing trace result" << std::endl;
+        // for (const Attacker& atk : trace)
+        // {
+        //     std::cout << atk.piece.getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
+        // }
+        // std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
         // std::cout << std::flush;
         std::cout << "Checking legality" << std::endl;
         legality = (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal");
-        std::cout << "Legal position: " << legality << std::endl;
+        std::cout << "Legal position:\t\t" << legality << std::endl;
+        std::cout << "=========================================" << std::endl;
         lineNum++;
     }
 
-    std::cout << "DONE" << std::endl;
+    // std::cout << "DONE" << std::endl;
 
-    std::uint32_t backrank = 3401444268;
-    std::cout << backrank << std::endl;
-    backrank &= ~(15<<28);
-    std::cout << backrank << std::endl;
-    backrank += 14<<28;
-    std::cout << backrank << std::endl;
-     std::cout << ((backrank>>16)&15) << std::endl;
+    // std::uint32_t backrank = 3401444268;
+    // std::cout << backrank << std::endl;
+    // backrank &= ~(15<<28);
+    // std::cout << backrank << std::endl;
+    // backrank += 14<<28;
+    // std::cout << backrank << std::endl;
+    //  std::cout << ((backrank>>16)&15) << std::endl;
 
     fTestFile.close();
 
