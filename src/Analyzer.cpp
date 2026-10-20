@@ -7,7 +7,7 @@
 #include <utility>
 #include <cmath>
 // #include <fstream>
-#include <iostream>
+// #include <iostream>
 // #include <cstdint>
 
 Analyzer::Analyzer()
@@ -69,21 +69,21 @@ void Analyzer::calculateAttackMatrix()
 // TODO: Implement pawn moves
 void Analyzer::attacksFromSquare(int row, int col)
 {
-    BoardSquare* pSquare = getSquareAt(row,col);
+    BoardSquare currentSquare = SquareAt(row,col);
     int row_step;
     int step_range;
-    if(pSquare->isEmptySquare()){ return; } // Empty squares obviously can't attack
+    if(currentSquare.isEmptySquare()){ return; } // Empty squares obviously can't attack
     // Probably the dumbest way to implement pawn moves
-    if(pSquare->isPiece(SQtype::TYPE_PAWN))
+    if(currentSquare.isPiece(SQtype::TYPE_PAWN))
     {
-        row_step = (pSquare->isWhitePiece()?-1:1); // Pawn move direction
+        row_step = (currentSquare.isWhitePiece()?-1:1); // Pawn move direction
         step_range = (2*row + 5*row_step == 7 ? 2:1); // Really stupid and convoluted way of determinining if a pawn is on its starting rank, but it works somehow.
         // std::cout<< "\tAL> " << pSquare->getUnicode() << indicesToCoord(row,col) << " " << row_step << " " << step_range <<std::endl;
         for(Attacker target : tracerRange(row,col,row_step,0,step_range))
         {
             if(target.piece.isEmptySquare()) // Pawns can only move forward into empty squares
             {
-                attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
+                attack_matrix[target.row][target.col].addAttacker(currentSquare,row,col);
             }
         }
         // Diagonal pawn moves can be handled by the regular tracerRange
@@ -94,19 +94,19 @@ void Analyzer::attacksFromSquare(int row, int col)
                 && !target.piece.isEmptySquare(false) // Since pawns can En Passant, we don't count En Passant squares as empty
                 )
             {
-                attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
+                attack_matrix[target.row][target.col].addAttacker(currentSquare,row,col);
             }
         }
         return;
     }
     for(Attacker target : tracerRange(row,col))
     {
-        if(pSquare->getState() != target.piece.getState()
+        if(currentSquare.getState() != target.piece.getState()
             // && !target.piece.isEmptySquare() 
             // && pSquare->canCapture(*target.piece)
             )
         {
-            attack_matrix[target.row][target.col].addAttacker(*pSquare,row,col);
+            attack_matrix[target.row][target.col].addAttacker(currentSquare,row,col);
             // if(pSquare->isPiece(SQtype::TYPE_ROOK))
             // {
             //     std::cout<< "R" << indicesToCoord(row,col) << "x" << target.piece.getUnicode() << indicesToCoord(target.row,target.col) <<std::endl;
@@ -290,18 +290,18 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     int i = 0;
     std::uint8_t current_row = from_row + d_row;
     std::uint8_t current_col = from_col + d_col;
-    BoardSquare* pSquare = getSquareAt(current_row,current_col);
-    while(pSquare && i < range)
+    BoardSquare currentSquare = SquareAt(current_row,current_col);
+    while(currentSquare.isValid() && i < range)
     {
-        if(includeEmpty || !pSquare->isEmptySquare())
+        if(includeEmpty || !currentSquare.isEmptySquare())
         {
-            output.push_back(Attacker(*pSquare,current_row,current_col));
-            if(stopAtPiece && !pSquare->isEmptySquare()){ break; }
+            output.push_back(Attacker(currentSquare,current_row,current_col));
+            if(stopAtPiece && !currentSquare.isEmptySquare()){ break; }
         }
         i++;
         current_row += d_row;
         current_col += d_col;
-        pSquare = getSquareAt(current_row,current_col);
+        currentSquare = SquareAt(current_row,current_col);
     }
 
     return output;

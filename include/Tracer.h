@@ -137,9 +137,9 @@ public:
                 int row, int col);
 
         /**
-         * @brief Returns a pointer to the current square at board[row][col]
+         * @brief Returns the current square at board[row][col]
          */
-        BoardSquare* CurrentSquare();//
+        BoardSquare CurrentSquare() const;//
 
         /**
          * @brief Pops the next ray in queue and resets to the start square

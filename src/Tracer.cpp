@@ -1,7 +1,7 @@
 #include "Tracer.h"
 #include "Analyzer.h"
 #include "ChessFunctions.h"
-#include <iostream>
+// #include <iostream>
 // == Tracer == //
 
 
@@ -58,13 +58,13 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
           trace_range(trace_range),
           rotate_now(false)
 {
-    if(pAnalyzer != nullptr && pAnalyzer->getSquareAt(row,col) == nullptr)
+    if(pAnalyzer != nullptr && !pAnalyzer->SquareAt(row,col).isValid())
     {
         this->pAnalyzer = nullptr;
     }
     start_row = row;
     start_col = col;
-    startSquare = *(pAnalyzer->getSquareAt(start_row,start_col));
+    startSquare = pAnalyzer->SquareAt(start_row,start_col);
     // if(startSquare.isPiece(TYPE_PAWN))
     // {
     // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
@@ -79,15 +79,15 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
           col(col),
           rotate_now(false)
 {
-    if(pAnalyzer != nullptr && pAnalyzer->getSquareAt(row,col) == nullptr)
+    if(pAnalyzer != nullptr && !pAnalyzer->SquareAt(row,col).isValid())
     {
         this->pAnalyzer = nullptr;
     }
-    BoardSquare* current_square = pAnalyzer->getSquareAt(row,col);
+    BoardSquare current_square = pAnalyzer->SquareAt(row,col);
     
-    if(!current_square->isEmptySquare())
+    if(!current_square.isEmptySquare())
     {
-        rayQueue = current_square->getPieceRays();
+        rayQueue = current_square.getPieceRays();
         Ray firstray = rayQueue.Top();
         // rayQueue.Pop();
         rotate_now = true;
@@ -100,7 +100,7 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     }
     start_row = row;
     start_col = col;
-    startSquare = *(pAnalyzer->getSquareAt(start_row,start_col));
+    startSquare = pAnalyzer->SquareAt(start_row,start_col);
     // if(startSquare.isPiece(TYPE_PAWN))
     // {
     // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
@@ -111,12 +111,12 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
 // Dereferencing
 Attacker Tracer::Iterator::operator*() const
 {
-    if(startSquare.isPiece(TYPE_PAWN)){
-    std::cout<< "__Returned:"<< indicesToCoord(row,col) 
-    << "\tStep:\t" << step << "/" << trace_range
-    <<std::endl;
-    }
-    return Attacker(*(pAnalyzer->getSquareAt(row,col)),row,col);
+    // if(startSquare.isPiece(TYPE_PAWN)){
+    // std::cout<< "__Returned:"<< indicesToCoord(row,col) 
+    // << "\tStep:\t" << step << "/" << trace_range
+    // <<std::endl;
+    // }
+    return Attacker(pAnalyzer->SquareAt(row,col),row,col);
     // return Attacker(CurrentSquare(),row,col);
 }
 
@@ -156,7 +156,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     //     <<std::endl;
     // }
     
-    if(CurrentSquare() == nullptr
+    if(!CurrentSquare().isValid()
         || step > trace_range
         // || !CurrentSquare()->isEmptySquare()
         // || !startSquare->canCapture(*(CurrentSquare()))
@@ -169,7 +169,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
             row += row_step;
             col += col_step;
             step += 1;
-            if(CurrentSquare() != nullptr)
+            if(CurrentSquare().isValid())
             {
                 // std::cout<<"\tReturned"<< CurrentSquare()->getUnicode() <<std::endl;
                 // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned=="<<std::endl;} 
@@ -182,7 +182,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
         // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned null=="<<std::endl;} 
         return *this;
     }
-    if(!CurrentSquare()->isEmptySquare())
+    if(!CurrentSquare().isEmptySquare())
     {
         if(rotate_now) // At this point in the code, rotate_now can only be true if Rotate failed
         {
@@ -207,10 +207,10 @@ bool Tracer::Iterator::operator!=(const Iterator& other) const
     return pAnalyzer != other.pAnalyzer;
 }
 
-BoardSquare* Tracer::Iterator::CurrentSquare()
+BoardSquare Tracer::Iterator::CurrentSquare() const
 {
-    if(pAnalyzer == nullptr){ return nullptr; }
-    return pAnalyzer->getSquareAt(row,col);
+    if(pAnalyzer == nullptr){ return BoardSquare(SQstate::INVALID_SQUARE); }
+    return pAnalyzer->SquareAt(row,col);
 }
 
 void Tracer::Iterator::Rotate()

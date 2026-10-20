@@ -128,6 +128,8 @@ public:
     
     bool isWhitePiece() const;//
 
+    bool isValid() const;
+
     /**
      * @brief Return true if this piece can capture other (other must be either empty, en passant, or opposite color piece)
      */

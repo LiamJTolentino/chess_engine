@@ -35,6 +35,11 @@ bool BoardSquare::isWhitePiece() const
     return state >> 3; // We just need to bitshift to the right by 3 to get the piece color
 }
 
+bool BoardSquare::isValid() const
+{
+    return state != SQstate::INVALID_SQUARE;
+}
+
 bool BoardSquare::canCapture(BoardSquare& other) const
 {
     if(isEmptySquare()){return false;} // Obviously empty squares can't capture
