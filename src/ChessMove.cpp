@@ -25,9 +25,25 @@ bool ChessMove::isPawnMove() const
     return mvinfo>>15;
 }
 
-BoardSquare ChessMove::getPieceVal() const
+MVpiece ChessMove::getPieceVal() const
 {
-    return BoardSquare((mvinfo>>12)&7);
+    return static_cast<MVpiece>((mvinfo>>12)&7);
+}
+
+SQtype ChessMove::getPieceType() const
+{
+    return static_cast<SQtype>(((mvinfo>>12)&7) + 1);
+}
+
+bool ChessMove::isPieceType(MVpiece piece) const
+{
+    return static_cast<MVpiece>((mvinfo>>12)&7) == piece;
+}
+
+bool ChessMove::isCastle() const
+{
+    return static_cast<MVpiece>((mvinfo>>12)&7) == MVpiece::MV_SHORT_CASTLE
+        || static_cast<MVpiece>((mvinfo>>12)&7) == MVpiece::MV_LONG_CASTLE;
 }
 
 int ChessMove::getStartRow() const

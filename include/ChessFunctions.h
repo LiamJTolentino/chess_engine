@@ -125,6 +125,11 @@ public:
      * @brief Constructor that initializes the piece value
      */
     BoardSquare(std::uint8_t initstate);//
+
+    /**
+     * @brief Constructore that initializes the piece with the given color
+     */
+    BoardSquare(bool white, SQtype piecetype);
     
     bool isWhitePiece() const;//
 
@@ -133,7 +138,7 @@ public:
     /**
      * @brief Return true if this piece can capture other (other must be either empty, en passant, or opposite color piece)
      */
-    bool canCapture(BoardSquare& other) const;//
+    bool canCapture(const BoardSquare& other) const;//
 
     /**
      * @brief True if this square is unoccupied
@@ -145,6 +150,8 @@ public:
     bool isOutOfBounds() const;//
 
     bool isPiece(SQtype piecetype) const;//
+
+    bool isState(SQstate piecestate) const;//
 
     /**
      * @brief Just returns the last 3 bits
@@ -176,6 +183,19 @@ public:
     
     std::string getFEN() const;//
 };
+/**
+ * @brief Used for ChessMove
+ */
+enum MVpiece : std::uint8_t{
+    MV_PAWN = 0,            // 000
+    MV_KNIGHT = 1,          // 001
+    MV_BISHOP = 2,          // 010
+    MV_ROOK = 3,            // 011
+    MV_QUEEN = 4,           // 100
+    MV_KING = 5,            // 101
+    MV_SHORT_CASTLE = 6,    // 110
+    MV_LONG_CASTLE = 7      // 111
+};
 
 /**
  * @brief Data structure for storing chess move info and functions to extract information. This is to make sure that we can store move information in as little space as possible to save on memory.
@@ -206,7 +226,14 @@ public:
     bool isPawnMove() const;//
 
 
-    BoardSquare getPieceVal() const;//
+    MVpiece getPieceVal() const;//
+
+    // ChessMove stores the piece type in a weird way, so we have this to return it to the normal type. 
+    SQtype getPieceType() const;//
+
+    bool isPieceType(MVpiece piece) const;
+
+    bool isCastle() const;
 
     int getStartRow() const;//
 

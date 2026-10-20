@@ -20,6 +20,8 @@ std::string unicodes[16] = {" ",
     "♙","♘","♗","♖","♕","♔"," "
 };
 
+// == Constructors == //
+
 BoardSquare::BoardSquare()
     : state(0)
 {
@@ -29,6 +31,17 @@ BoardSquare::BoardSquare(std::uint8_t initstate)
 {
     state = initstate;
 }
+
+BoardSquare::BoardSquare(bool white, SQtype piecetype)
+{
+    if(piecetype == SQtype::TYPE_EMPTY) // to avoid making invalid squares
+    {
+        state = SQstate::EMPTY_SQUARE;
+    }
+    state = (white&1)<<3 + piecetype;
+}
+
+// == Getters == //
 
 bool BoardSquare::isWhitePiece() const
 {
@@ -40,7 +53,7 @@ bool BoardSquare::isValid() const
     return state != SQstate::INVALID_SQUARE;
 }
 
-bool BoardSquare::canCapture(BoardSquare& other) const
+bool BoardSquare::canCapture(const BoardSquare& other) const
 {
     if(isEmptySquare()){return false;} // Obviously empty squares can't capture
     if(other.isEmptySquare()){return true;} // Pieces can always move to empty squares (unless they're pinned to the king, but we're not worrying about that rn)
@@ -60,6 +73,11 @@ bool BoardSquare::isOutOfBounds() const
 bool BoardSquare::isPiece(SQtype piecetype) const
 {
     return getPiece() == piecetype;
+}
+
+bool BoardSquare::isState(SQstate piecestate) const
+{
+    return state == piecestate;
 }
 
 std::uint8_t BoardSquare::getPiece() const

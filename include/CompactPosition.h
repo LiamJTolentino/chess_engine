@@ -33,6 +33,12 @@ private:
     // Sets the square at row,col to be the value of the given BoardSquare. Use bitwise operations.
     void SetSquare(int row, int col, BoardSquare square);//
 
+    // Places a piece of the current player's color at row,col
+    void PlacePiece(int row, int col, SQtype piecetype);
+
+    // Sets the square at row,col to be an empty square
+    void ClearSquare(int row, int col);
+
     void WhiteToMove(bool whitemove);//
 
     void WhiteShortCastle(bool castle);//
@@ -42,6 +48,10 @@ private:
     void BlackShortCastle(bool castle);//
 
     void BlackLongCastle(bool castle);//
+
+    void removeLongCastle();
+
+    void removeShortCastle();
 public:
     /**
      * @brief Default constructor. Initializes position with starting position.
@@ -62,11 +72,17 @@ public:
     BoardSquare GetSquareAt(int row, int col) const;//
     
     /**
-     * @brief Returns a new Position object that results from performing a move on the current position
+     * @brief Returns a new Position object that results from performing a move on the current position. Returns a blank board if it cannot legally perform the move. The Analyzer will count this as an illegal position.
      */
-    Position transpose(ChessMove move);
+    Position transpose(const ChessMove move) const;
 
     bool isWhiteToMove() const;//
+
+    // True if in the current position, the current player has short castle rights and can perform short castle
+    bool CanShortCastle() const;//
+
+    // True if in the current position, the current player has long castle rights and can perform long castle
+    bool CanLongCastle() const;
 
     // Simply returns true if there is an En Passant square in the position
     bool isEnPassantAvailable() const;//
