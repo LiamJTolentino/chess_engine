@@ -308,7 +308,7 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
 }
 
 // TODO: Implement En Passant
-void Analyzer::loadFromFen(std::string& FEN)
+void Analyzer::loadFromFen(const std::string& FEN)
 {
     // First set everything to 0
     for (int row=0; row< 8; row++)
@@ -319,6 +319,10 @@ void Analyzer::loadFromFen(std::string& FEN)
             board[row][col].clearSquare();
         }
     }
+    whiteShortCastle = false;
+    whiteLongCastle = false;
+    blackShortCastle = false;
+    blackLongCastle = false;
     // Iterate over each character
     int charIndex = 0;
     int FENlength = FEN.length();
@@ -354,9 +358,9 @@ void Analyzer::loadFromFen(std::string& FEN)
         col++;
         charIndex++;
     }
-
+    int en_passant_index = -1;
     // Now the other stuff
-    while (charIndex < FENlength)
+    while (charIndex < FENlength && en_passant_index<0)
     {
         char currentChar = FEN[charIndex];
         switch (currentChar)
@@ -367,11 +371,34 @@ void Analyzer::loadFromFen(std::string& FEN)
         case 'b':
             whiteToPlay = false;
             break;
-        // TODO: Implement castle and en passant and ply
+        case 'K':
+            whiteShortCastle = true;
+            break;
+        case 'Q':
+            whiteLongCastle = true;
+            break;
+        case 'k':
+            blackShortCastle = true;
+            break;
+        case 'q':
+            blackLongCastle = true;
+            break;
+        case ' ':
+            break;
+        case '-':
+            break;
         default:
+            en_passant_index = charIndex;
             break;
         }
         charIndex++;
+    }
+
+    if (en_passant_index>=0)
+    {
+        std::string EPcoord{FEN[en_passant_index],FEN[en_passant_index+1]};
+        BoardCoord EP = coordToIndices(EPcoord);
+        board[EP.row][EP.col] = BoardSquare(!whiteToPlay,SQtype::TYPE_EN_PASSANT);
     }
 
     calculateAttackMatrix();

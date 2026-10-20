@@ -75,7 +75,7 @@ public:
     /**
      * @brief Reads the FEN and sets up all the necessary variables
      */
-    void loadFromFen(std::string& FEN);
+    void loadFromFen(const std::string& FEN);
 
     /**
      * @brief Loads the provided compact position object into this analyzer.
@@ -88,7 +88,7 @@ public:
 
     std::string getFEN();
 
-    std::string boardAsString();
+    std::string boardAsString();//
 
 
 
