@@ -38,7 +38,7 @@ BoardSquare::BoardSquare(bool white, SQtype piecetype)
     {
         state = SQstate::EMPTY_SQUARE;
     }
-    state = (white&1)<<3 + piecetype;
+    state =((white&1)<<3) + piecetype;
 }
 
 // == Getters == //
