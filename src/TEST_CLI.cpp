@@ -53,6 +53,14 @@ int main(){
 
     std::cout << "DONE" << std::endl;
 
+    std::uint32_t backrank = 3401444268;
+    std::cout << backrank << std::endl;
+    backrank &= ~(15<<28);
+    std::cout << backrank << std::endl;
+    backrank += 14<<28;
+    std::cout << backrank << std::endl;
+     std::cout << ((backrank>>16)&15) << std::endl;
+
     fTestFile.close();
 
     // while (i < 4 && std::getline(std::cin, input)){

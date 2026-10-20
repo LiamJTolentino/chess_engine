@@ -83,12 +83,24 @@ public:
      */
     void loadFromPosition(const Position* const pPos);
 
+    // Simply returns the 8-bit object at board[row][col]
+    BoardSquare SquareAt(int row, int col) const;
+
     std::string getFEN();
 
     std::string boardAsString();
 
-    bool isWhiteToMove();
 
+
+    bool isWhiteToMove() const;//
+
+    bool CanBlackShortCastle() const;//
+
+    bool CanBlackLongCastle() const;//
+
+    bool CanWhiteShortCastle() const;//
+
+    bool CanWhiteLongCastle() const;//
     
 
     /**

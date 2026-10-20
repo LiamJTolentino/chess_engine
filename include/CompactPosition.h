@@ -30,9 +30,23 @@ private:
     std::uint8_t extra_info; // Contains info about castling and which side is playing
 
 
-    // Sets the square at row,col to be the value of the given BoardSquare. 
-    void SetSquare(std::uint8_t row,std::uint8_t col,BoardSquare square);
+    // Sets the square at row,col to be the value of the given BoardSquare. Use bitwise operations.
+    void SetSquare(int row, int col, BoardSquare square);//
+
+    void WhiteToMove(bool whitemove);//
+
+    void WhiteShortCastle(bool castle);//
+
+    void WhiteLongCastle(bool castle);//
+
+    void BlackShortCastle(bool castle);//
+
+    void BlackLongCastle(bool castle);//
 public:
+    /**
+     * @brief Default constructor. Initializes position with starting position.
+     */
+    Position();//
     /**
      * @brief Constructs the position from FEN
      */
@@ -42,28 +56,28 @@ public:
      * @brief Constructs the position from the currently loaded position in the provided Analyzer object
      * @param pAnalyzer Read-only pointer to an Analyzer object that has the position loaded.
      */
-    Position(const Analyzer* const pAnalyzer);
+    Position(const Analyzer* const pAnalyzer);//
 
     // Returns a BoardSquare object representing the piece at row,col
-    BoardSquare GetSquareAt(std::uint8_t row, std::uint8_t col) const;
+    BoardSquare GetSquareAt(int row, int col) const;//
     
     /**
      * @brief Returns a new Position object that results from performing a move on the current position
      */
     Position transpose(ChessMove move);
 
-    bool isWhiteToMove() const;
+    bool isWhiteToMove() const;//
 
     // Simply returns true if there is an En Passant square in the position
-    bool isEnPassantAvailable() const;
+    bool isEnPassantAvailable() const;//
 
-    bool CanBlackShortCastle() const;
+    bool CanBlackShortCastle() const;//
 
-    bool CanBlackLongCastle() const;
+    bool CanBlackLongCastle() const;//
 
-    bool CanWhiteShortCastle() const;
+    bool CanWhiteShortCastle() const;//
 
-    bool CanWhiteLongCastle() const;
+    bool CanWhiteLongCastle() const;//
 };
 
 /**

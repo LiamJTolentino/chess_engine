@@ -47,6 +47,11 @@ bool BoardSquare::isEmptySquare(bool includeEnPassant) const
     return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
 }
 
+bool BoardSquare::isOutOfBounds() const
+{
+    return state == SQstate::INVALID_SQUARE;
+}
+
 bool BoardSquare::isPiece(SQtype piecetype) const
 {
     return getPiece() == piecetype;

@@ -35,6 +35,15 @@ BoardSquare* Analyzer::getSquareAt(int row, int col)
     return &board[row][col];
 }
 
+BoardSquare Analyzer::SquareAt(int row,int col) const
+{
+    if (row > 7 || row < 0 || col > 7 || col < 0) // Out of Range
+    {
+        return BoardSquare(SQstate::INVALID_SQUARE);
+    }
+    return board[row][col];
+}
+
 // Prepare for some really shitty ass code
 void Analyzer::calculateAttackMatrix()
 {
@@ -387,10 +396,35 @@ std::string Analyzer::boardAsString()
     return output;
 }
 
-bool Analyzer::isWhiteToMove()
+// == Booleans == //
+
+bool Analyzer::isWhiteToMove() const
 {
     return whiteToPlay;
 }
+
+bool Analyzer::CanBlackShortCastle() const
+{
+    return blackShortCastle;
+}
+
+bool Analyzer::CanBlackLongCastle() const
+{
+    return blackLongCastle;
+}
+
+bool Analyzer::CanWhiteShortCastle() const
+{
+    return whiteShortCastle;
+}
+
+bool Analyzer::CanWhiteLongCastle() const
+{
+    return whiteLongCastle;
+}
+
+
+// == Heuristics == //
 
 float Analyzer::getMaterialDifference()
 {

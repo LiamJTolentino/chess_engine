@@ -25,9 +25,9 @@ bool ChessMove::isPawnMove() const
     return mvinfo>>15;
 }
 
-int ChessMove::getPieceVal() const
+BoardSquare ChessMove::getPieceVal() const
 {
-    return (mvinfo>>12)&7;
+    return BoardSquare((mvinfo>>12)&7);
 }
 
 int ChessMove::getStartRow() const
@@ -50,17 +50,27 @@ int ChessMove::getDestCol() const
     return mvinfo&7;
 }
 
+BoardCoord ChessMove::getStart() const
+{
+    return BoardCoord{(mvinfo>>9)&7,(mvinfo>>6)&7};
+}
+
+BoardCoord ChessMove::getDest() const
+{
+    return BoardCoord{(mvinfo>>3)&7,mvinfo&7};
+}
+
 // Okay I just realised I could just directly AND the values into the correct bits without setting them to zero, but whatevs
 
 
-void ChessMove::setStartPos(std::uint8_t start_row, std::uint8_t start_col)
+void ChessMove::setStartPos(int start_row, int start_col)
 {
     mvinfo = mvinfo&(~(63<<6));
     mvinfo += (start_row&7)<<9;
     mvinfo += (start_col&7)<<6;
 }
 
-void ChessMove::setDestPos(std::uint8_t dest_row, std::uint8_t dest_col)
+void ChessMove::setDestPos(int dest_row, int dest_col)
 {
     mvinfo = mvinfo&(~63); // Clear the last 6 bits
     mvinfo += (dest_row&7)<<3;

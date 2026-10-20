@@ -44,7 +44,9 @@ enum SQstate : std::uint8_t{
     BLACK_QUEEN = 5,        // 0101
     BLACK_KING = 6,         // 0110
     BLACK_EN_PASSANT = 7,   // 0111
-    
+
+    INVALID_SQUARE = 8,     // 1000
+
     WHITE_PAWN = 9,         // 1001
     WHITE_KNIGHT = 10,      // 1010
     WHITE_BISHOP = 11,      // 1011
@@ -137,6 +139,9 @@ public:
      */
     bool isEmptySquare(bool includeEnPassant = true) const;//
 
+    // Returns true if state = 8. THis is to indicate that a square is invalid.
+    bool isOutOfBounds() const;//
+
     bool isPiece(SQtype piecetype) const;//
 
     /**
@@ -198,7 +203,8 @@ public:
      */
     bool isPawnMove() const;//
 
-    int getPieceVal() const;//
+
+    BoardSquare getPieceVal() const;//
 
     int getStartRow() const;//
 
@@ -208,9 +214,13 @@ public:
 
     int getDestCol() const;//
 
-    void setStartPos(std::uint8_t start_row, std::uint8_t start_col);//
+    BoardCoord getStart() const;//
 
-    void setDestPos(std::uint8_t dest_row, std::uint8_t dest_col);//
+    BoardCoord getDest() const;//
+
+    void setStartPos(int start_row, int start_col);//
+
+    void setDestPos(int dest_row, int dest_col);//
 
     void setPieceVal(std::uint8_t piece_val);//
 
