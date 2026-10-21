@@ -83,6 +83,8 @@ public:
      */
     void loadFromPosition(const Position* const pPos);
 
+
+
     // Simply returns the 8-bit object at board[row][col]
     BoardSquare SquareAt(int row, int col) const;
 
@@ -110,12 +112,15 @@ public:
      * 3. There are no promoted pawns in their last rank
      * @note TODO: Redo the logic for this using attack_matrix once that has been implemented
      */
-    bool isPositionLegal();
+    bool isPositionLegal() const;//
 
     /**
      * @brief True if in the current position, the current player's king is being attacked by an enemy piece
      */
-    bool isInCheck();
+    bool isInCheck() const;//
+
+    
+    std::vector<ChessMove> getAllMoves() const;
 
     /**
      * @brief Used for move calculations.

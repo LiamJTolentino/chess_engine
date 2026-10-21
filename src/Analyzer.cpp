@@ -116,7 +116,7 @@ void Analyzer::attacksFromSquare(int row, int col)
 }
 
 // TODO: Redo the king check stuff using the attack matrix instead
-bool Analyzer::isPositionLegal()
+bool Analyzer::isPositionLegal() const
 {
     bool bking = false;
     bool wking = false;
@@ -139,8 +139,6 @@ bool Analyzer::isPositionLegal()
     // == Then we check if the current player can capture the opponent king with a piece
     // First make sure the kings aren't touching
     
-    
-    
     if(std::abs(bkloc.row - wkloc.row) <= 1 && std::abs(bkloc.col - wkloc.col) <= 1)
     { return false; }
     BoardCoord& ekloc = (whiteToPlay ? bkloc : wkloc); // Which one is the enemy king?
@@ -161,6 +159,45 @@ bool Analyzer::isPositionLegal()
 
     return true;
 }
+
+bool Analyzer::isInCheck() const
+{
+    BoardSquare currentSquare;
+    for (int row=0; row<8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            currentSquare = board[row][col];
+            // Find friendly king
+            if(currentSquare.isPiece(SQtype::TYPE_KING)
+            && currentSquare.isWhitePiece() == whiteToPlay)
+            {
+                // Return true if there are more than one attackers on the king
+                return attack_matrix[row][col].getTotalAttackers(!whiteToPlay) > 0;
+            }
+        }
+    }
+    return false;
+}
+
+
+
+
+
+// std::vector<ChessMove> Analyzer::getAllMoves() const
+// {
+//     for (int row=0; row<8; row++)
+//     {
+//         for (int col=0; col<8; col++)
+//         {
+//             if(board[row][col].isEmptySquare())
+//         }
+//     }
+// }
+
+
+
+
 
 Tracer Analyzer::tracerRange(int from_row, int from_col, int d_row, int d_col,int range)
 {
@@ -447,6 +484,19 @@ float AttackSquare::getAttackImbalance() const
         total += (atk.piece.isWhitePiece() ? 1.0 : -1.0);
     }
     return total;
+}
+
+std::vector<Attacker> AttackSquare::getAttackers(bool whitePieces) const
+{
+    std::vector<Attacker> output;
+    for(const Attacker atk : attacks)
+    {
+        if(atk.piece.isWhitePiece() == whitePieces)
+        {
+            output.push_back(atk);
+        }
+    }
+    return output;
 }
 
 

@@ -80,14 +80,19 @@ bool BoardSquare::isState(SQstate piecestate) const
     return state == piecestate;
 }
 
-std::uint8_t BoardSquare::getPiece() const
+SQtype BoardSquare::getPiece() const
 {
-    return state&7;
+    return static_cast<SQtype>(state&7);
 }
 
-std::uint8_t BoardSquare::getState() const
+SQstate BoardSquare::getState() const
 {
-    return state;
+    return static_cast<SQstate>(state);
+}
+
+MVpiece BoardSquare::getMVpiece() const
+{
+    return static_cast<MVpiece>((state&7)-1);
 }
 
 // == Setters == //

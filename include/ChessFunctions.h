@@ -156,9 +156,11 @@ public:
     /**
      * @brief Just returns the last 3 bits
      */
-    std::uint8_t getPiece() const;//
+    SQtype getPiece() const;//
 
-    std::uint8_t getState() const;//
+    SQstate getState() const;//
+
+    MVpiece getMVpiece() const;
 
     /**
      * @brief Changes the piece on the square without changing the color
@@ -217,6 +219,7 @@ private:
 public:
     ChessMove() = default;
     ChessMove(bool promotion, int piece, int start_row, int start_col, int dest_row, int dest_col);//
+    ChessMove(bool promotion, Attacker attacker, int target_row, int target_col);
     ChessMove(std::string PGN);
 
     /**

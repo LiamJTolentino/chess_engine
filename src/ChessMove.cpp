@@ -2,6 +2,7 @@
  * @file Implementation of all the ChessMove stuff in Chessfunctions.h
  */
 #include "ChessFunctions.h"
+#include "Tracer.h"
 
 // All the stuff here involves bitwise operations which makes things really fast but also annoying to read
 
@@ -18,6 +19,20 @@ ChessMove::ChessMove(bool promotion,
     mvinfo += (start_col&7)<<6;
     mvinfo += (dest_row&7)<<3;
     mvinfo += dest_col&7;
+}
+
+ChessMove::ChessMove(bool promotion, 
+            Attacker attacker,
+            int target_row,
+            int target_col)
+{
+    mvinfo = 0;
+    mvinfo += (promotion&1)<<15;
+    mvinfo += (attacker.piece.getMVpiece()&7)<<12;
+    mvinfo += (attacker.row&7)<<9;
+    mvinfo += (attacker.col&7)<<6;
+    mvinfo += (target_row&7)<<3;
+    mvinfo += target_col&7;
 }
 
 bool ChessMove::isPawnMove() const

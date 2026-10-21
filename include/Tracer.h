@@ -47,6 +47,8 @@ public:
      * @brief Total white pieces attacking minus total black pieces attacking. Used in the heuristic calculations to determine if a piece is sufficiently defended.
      */
     float getAttackImbalance() const;
+
+    std::vector<Attacker> getAttackers(bool whitePieces) const;
     
 
     /**
