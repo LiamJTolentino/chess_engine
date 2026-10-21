@@ -313,7 +313,28 @@ std::vector<Attacker> Analyzer::traceFrom(int from_row, int from_col, int d_row,
     return output;
 }
 
-// TODO: Implement En Passant
+
+// === Loading Positions == //
+
+void Analyzer::loadFromPosition(const Position* const pPos)
+{
+    whiteShortCastle = pPos->CanWhiteShortCastle();
+    whiteLongCastle = pPos->CanWhiteLongCastle();
+    blackShortCastle = pPos->CanBlackShortCastle();
+    blackLongCastle = pPos->CanBlackLongCastle();
+
+    for (int row=0; row< 8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            board[row][col] = pPos->GetSquareAt(row,col);
+        }
+    }
+
+    calculateAttackMatrix();
+}
+
+
 void Analyzer::loadFromFen(const std::string& FEN)
 {
     // First set everything to 0

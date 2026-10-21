@@ -257,6 +257,8 @@ public:
     void setPieceVal(std::uint8_t piece_val);//
 
     void setPawnMove(bool isPromotion);//
+
+    std::string AsString(bool whitemove) const;
 };
 
 /**

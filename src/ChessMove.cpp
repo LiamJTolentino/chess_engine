@@ -118,3 +118,38 @@ void ChessMove::setPawnMove(bool isPromotion)
 {
     mvinfo = mvinfo&(isPromotion<<15);
 }
+
+std::string ChessMove::AsString(bool whitemove) const
+{
+    if(isCastle())
+    {
+        if(isPieceType(MV_SHORT_CASTLE))
+        {
+            return "O-O";
+        }
+        if(isPieceType(MV_LONG_CASTLE))
+        {
+            return "O-O-O";
+        }
+    }
+    std::string output;
+    std::string start = indicesToCoord(getStartRow(),getStartCol());
+    std::string end = indicesToCoord(getDestRow(),getDestCol());
+    std::string piece = BoardSquare(whitemove,getPieceType()).getFEN();
+
+    if(isPawnMove)
+    {
+        output += start[0];// Pawns on the same rank cannot move into the same square
+        output += end;
+        if(!isPieceType(MV_PAWN))// If it is a pawn promotion
+        {
+            output += "=" + piece;
+        }
+        return output;
+    }
+    output += piece;
+    output += start;
+    output += end;
+
+    return output;
+}
