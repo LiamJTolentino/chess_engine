@@ -7,7 +7,7 @@
 // All the stuff here involves bitwise operations which makes things really fast but also annoying to read
 
 ChessMove::ChessMove(bool promotion, 
-                int piece, 
+                MVpiece piece, 
                 int start_row, int start_col, 
                 int dest_row, int dest_col)
 {
@@ -37,7 +37,7 @@ ChessMove::ChessMove(bool promotion,
 
 bool ChessMove::isPawnMove() const
 {
-    return mvinfo>>15;
+    return (mvinfo>>15) || (isPieceType(MVpiece::MV_PAWN));
 }
 
 MVpiece ChessMove::getPieceVal() const

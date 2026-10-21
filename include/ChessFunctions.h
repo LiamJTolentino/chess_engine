@@ -218,8 +218,8 @@ private:
     std::uint16_t mvinfo;
 public:
     ChessMove() = default;
-    ChessMove(bool promotion, int piece, int start_row, int start_col, int dest_row, int dest_col);//
-    ChessMove(bool promotion, Attacker attacker, int target_row, int target_col);
+    ChessMove(bool promotion, MVpiece piece, int start_row, int start_col, int dest_row, int dest_col);//
+    ChessMove(bool promotion, Attacker attacker, int target_row, int target_col);//
     ChessMove(std::string PGN);
 
     /**

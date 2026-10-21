@@ -103,6 +103,10 @@ public:
     bool CanWhiteShortCastle() const;//
 
     bool CanWhiteLongCastle() const;//
+
+    bool ShortCastleAvailable() const;
+
+    bool LongCastleAvailable() const;
     
 
     /**
@@ -119,7 +123,10 @@ public:
      */
     bool isInCheck() const;//
 
-    
+    /**
+     * @brief Returns all the possible moves that can be made in the current position.
+     * @todo Implement with priority queue instead so that important moves are calculated first.
+     */
     std::vector<ChessMove> getAllMoves() const;
 
     /**

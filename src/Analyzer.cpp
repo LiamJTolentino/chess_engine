@@ -184,16 +184,44 @@ bool Analyzer::isInCheck() const
 
 
 
-// std::vector<ChessMove> Analyzer::getAllMoves() const
-// {
-//     for (int row=0; row<8; row++)
-//     {
-//         for (int col=0; col<8; col++)
-//         {
-//             if(board[row][col].isEmptySquare())
-//         }
-//     }
-// }
+std::vector<ChessMove> Analyzer::getAllMoves() const
+{
+    std::vector<ChessMove> output;
+    std::vector<Attacker> attackers;
+    BoardSquare dummy(whiteToPlay,SQtype::TYPE_KING); // dummy piece to check if a piece can be captured
+
+    // Variables for creating the moves
+    MVpiece endpiece;
+    for (int row=0; row<8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            if(!dummy.canCapture(board[row][col])) { continue; } // Skip friendly pieces
+            
+            attackers = attack_matrix[row][col].getAttackers(whiteToPlay); // Gets all the friendly pieces that can move into this square
+            for(Attacker atk : attackers)
+            {
+                if(atk.piece.isPiece(SQtype::TYPE_PAWN))
+                {
+                    if(row==0 || row==7)// If the pawn ends up in a promotion rank, we queue all the possible promotions
+                    {
+                        output.push_back(ChessMove(true,MV_QUEEN,atk.row,atk.col,row,col));
+                        output.push_back(ChessMove(true,MV_ROOK,atk.row,atk.col,row,col));
+                        output.push_back(ChessMove(true,MV_BISHOP,atk.row,atk.col,row,col));
+                        output.push_back(ChessMove(true,MV_KNIGHT,atk.row,atk.col,row,col));
+                        continue;
+                    }
+                    // En passants are already handled by Position class, so we can just add pawn as normal
+                    output.push_back(ChessMove(true,atk,row,col));
+                    continue; // Just continue the loop
+                }
+                //Normal piece moves
+                output.push_back(ChessMove(false,atk,row,col));
+            }
+        }
+    }
+    return output;
+}
 
 
 
