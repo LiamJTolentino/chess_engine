@@ -101,10 +101,10 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
     start_row = row;
     start_col = col;
     startSquare = pAnalyzer->SquareAt(start_row,start_col);
-    if(startSquare.isPiece(TYPE_BISHOP))
-    {
-    // std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
-    }
+    // if(startSquare.isPiece(TYPE_BISHOP))
+    // {
+    //     std::cout<< startSquare.getUnicode() << " started on " << indicesToCoord(start_row,start_col) << std::endl;
+    // }
 }
 
 
@@ -112,9 +112,10 @@ Tracer::Iterator::Iterator(Analyzer* pAnalyzer,
 Attacker Tracer::Iterator::operator*() const
 {
     // if(startSquare.isPiece(TYPE_BISHOP)){
-    // std::cout<< "__Returned:"<< indicesToCoord(row,col) 
-    // << "\tStep:\t" << step << "/" << trace_range
-    // <<std::endl;
+    //     std::cout<< "__Returned: " << CurrentSquare().getUnicode()
+    //     << indicesToCoord(row,col) 
+    //     << "\tStep:\t" << step << "/" << trace_range
+    //     <<std::endl;
     // }
     return Attacker(pAnalyzer->SquareAt(row,col),row,col);
     // return Attacker(CurrentSquare(),row,col);
@@ -123,11 +124,19 @@ Attacker Tracer::Iterator::operator*() const
 // Increment
 Tracer::Iterator& Tracer::Iterator::operator++()
 {
-    if(startSquare.isPiece(TYPE_BISHOP))
-    {
-        // std::cout << "++" <<std::endl;
+    // if(startSquare.isPiece(TYPE_BISHOP))
+    // {
+    //     std::cout << "++" <<std::endl;
+    //     std::cout<< "\trotate_now = " << rotate_now <<std::endl;
+    // }
+    if(rotate_now){ 
+        Rotate(); 
+        if(rayQueue.empty()) { 
+            // std::cout<< "DJFSLSJDFLJSFDLKJ" <<std::endl;
+            return *this;
+        }
+        // std::cout<< "\trotate_now = " << rotate_now <<std::endl;
     }
-    if(rotate_now){ Rotate(); }
     row += row_step;
     col += col_step;
     step += 1;
@@ -145,6 +154,7 @@ Tracer::Iterator& Tracer::Iterator::operator++()
     //     <<std::endl;
     // }
     // std::string pp = (CurrentSquare()).getUnicode();
+
     // if(startSquare.isPiece(TYPE_BISHOP))
     // {
     //     std::cout<< indicesToCoord(start_row,start_col) << " atk:\t"
@@ -175,9 +185,10 @@ Tracer::Iterator& Tracer::Iterator::operator++()
                 // std::cout<<"\tBUMPED2"<<std::endl;
                 // std::cout<<"\tReturned"<< CurrentSquare()->getUnicode() <<std::endl;
                 // if(startSquare!=nullptr && startSquare->isPiece(TYPE_QUEEN)){std::cout<<"==Returned=="<<std::endl;} 
-                // rotate_now = true;
+                if(!CurrentSquare().isEmptySquare()){ rotate_now = true; }
                 return *this;
             }
+            // std::cout<<"\tOUTTABOUNDS AGAIN"<<std::endl;
         }
         
         pAnalyzer = nullptr;
@@ -218,7 +229,11 @@ BoardSquare Tracer::Iterator::CurrentSquare() const
 
 void Tracer::Iterator::Rotate()
 {
-    if(rayQueue.empty()){ return; }
+    if(rayQueue.empty()){ 
+        // std::cout<< "\t====DEATH" <<std::endl;
+        pAnalyzer = nullptr;
+        return; 
+    }
     Ray nextRay = rayQueue.Top();
     rayQueue.Pop();
     step = 0;
@@ -229,10 +244,13 @@ void Tracer::Iterator::Rotate()
     trace_range = nextRay.range;
     rotate_now = false;
     // if(CurrentSquare().isPiece(TYPE_BISHOP))
+    // if(startSquare.isPiece(TYPE_BISHOP))
     // {
     //     std::cout<< "\t==Rotated" <<std::endl;
     // // std::cout<< CurrentSquare()->getUnicode() << indicesToCoord(start_row,start_col) << std::endl;
     //     std::cout<< "\t==rayQueue size: " << rayQueue.size() << std::endl;
+    //     std::cout<< "\t==\tNow scanning in "
+    //     << row_step << "," << col_step << std::endl;
     // }
     // return true;
 }

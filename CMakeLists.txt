@@ -8,8 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(ChessLib SHARED
     src/Analyzer.cpp
     src/BoardSquare.cpp
+    src/ChessBot.cpp
     src/ChessFunctions.cpp
     src/ChessMove.cpp
+    src/Eval.cpp
     src/Position.cpp
     src/DELETE_LATER.cpp
     src/Tracer.cpp

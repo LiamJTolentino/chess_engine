@@ -6,7 +6,7 @@
 #include "ChessFunctions.h"
 #include "CompactPosition.h"
 #include "Analyzer.h"
-#include <iostream>
+// #include <iostream>
 
 Position::Position()
     : board {
@@ -86,7 +86,7 @@ Position Position::transpose(const ChessMove move) const
     // Step 1: Try castling
     if(move.isCastle())
     {
-        std::cout<< "Trying to castle" <<std::endl;
+        // std::cout<< "Trying to castle" <<std::endl;
         // Get the back rank based on color turn
         int back_row = (isWhiteToMove()?7:0);
         if(move.isPieceType(MVpiece::MV_SHORT_CASTLE) && copy.CanShortCastle())
@@ -111,7 +111,7 @@ Position Position::transpose(const ChessMove move) const
             return copy;
         }
         // If neither of those work, the move is invalid, so we return an invalid position
-        std::cout<< "INVALID" <<std::endl;
+        // std::cout<< "INVALID" <<std::endl;
         copy.board = {0,0,0,0,0,0,0,0};
         return copy;
     }
@@ -127,12 +127,12 @@ Position Position::transpose(const ChessMove move) const
     )
     {
         copy.board = {0,0,0,0,0,0,0,0};
-        std::cout<< "INVALID: " << startSquare.getUnicode() 
-        << " from " << indicesToCoord(move.getStartRow(),move.getStartCol())
-        << "Can't take " << targetSquare.getUnicode()
-        << " on "
-        << indicesToCoord(move.getDestRow(),move.getDestCol())
-         <<std::endl;
+        // std::cout<< "INVALID: " << startSquare.getUnicode() 
+        // << " from " << indicesToCoord(move.getStartRow(),move.getStartCol())
+        // << "Can't take " << targetSquare.getUnicode()
+        // << " on "
+        // << indicesToCoord(move.getDestRow(),move.getDestCol())
+        //  <<std::endl;
         return copy;
     }
     // Step 2: Try pawn moves (Pawn promotions, en passant, pawn forward moves)
@@ -143,18 +143,18 @@ Position Position::transpose(const ChessMove move) const
         if(!startSquare.isPiece(SQtype::TYPE_PAWN))
         {
             copy.board = {0,0,0,0,0,0,0,0};
-            std::cout<< "INVALID: No pawn on "
-            << indicesToCoord(move.getStartRow(),move.getStartCol())
-             <<std::endl;
+            // std::cout<< "INVALID: No pawn on "
+            // << indicesToCoord(move.getStartRow(),move.getStartCol())
+            //  <<std::endl;
             return copy;
         }
         // Next check if the destination piece is not a king or a castle move
         if(static_cast<int>(move.getPieceVal()) > 4)
         {
             copy.board = {0,0,0,0,0,0,0,0};
-            std::cout<< "INVALID: Pawn cannot promote to " 
-            << move.getPieceVal()
-            <<std::endl;
+            // std::cout<< "INVALID: Pawn cannot promote to " 
+            // << move.getPieceVal()
+            // <<std::endl;
             return copy;
         }
 
@@ -169,7 +169,7 @@ Position Position::transpose(const ChessMove move) const
             copy.PlacePiece(move.getDestRow(),move.getDestCol(),SQtype::TYPE_PAWN); // Place the pawn
             copy.ClearSquare(move.getDestRow() - pawn_direction,move.getDestCol()); // Remove the captured pawn
             copy.WhiteToMove(!isWhiteToMove());
-            std::cout<< "SUCCESS" <<std::endl;
+            // std::cout<< "SUCCESS" <<std::endl;
             return copy;
         }
 
@@ -180,7 +180,7 @@ Position Position::transpose(const ChessMove move) const
         && move.getPieceVal() == MV_PAWN)
         {
             copy.board = {0,0,0,0,0,0,0,0};
-            std::cout<< "INVALID: Pawns must promote" <<std::endl;
+            // std::cout<< "INVALID: Pawns must promote" <<std::endl;
             return copy;
         }
 
@@ -217,7 +217,7 @@ Position Position::transpose(const ChessMove move) const
 
     // Toggle player turn
     copy.WhiteToMove(!isWhiteToMove());
-    std::cout<< "SUCCESS" <<std::endl;
+    // std::cout<< "SUCCESS" <<std::endl;
     return copy;
 }
 

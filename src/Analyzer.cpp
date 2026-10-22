@@ -490,7 +490,13 @@ bool Analyzer::CanWhiteLongCastle() const
 
 // == Heuristics == //
 
-float Analyzer::getMaterialDifference()
+float Analyzer::getHeuristic() const
+{
+    // For now, just material score
+    return getMaterialDifference();
+}
+
+float Analyzer::getMaterialDifference() const
 {
     float total = 0.0;
     for (int row=0; row< 8; row++)

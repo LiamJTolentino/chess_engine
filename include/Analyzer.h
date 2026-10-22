@@ -114,7 +114,6 @@ public:
      * 1. Both kings are on the board
      * 2. Current player cannot capture opponent king
      * 3. There are no promoted pawns in their last rank
-     * @note TODO: Redo the logic for this using attack_matrix once that has been implemented
      */
     bool isPositionLegal() const;//
 
@@ -159,39 +158,39 @@ public:
      * @brief Uses a bunch of other calculations to determine the overall heuristic of the position.
      * @note TODO: Figure out what to do with checks and checkmate and stuff.
      */
-    float getHeuristic();
+    float getHeuristic() const;
 
     /**
      * @brief Returns the material difference of the current position by adding up all the numbers in the array except for -20 and 20 as these are the kings.
      * @return float Material value of white added with material value of black (because black pieces are negative.) 
      * @note Returns as float because we might implement something later on that modifies the values of individual pieces like passed pawns.
      */
-    float getMaterialDifference();
+    float getMaterialDifference() const;//
 
     /**
      * @brief Used for the heuristic calculation. 
      * Uses the attack_matrix to detect pieces that are underdefended.
      */
-    float getHangingScore();
+    float getHangingScore() const;
 
     /**
      * @brief Used for the heuristic calculation. 
      * Detects strong chess structures like pawn structures, fianchettos, connected rooks, knight and bishop outposts, Queen+bishop/Queen+rook batteries, etc. The idea is to reward the bot for reaching positions with these basic chess principles while also encouraging it to dismantle the opponent's position.
      */
-    float getStructureScore();
+    float getStructureScore() const;
 
     /**
      * @brief Used for the heuristic calculation early into the game. 
      * The idea is to detect Chess opening principles like control of the center, knights and bishops out of the back rank, etc.
      * In this way, we program the bot to follow basic opening principles rather than hardcoding book moves like with Stockfish.
      */
-    float getDevelopmentScore();
+    float getDevelopmentScore() const;
 
     /**
      * @brief Used for the heuristic calculation.
      * Uses the attack_matrix to calculate how much of the empty squares on the board are controlled by each side. Highly strategic squares like the four central squares (e4, d4, e5, d5) and long diagonals will be weighted higher.
      */
-    float getTerritorialScore();
+    float getTerritorialScore() const;
 };
 
 
@@ -201,5 +200,29 @@ public:
  */
 struct Eval
 {
+    ChessMove m_Move;
+    float heuristic = 0.0;
+    int mate = 0; // Number of half-moves until checkmate. Positive if mate is in favor of white (i.e. black is checkmated), negative for the other way. Values closer to zero are favored.
+    bool illegal = false;
+    Eval() = default;
+    Eval(const ChessMove move);
+    Eval(const int mate);
+    // Eval(float heuristic);
+
+    /**
+     * @brief If we intialized an Eval with a move and want to update its score, we copy over the attributes from other.
+     */
+    void update(const Eval& other);
+
+    /**
+     * @brief Override of the less-than operator. Think of it as returning true if black would choose the current Eval over the other
+     */
+    bool operator<(const Eval& other) const;
+
     
 };
+
+/**
+ * @brief Returns the min or max eval depending on the specified side. This avoids needing to have separate conditions for the minimizing and maximizing player
+ */
+const Eval& preferredEval(const Eval& a, const Eval& b, bool white_player);
