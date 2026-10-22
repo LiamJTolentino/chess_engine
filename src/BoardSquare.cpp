@@ -62,7 +62,7 @@ bool BoardSquare::canCapture(const BoardSquare& other) const
 
 bool BoardSquare::isEmptySquare(bool includeEnPassant) const
 {
-    return getPiece()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
+    return getState()==SQstate::EMPTY_SQUARE || (includeEnPassant && (state&7)==7);
 }
 
 bool BoardSquare::isOutOfBounds() const

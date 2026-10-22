@@ -241,10 +241,17 @@ Tracer Analyzer::tracerRange(int from_row, int from_col)
 std::string Analyzer::TESTprintMoves()
 {
     std::string output;
+    BoardSquare dummy(whiteToPlay,SQtype::TYPE_KING);
     for (int row=0; row< 8; row++)
     {
         for (int col=0; col<8; col++)
         {
+            if(!dummy.canCapture(board[row][col])) { continue; }
+            output += board[row][col].getUnicode() + indicesToCoord(row,col);
+            output += " |\t" + attack_matrix[row][col].TESTshow(whiteToPlay);
+            output += "\n";
+            
+            /*
             BoardSquare* pSquare = getSquareAt(row,col);
             if(pSquare && !pSquare->isEmptySquare())
             {
@@ -265,6 +272,8 @@ std::string Analyzer::TESTprintMoves()
                 output += "\n\t" + atk.TESTshow();
                 output += "\n";
             }
+            */
+
             // if (!getSquareAt(row,col)->isEmptySquare())
             // {    
             //     output += getSquareAt(row,col)->getUnicode();
@@ -322,6 +331,7 @@ void Analyzer::loadFromPosition(const Position* const pPos)
     whiteLongCastle = pPos->CanWhiteLongCastle();
     blackShortCastle = pPos->CanBlackShortCastle();
     blackLongCastle = pPos->CanBlackLongCastle();
+    whiteToPlay = pPos->isWhiteToMove();
 
     for (int row=0; row< 8; row++)
     {
@@ -572,6 +582,20 @@ std::string AttackSquare::TESTshow() const
     {
         output += atk.piece.getUnicode() + indicesToCoord(atk.row,atk.col);
         output += "\t";
+    }
+    return output;
+}
+
+std::string AttackSquare::TESTshow(bool whitePieces) const
+{
+    std::string output = "";
+    for(const Attacker& atk : attacks)
+    {
+        if(atk.piece.isWhitePiece() == whitePieces)
+        {
+            output += atk.piece.getUnicode() + indicesToCoord(atk.row,atk.col);
+            output += "\t";
+        }
     }
     return output;
 }

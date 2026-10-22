@@ -65,6 +65,8 @@ public:
     void addAttacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum);
 
     std::string TESTshow() const;
+
+    std::string TESTshow(bool whitePieces) const;
 };
 
 

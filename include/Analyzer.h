@@ -195,3 +195,11 @@ public:
 };
 
 
+
+/**
+ * @brief This is what is actually output by the minimax and is used to compare moves by the heuristics of their resulting positions. The important thing to note for now is that any Eval that doesn't result in a legal position will always be preferred.
+ */
+struct Eval
+{
+    
+};

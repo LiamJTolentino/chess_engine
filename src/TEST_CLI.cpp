@@ -24,14 +24,19 @@ int main(){
     std::vector<Attacker> trace;
     std::string legality;
 
+    std::vector<ChessMove> possible_moves;
+
     int lineNum = 1;
 
     while (std::getline(fTestFile,currentFEN))
     {
         if (currentFEN.rfind('#',0)==0){ continue; }
+        std::cout << "=========================================" << std::endl;
         std::cout << "\nLine: " << lineNum << std::endl;
         std::cout << "FEN: " << currentFEN << std::endl;
+        std::cout << "=========================================" << std::endl;
         myAnalyzer.loadFromFen(currentFEN);
+        Position currentPos(&myAnalyzer);
         mat = myAnalyzer.getMaterialDifference();
         trace = myAnalyzer.traceFrom(7,0,0,1,8,false,true);
         // trace = myAnalyzer.traceFrom(7,0,0,1,8);
@@ -39,16 +44,35 @@ int main(){
         std::cout << myAnalyzer.boardAsString() << std::endl;
         // std::cout << mySquare.getFEN() << std::endl;
         // std::cout << "Showing trace result" << std::endl;
-        // for (const Attacker& atk : trace)
-        // {
-        //     std::cout << atk.piece.getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
-        // }
-        // std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
-        // std::cout << std::flush;
+        for (const Attacker& atk : trace)
+        {
+            std::cout << atk.piece.getUnicode() << " at " << std::to_string(atk.row) << "," << std::to_string(atk.col) << std::endl;
+        }
+        std::cout<< myAnalyzer.TESTprintMoves() <<std::endl;
+        std::cout << std::flush;
         std::cout << "Checking legality" << std::endl;
         legality = (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal");
-        std::cout << "Legal position:\t\t" << legality << std::endl;
-        std::cout << "=========================================" << std::endl;
+        std::cout<< "Legal position:\t\t" << legality << std::endl;
+        
+        std::cout<< "=========================================" <<std::endl;
+        std::cout<< "==========  Moves and results  ==========" <<std::endl;
+        std::cout<< "=========================================" <<std::endl;
+
+        possible_moves = myAnalyzer.getAllMoves();
+        std::cout<< "Moves: " << possible_moves.size() << std::endl;
+        for(ChessMove move : possible_moves)
+        {
+            std::cout<< "~~~~~~~~~~~~~~~   " << move.DBstring() << "   ~~~~~~~~~~~~~~~" <<std::endl;
+            // std::cout<< "~~~~~~~~~~~~~~~   " << move.AsString(true) << "   ~~~~~~~~~~~~~~~" <<std::endl;
+            Position result = currentPos.transpose(move);
+            myAnalyzer.loadFromPosition(&result);
+            std::cout<< "~~~~~~~~~~~~~~~   Resulting Position   ~~~~~~~~~~~~~~~" <<std::endl;
+            std::cout << myAnalyzer.boardAsString() << std::endl;
+            std::cout<< (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal") <<std::endl;
+        }
+
+        std::cout<< "_________________________________________" <<std::endl;
+        
         lineNum++;
     }
 

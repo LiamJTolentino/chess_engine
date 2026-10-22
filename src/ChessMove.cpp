@@ -137,7 +137,7 @@ std::string ChessMove::AsString(bool whitemove) const
     std::string end = indicesToCoord(getDestRow(),getDestCol());
     std::string piece = BoardSquare(whitemove,getPieceType()).getFEN();
 
-    if(isPawnMove)
+    if(isPawnMove())
     {
         output += start[0];// Pawns on the same rank cannot move into the same square
         output += end;
@@ -151,5 +151,19 @@ std::string ChessMove::AsString(bool whitemove) const
     output += start;
     output += end;
 
+    return output;
+}
+
+std::string ChessMove::DBstring() const
+{
+    std::string output = "";
+    output += (isPawnMove()?"1":"0");
+    output += " " + std::to_string(static_cast<int>(getPieceVal()));
+    output += " from " + indicesToCoord(getStartRow(),getStartCol());
+    output += " to " + indicesToCoord(getDestRow(),getDestCol());
+    // output += " " + std::to_string(getStartRow());
+    // output += "," + std::to_string(getStartCol());
+    // output += " " + std::to_string(getDestRow());
+    // output += "," + std::to_string(getDestCol());
     return output;
 }

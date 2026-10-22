@@ -9,6 +9,8 @@ add_library(ChessLib SHARED
     src/Analyzer.cpp
     src/BoardSquare.cpp
     src/ChessFunctions.cpp
+    src/ChessMove.cpp
+    src/Position.cpp
     src/DELETE_LATER.cpp
     src/Tracer.cpp
 )

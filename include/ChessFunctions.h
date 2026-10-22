@@ -71,6 +71,20 @@ enum SQtype : std::uint8_t{
 };
 
 /**
+ * @brief Used for ChessMove
+ */
+enum MVpiece : std::uint8_t{
+    MV_PAWN = 0,            // 000
+    MV_KNIGHT = 1,          // 001
+    MV_BISHOP = 2,          // 010
+    MV_ROOK = 3,            // 011
+    MV_QUEEN = 4,           // 100
+    MV_KING = 5,            // 101
+    MV_SHORT_CASTLE = 6,    // 110
+    MV_LONG_CASTLE = 7      // 111
+};
+
+/**
  * @brief Used by the Tracer class to indicate directions to scan in
  * @param row_step Number of squares along the vertical to scan in one step
  * @param col_step Number of squares along the horizontal to scan in one step
@@ -185,20 +199,8 @@ public:
     
     std::string getFEN() const;//
 };
-/**
- * @brief Used for ChessMove
- */
-enum MVpiece : std::uint8_t{
-    MV_PAWN = 0,            // 000
-    MV_KNIGHT = 1,          // 001
-    MV_BISHOP = 2,          // 010
-    MV_ROOK = 3,            // 011
-    MV_QUEEN = 4,           // 100
-    MV_KING = 5,            // 101
-    MV_SHORT_CASTLE = 6,    // 110
-    MV_LONG_CASTLE = 7      // 111
-};
 
+class Attacker;
 /**
  * @brief Data structure for storing chess move info and functions to extract information. This is to make sure that we can store move information in as little space as possible to save on memory.
  * @todo Like with the BoardSquare class, the ChessMove class takes up less memory than a pointer to its object. We need to make sure we're only passing by value.
@@ -258,7 +260,9 @@ public:
 
     void setPawnMove(bool isPromotion);//
 
-    std::string AsString(bool whitemove) const;
+    std::string AsString(bool whitemove) const;//
+
+    std::string DBstring() const;//
 };
 
 /**
