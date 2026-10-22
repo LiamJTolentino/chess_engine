@@ -57,8 +57,30 @@ bool Eval::operator<(const Eval& other) const
     return heuristic < other.heuristic;
 }
 
+std::string Eval::AsString() const
+{
+    if(illegal)
+    {
+        return "Illegal";
+    }
+    if(mate != 0)
+    {
+        return "Mate in " + std::to_string(mate);
+    }
+    return "" + std::to_string(static_cast<int>(heuristic));
+    // return "Fuck man, idk how to print floats";
+}
+
 const Eval& preferredEval(const Eval& a, const Eval& b, bool white_player)
 {
+    if(a.illegal && !b.illegal)
+    {
+        return b;
+    }
+    if(!a.illegal && b.illegal)
+    {
+        return a;
+    }
     if(white_player)//Maximizing player
     {
         return (a < b) ? b : a;

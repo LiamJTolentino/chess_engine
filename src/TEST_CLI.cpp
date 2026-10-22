@@ -29,6 +29,7 @@ int main(){
     TESTbot dockfish(Difficulty::EASY);
 
     std::string bestmove;
+    Eval chosenMove;
 
     int lineNum = 1;
 
@@ -58,12 +59,7 @@ int main(){
         legality = (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal");
         std::cout<< "Legal position:\t\t" << legality << std::endl;
 
-        if(myAnalyzer.isPositionLegal())
-        {
-            bestmove = dockfish.GetNextMove(currentFEN);
-            std::cout<< "Best move to play: "
-            << bestmove <<std::endl;
-        }
+        
         
         // std::cout<< "=========================================" <<std::endl;
         // std::cout<< "==========  Moves and results  ==========" <<std::endl;
@@ -75,13 +71,25 @@ int main(){
         // {
         //     // std::cout<< "~~~~~~~~~~~~~~~   " << move.DBstring() << "   ~~~~~~~~~~~~~~~" <<std::endl;
         //     std::cout<< "~~~~~~~~~~~~~~~   " << move.AsString(true) << "   ~~~~~~~~~~~~~~~" <<std::endl;
-        //     Position result = currentPos.transpose(move);
-        //     myAnalyzer.loadFromPosition(&result);
-        //     std::cout<< "~~~~~~~~~~~~~~~   Resulting Position   ~~~~~~~~~~~~~~~" <<std::endl;
-        //     std::cout << myAnalyzer.boardAsString() << std::endl;
-        //     std::cout<< (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal") <<std::endl;
+        //     // Position result = currentPos.transpose(move);
+        //     // myAnalyzer.loadFromPosition(&result);
+        //     // std::cout<< "~~~~~~~~~~~~~~~   Resulting Position   ~~~~~~~~~~~~~~~" <<std::endl;
+        //     // std::cout << myAnalyzer.boardAsString() << std::endl;
+        //     // std::cout<< (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal") <<std::endl;
         // }
-
+        if(myAnalyzer.isPositionLegal())
+        {
+            chosenMove = dockfish.MiniMax(currentPos,4,Eval(-1),Eval(1));
+            Position newPos = currentPos.transpose(chosenMove.m_Move);
+            myAnalyzer.loadFromPosition(&newPos);
+            std::cout<< "Best move to play: "
+            << chosenMove.m_Move.AsString(currentPos.isWhiteToMove()) <<std::endl;
+            std::cout << myAnalyzer.boardAsString() << std::endl;
+            std::cout<< chosenMove.AsString() <<std::endl;
+            // bestmove = dockfish.GetNextMove(currentFEN);
+            // std::cout<< "Best move to play: "
+            // << bestmove <<std::endl;
+        }
         // std::cout<< "_________________________________________" <<std::endl;
         
         lineNum++;

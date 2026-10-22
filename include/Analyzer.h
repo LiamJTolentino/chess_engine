@@ -219,7 +219,7 @@ struct Eval
      */
     bool operator<(const Eval& other) const;
 
-    
+    std::string AsString() const;
 };
 
 /**

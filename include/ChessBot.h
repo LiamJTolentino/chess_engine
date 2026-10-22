@@ -24,7 +24,7 @@ private:
     // Difficulty level of the both. Determines max search depth and what heuristics it can calculate
     Difficulty m_diff;
 
-    Eval MiniMax(const Position pos, int depth, Eval alpha, Eval beta);
+    
 public:
     /**
      * @brief Constructs a bot with the given difficulty
@@ -38,4 +38,5 @@ public:
      * @returns String representing the algebraic notation of the next move to play.
      */
     const std::string GetNextMove(const std::string& FEN);
+    Eval MiniMax(const Position pos, int depth, Eval alpha, Eval beta);
 };

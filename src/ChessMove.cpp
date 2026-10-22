@@ -6,6 +6,10 @@
 
 // All the stuff here involves bitwise operations which makes things really fast but also annoying to read
 
+ChessMove::ChessMove(std::uint16_t mvinfo)
+    : mvinfo(mvinfo)
+{}
+
 ChessMove::ChessMove(bool promotion, 
                 MVpiece piece, 
                 int start_row, int start_col, 
