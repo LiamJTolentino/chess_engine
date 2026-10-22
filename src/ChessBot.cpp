@@ -58,8 +58,9 @@ Eval TESTbot::MiniMax(const Position pos, int depth, Eval alpha, Eval beta)
     // std::cout<< "Getting moves" <<std::endl;
     moveList = m_analyzer.getAllMoves();
     size_t total_moves = moveList.size();
+    // std::cout<< "Found " << total_moves << " moves"<< std::endl;
     Eval temp;
-    for(size_t i; i<total_moves; i++)
+    for(size_t i=0; i<total_moves; i++)
     {
         // std::cout<< "Move " << i << " of " << total_moves <<std::endl;
         ChessMove move = moveList.at(i);

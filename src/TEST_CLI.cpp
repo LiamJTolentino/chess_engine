@@ -77,19 +77,19 @@ int main(){
         //     // std::cout << myAnalyzer.boardAsString() << std::endl;
         //     // std::cout<< (myAnalyzer.isPositionLegal() ? "Legal" : "Illegal") <<std::endl;
         // }
-        if(myAnalyzer.isPositionLegal())
-        {
-            chosenMove = dockfish.MiniMax(currentPos,4,Eval(-1),Eval(1));
-            Position newPos = currentPos.transpose(chosenMove.m_Move);
-            myAnalyzer.loadFromPosition(&newPos);
-            std::cout<< "Best move to play: "
-            << chosenMove.m_Move.AsString(currentPos.isWhiteToMove()) <<std::endl;
-            std::cout << myAnalyzer.boardAsString() << std::endl;
-            std::cout<< chosenMove.AsString() <<std::endl;
-            // bestmove = dockfish.GetNextMove(currentFEN);
-            // std::cout<< "Best move to play: "
-            // << bestmove <<std::endl;
-        }
+        // if(myAnalyzer.isPositionLegal())
+        // {
+        //     chosenMove = dockfish.MiniMax(currentPos,4,Eval(-1),Eval(1));
+        //     Position newPos = currentPos.transpose(chosenMove.m_Move);
+        //     myAnalyzer.loadFromPosition(&newPos);
+        //     std::cout<< "Best move to play: "
+        //     << chosenMove.m_Move.AsString(currentPos.isWhiteToMove()) <<std::endl;
+        //     std::cout << myAnalyzer.boardAsString() << std::endl;
+        //     std::cout<< chosenMove.AsString() <<std::endl;
+        //     // bestmove = dockfish.GetNextMove(currentFEN);
+        //     // std::cout<< "Best move to play: "
+        //     // << bestmove <<std::endl;
+        // }
         // std::cout<< "_________________________________________" <<std::endl;
         
         lineNum++;
