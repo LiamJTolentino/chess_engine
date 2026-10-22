@@ -493,7 +493,10 @@ bool Analyzer::CanWhiteLongCastle() const
 float Analyzer::getHeuristic() const
 {
     // For now, just material score
-    return getMaterialDifference();
+    float total = 0.0;
+    total += getMaterialDifference();
+    // total += getHangingScore();
+    return total;
 }
 
 float Analyzer::getMaterialDifference() const
@@ -505,6 +508,60 @@ float Analyzer::getMaterialDifference() const
         {
             // total += board[row][col];
             total += board[row][col].getMaterialValue();
+        }
+    }
+    return total;
+}
+
+float Analyzer::getHangingScore() const
+{
+    float total = 0.0;
+    BoardSquare currentSquare;
+    for (int row=0; row< 8; row++)
+    {
+        for (int col=0; col<8; col++)
+        {
+            currentSquare = SquareAt(row,col);
+            if(currentSquare.isEmptySquare()) { continue; }
+            // Essentially how this works is that we basically simulate a full trade on the square where each side takes turns trying to take the square
+            std::vector<Attacker> attackers = attack_matrix[row][col].getAttackers(currentSquare.isWhitePiece());
+            std::vector<Attacker> defenders = attack_matrix[row][col].getAttackers(!currentSquare.isWhitePiece());
+
+            size_t a_size = attackers.size();
+            size_t d_size = defenders.size();
+
+            if(attackers.empty())
+            {
+                if(defenders.empty()) // If the piece has no attackers but also no defenders, we subtract by half the amount of the material value of the piece. This is to encourage the bot to adequately defend all pieces.
+                {
+                    total -= currentSquare.getMaterialValue()/2;
+                }
+                continue;
+            }
+
+            sort(attackers.begin(),attackers.end(),
+            [](const Attacker &a, const Attacker &b)
+            { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
+
+            sort(defenders.begin(),defenders.end(),
+            [](const Attacker &a, const Attacker &b)
+            { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
+
+            size_t a_i = 0;
+            size_t d_i = 0;
+            bool defender = false;
+
+            do {
+                total -= currentSquare.getMaterialValue();
+                if(defender)
+                {
+                    currentSquare = defenders.at(d_i++).piece;
+                } else {
+                    currentSquare = attackers.at(a_i++).piece;
+                }
+                defender = !defender;
+            } while((a_i < a_size) && (d_i < d_size));
+
         }
     }
     return total;
@@ -564,6 +621,10 @@ std::vector<Attacker> AttackSquare::getAttackers(bool whitePieces) const
     return output;
 }
 
+const std::vector<Attacker>& AttackSquare::getAttackVector() const
+{
+    return attacks;
+}
 
 void AttackSquare::addAttacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum)
 {

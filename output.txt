@@ -6,6 +6,8 @@ Line: 1
 FEN: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 =========================================
 Current material: 0
+Heuristic: 0.000000
+Hanging Score: 0.000000
 ================
 |♖|♘|♗|♕|♔|♗|♘|♖|
 ================
@@ -27,7 +29,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 3 seconds
+Calculated in 2 seconds
 Best move to play: cc4
 ================
 |♖|♘|♗|♕|♔|♗|♘|♖|
@@ -55,6 +57,8 @@ Line: 18
 FEN: r2k1b1r/pp1b1pp1/2p2n1p/1B2p1B1/4P3/2N5/PPP2PPP/2KR3R w - - 0 11
 =========================================
 Current material: 0
+Heuristic: 0.000000
+Hanging Score: 26.000000
 ================
 |♖| | |♔| |♗| |♖|
 ================
@@ -76,7 +80,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 28 seconds
+Calculated in 26 seconds
 Best move to play: Bg5f6
 ================
 |♖| | |♔| |♗| |♖|
@@ -104,6 +108,8 @@ Line: 22
 FEN: 4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16
 =========================================
 Current material: -1
+Heuristic: -1.000000
+Hanging Score: 20.500000
 ================
 | | | | |♔|♗| |♖|
 ================
@@ -153,6 +159,8 @@ Line: 23
 FEN: 7k/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1
 =========================================
 Current material: 5
+Heuristic: 5.000000
+Hanging Score: -13.000000
 ================
 | | | | | | | |♔|
 ================
@@ -202,6 +210,8 @@ Line: 24
 FEN: 7k/6pp/p4qpb/1p4P1/5P1K/1Q1r4/PP5P/2R2R2 b - - 0 40
 =========================================
 Current material: 2
+Heuristic: 2.000000
+Hanging Score: 6.500000
 ================
 | | | | | | | |♔|
 ================
@@ -223,7 +233,7 @@ Black to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 1 seconds
+Calculated in 0 seconds
 Best move to play: bh6g5
 ================
 | | | | | | | |♔|
@@ -251,6 +261,8 @@ Line: 25
 FEN: 8/4P2Q/3q1k1K/8/8/8/8/8 w - - 0 1
 =========================================
 Current material: 1
+Heuristic: 1.000000
+Hanging Score: -5.500000
 ================
 | | | | | | | | |
 ================
@@ -300,6 +312,8 @@ Line: 28
 FEN: r2q1rk1/pp1bppbp/2np1np1/8/2BNP3/2N1BP2/PPPQ2PP/R3K2R w KQ - 5 10
 =========================================
 Current material: 0
+Heuristic: 0.000000
+Hanging Score: 6.500000
 ================
 |♖| | |♕| |♖|♔| |
 ================
@@ -321,7 +335,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 73 seconds
+Calculated in 68 seconds
 Best move to play: Nd4c6
 ================
 |♖| | |♕| |♖|♔| |
@@ -349,6 +363,8 @@ Line: 30
 FEN: 3r1k1r/1bpPqpb1/pp4p1/5pP1/8/2N1B3/PPP1Q1PP/2KRR3 w - - 3 18
 =========================================
 Current material: 1
+Heuristic: 1.000000
+Hanging Score: -2.000000
 ================
 | | | |♖| |♔| |♖|
 ================

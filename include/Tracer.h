@@ -48,13 +48,16 @@ public:
      */
     float getAttackImbalance() const;
 
+    /**
+     * @brief Returns a vector that has all the Attackers of the specified color
+     */
     std::vector<Attacker> getAttackers(bool whitePieces) const;
     
 
     /**
-     * @brief Returns a copy of the internal attacks vector
+     * @brief Returns a read-only reference to the internal attacks vector
      */
-    std::vector<Attacker> getAttackVector() const;
+    const std::vector<Attacker>& getAttackVector() const;
 
     /**
      * @brief Clears the attacks vector

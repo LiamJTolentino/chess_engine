@@ -47,6 +47,8 @@ int main(){
         trace = myAnalyzer.traceFrom(7,0,0,1,8,false,true);
         // trace = myAnalyzer.traceFrom(7,0,0,1,8);
         std::cout << "Current material: " << mat << std::endl;
+        std::cout<< "Heuristic: " << std::to_string(myAnalyzer.getHeuristic()) << std::endl;
+        std::cout<< "Hanging Score: " << std::to_string(myAnalyzer.getHangingScore()) << std::endl;
         std::cout << myAnalyzer.boardAsString() << std::endl;
         // std::cout << mySquare.getFEN() << std::endl;
         // std::cout << "Showing trace result" << std::endl;
