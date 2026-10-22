@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
 
 
 int main(){
@@ -79,7 +80,13 @@ int main(){
         // }
         if(myAnalyzer.isPositionLegal())
         {
+            std::cout<< "Calculating best move..." <<std::endl;
+            auto a = std::chrono::high_resolution_clock::now();
             chosenMove = dockfish.MiniMax(currentPos,5,Eval(-1),Eval(1));
+            auto b = std::chrono::high_resolution_clock::now();
+            std::cout<< "Calculated in "
+            << std::chrono::duration_cast<std::chrono::seconds>(b-a).count()
+            << " seconds" <<std::endl;
             Position newPos = currentPos.transpose(chosenMove.m_Move);
             myAnalyzer.loadFromPosition(&newPos);
             std::cout<< "Best move to play: "
