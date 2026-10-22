@@ -219,6 +219,8 @@ struct Eval
      */
     bool operator<(const Eval& other) const;
 
+    void incrementMate();
+
     std::string AsString() const;
 };
 

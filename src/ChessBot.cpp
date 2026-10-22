@@ -44,6 +44,7 @@ Eval TESTbot::MiniMax(const Position pos, int depth, Eval alpha, Eval beta)
     }
     if(m_analyzer.isInCheck()) // If no legal moves are found after this turn, we basically guarantee this position evaluates as checkmate.
     {
+        output.illegal = false;
         output.mate = (white_player?-1:1);
     }
     if(depth <= 0) {
@@ -68,6 +69,7 @@ Eval TESTbot::MiniMax(const Position pos, int depth, Eval alpha, Eval beta)
         temp.m_Move = move;
         // std::cout<< "Minimax" <<std::endl;
         temp.update(MiniMax(newPos,depth-1,alpha,beta));
+        temp.incrementMate();
         // std::cout<< "\t"
         // << depth << "|\t"
         // << (white_player?"White":"Black") << " to play\t"

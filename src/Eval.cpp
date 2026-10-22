@@ -16,6 +16,12 @@ Eval::Eval(const int mate)
     : mate(mate)
 {}
 
+void Eval::incrementMate()
+{
+    if(mate>0) {++mate;}
+    if(mate<0) {--mate;}
+}
+
 void Eval::update(const Eval& other)
 {
     illegal = other.illegal;
@@ -65,7 +71,7 @@ std::string Eval::AsString() const
     }
     if(mate != 0)
     {
-        return "Mate in " + std::to_string(mate);
+        return "Mate in " + std::to_string(mate>>1);
     }
     return "" + std::to_string(static_cast<int>(heuristic));
     // return "Fuck man, idk how to print floats";
