@@ -80,7 +80,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 26 seconds
+Calculated in 27 seconds
 Best move to play: Bg5f6
 ================
 |♖| | |♔| |♗| |♖|
@@ -233,7 +233,7 @@ Black to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 0 seconds
+Calculated in 1 seconds
 Best move to play: bh6g5
 ================
 | | | | | | | |♔|
@@ -335,7 +335,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 68 seconds
+Calculated in 67 seconds
 Best move to play: Nd4c6
 ================
 |♖| | |♕| |♖|♔| |
@@ -386,7 +386,7 @@ White to move
 Checking legality
 Legal position:		Legal
 Calculating best move...
-Calculated in 10 seconds
+Calculated in 9 seconds
 Best move to play: Be3b6
 ================
 | | | |♖| |♔| |♖|

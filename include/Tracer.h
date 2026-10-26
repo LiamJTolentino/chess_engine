@@ -144,6 +144,13 @@ public:
                 int row, int col);
 
         /**
+         * @brief Constructs an iterator that traces from row,col but as a different piece type from the one on that square. Useful for finding checks
+         */
+        Iterator(Analyzer* pAnalyzer,
+                int row, int col,
+                SQtype as_piece);
+
+        /**
          * @brief Returns the current square at board[row][col]
          */
         BoardSquare CurrentSquare() const;//
