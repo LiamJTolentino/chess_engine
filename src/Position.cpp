@@ -18,8 +18,35 @@ Position::Position()
         0,              // 0000 0000 0000 0000 0000 0000 0000 0000
         2576980377,     // 1001 1001 1001 1001 1001 1001 1001 1001
         3401444268      // 1100 1010 1011 1101 1110 1011 1010 1100
-    }
+    },
+    extra_info(31)      // 00011111
 {
+}
+
+Position::Position(POS_TYPE type)
+{
+    switch (type)
+    {
+    case POS_TYPE::STARTING:
+        board = {
+            1110795044,     // 0100 0010 0011 0101 0110 0011 0010 0100
+            286331153,      // 0001 0001 0001 0001 0001 0001 0001 0001
+            0,              // 0000 0000 0000 0000 0000 0000 0000 0000
+            0,              // 0000 0000 0000 0000 0000 0000 0000 0000
+            0,              // 0000 0000 0000 0000 0000 0000 0000 0000
+            0,              // 0000 0000 0000 0000 0000 0000 0000 0000
+            2576980377,     // 1001 1001 1001 1001 1001 1001 1001 1001
+            3401444268      // 1100 1010 1011 1101 1110 1011 1010 1100
+        };
+        extra_info = 31;
+        break;
+    case POS_TYPE::EMPTY:
+        board = {0,0,0,0,0,0,0,0};
+        extra_info = 0;
+        break;
+    default:
+        break;
+    }
 }
 
 Position::Position(const Analyzer* const pAnalyzer)
@@ -39,6 +66,21 @@ Position::Position(const Analyzer* const pAnalyzer)
     BlackShortCastle(pAnalyzer->CanBlackShortCastle());
     BlackLongCastle(pAnalyzer->CanBlackLongCastle());
 }
+
+
+bool Position::isEmpty() const
+{
+    for(int row=0;row<8;row++)
+    {
+        if(board[row]>0) // There are pieces present in this row
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 
 void Position::SetSquare(int row, int col, BoardSquare square)
 {
@@ -77,6 +119,10 @@ BoardSquare Position::GetSquareAt(int row, int col) const
     return BoardSquare(piece_val);
 }
 
+
+
+
+
 // === Transposition === //
 
 Position Position::transpose(const ChessMove move) const
@@ -94,7 +140,7 @@ Position Position::transpose(const ChessMove move) const
             copy.ClearSquare(back_row,4); // Remove the King
             copy.ClearSquare(back_row,7); // Remove the Rook
             copy.PlacePiece(back_row,5,SQtype::TYPE_ROOK); // Place the rook on f
-            copy.PlacePiece(back_row,5,SQtype::TYPE_KING); // Place the king on g
+            copy.PlacePiece(back_row,6,SQtype::TYPE_KING); // Place the king on g
 
             // Return the copy
             copy.WhiteToMove(!isWhiteToMove());
@@ -185,6 +231,7 @@ Position Position::transpose(const ChessMove move) const
         }
 
         // We assume the Analyzer does not queue invalid pawn moves, so we will parse the move as normal piece move
+        // However, we need to place an en passant square behind the pawn
     }
 
     // Step 3: Normal Piece moves

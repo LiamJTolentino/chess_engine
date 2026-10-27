@@ -6,7 +6,11 @@
 
 // All the stuff here involves bitwise operations which makes things really fast but also annoying to read
 
-ChessMove::ChessMove(std::uint16_t mvinfo)
+ChessMove::ChessMove()
+    : mvinfo(0)
+{}
+
+ChessMove::ChessMove(MVpiece mvinfo)
     : mvinfo(mvinfo)
 {}
 
@@ -42,6 +46,11 @@ ChessMove::ChessMove(bool promotion,
 bool ChessMove::isPawnMove() const
 {
     return (mvinfo>>15) || (isPieceType(MVpiece::MV_PAWN));
+}
+
+bool ChessMove::isLegal() const
+{
+    return mvinfo != 0;
 }
 
 MVpiece ChessMove::getPieceVal() const
@@ -136,7 +145,7 @@ std::string ChessMove::AsString(bool whitemove) const
             return "O-O-O";
         }
     }
-    std::string output;
+    std::string output = "";
     std::string start = indicesToCoord(getStartRow(),getStartCol());
     std::string end = indicesToCoord(getDestRow(),getDestCol());
     std::string piece = BoardSquare(whitemove,getPieceType()).getFEN();

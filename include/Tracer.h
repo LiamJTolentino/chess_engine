@@ -59,6 +59,10 @@ public:
      */
     const std::vector<Attacker>& getAttackVector() const;
 
+    bool isTherePieceAttacking(const BoardSquare piece) const;
+
+    std::vector<Attacker> getAttackersOfType(const BoardSquare piece) const;
+
     /**
      * @brief Clears the attacks vector
      */

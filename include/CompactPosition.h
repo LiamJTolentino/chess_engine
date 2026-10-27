@@ -8,6 +8,11 @@
 #include "ChessFunctions.h"
 class Analyzer; // From Analyzer.h
 
+enum class POS_TYPE{
+    EMPTY,
+    STARTING
+};
+
 /**
  * @brief Compacted representation of a chess board with 264 bits or 33 bytes in memory for each object. Each square is represented in 4 bits, so with 8 squares per row, we represent each row with 32 bits. Another 8 bits are used to store information about the current player as well as castling rights.
  * @param board Array of 8 unsigned long integers that each represent a row/rank on the board. 
@@ -57,6 +62,7 @@ public:
      * @brief Default constructor. Initializes position with starting position.
      */
     Position();//
+    Position(POS_TYPE type);
     /**
      * @brief Constructs the position from FEN
      */
@@ -77,6 +83,8 @@ public:
     Position transpose(const ChessMove move) const;
 
     bool isWhiteToMove() const;//
+
+    bool isEmpty() const;
 
     // True if in the current position, the current player has short castle rights and can perform short castle
     bool CanShortCastle() const;//

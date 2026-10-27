@@ -144,6 +144,8 @@ public:
      * @brief Constructore that initializes the piece with the given color
      */
     BoardSquare(bool white, SQtype piecetype);
+
+    BoardSquare(bool white, MVpiece movedpiece);
     
     bool isWhitePiece() const;//
 
@@ -198,6 +200,8 @@ public:
     std::string getUnicode() const;//
     
     std::string getFEN() const;//
+
+    bool operator==(const BoardSquare& other) const;//
 };
 
 class Attacker;
@@ -219,8 +223,8 @@ class ChessMove
 private:
     std::uint16_t mvinfo;
 public:
-    ChessMove() = default;
-    ChessMove(std::uint16_t mvinfo);
+    ChessMove(); // Constructs an illegal move
+    ChessMove(MVpiece mvinfo);
     ChessMove(bool promotion, MVpiece piece, int start_row, int start_col, int dest_row, int dest_col);//
     ChessMove(bool promotion, Attacker attacker, int target_row, int target_col);//
     ChessMove(std::string PGN);
@@ -230,6 +234,8 @@ public:
      * En passant is not ambiguous, but we indicate it with this bit anyway because it involves three changes as the captured pawn is not on the destination square.
      */
     bool isPawnMove() const;//
+
+    bool isLegal() const;//
 
 
     MVpiece getPieceVal() const;//

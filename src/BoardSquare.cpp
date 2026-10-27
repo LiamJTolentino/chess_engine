@@ -37,8 +37,19 @@ BoardSquare::BoardSquare(bool white, SQtype piecetype)
     if(piecetype == SQtype::TYPE_EMPTY) // to avoid making invalid squares
     {
         state = SQstate::EMPTY_SQUARE;
+        return;
     }
     state =((white&1)<<3) + piecetype;
+}
+
+BoardSquare::BoardSquare(bool white, MVpiece movedpiece)
+{
+    if(movedpiece == MV_LONG_CASTLE || movedpiece == MV_SHORT_CASTLE)
+    {
+        state = SQstate::EMPTY_SQUARE;
+        return;
+    }
+    state = ((white&1)<<3) + movedpiece + 1;
 }
 
 // == Getters == //
@@ -244,4 +255,11 @@ RayStack BoardSquare::getPieceRays() const
         break;
     }
     return output;
+}
+
+
+// == Operator Overload == //
+bool BoardSquare::operator==(const BoardSquare& other) const
+{
+    return state==other.state;
 }

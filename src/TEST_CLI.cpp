@@ -7,7 +7,81 @@
 #include <chrono>
 
 
+Position gamePosition;
+Analyzer gameAnalyzer;
+std::string player_input;
+bool player_white = true;
+
+void chooseColor()
+{
+    while(true)
+    {
+        std::cout<< "Please choose black or white" <<std::endl;
+        std::getline(std::cin, player_input);
+        if(player_input=="white")
+        {
+            player_white = true;
+            return;
+        }
+        if(player_input=="black")
+        {
+            player_white = false;
+            return;
+        }
+    }
+}
+
+void playerMove()
+{
+    bool done = false;
+    Position temp;
+
+    while(!done)
+    {
+        std::cout<< "Please enter your move" <<std::endl;
+        std::getline(std::cin, player_input);
+        gameAnalyzer.loadFromPosition(&gamePosition);
+        temp = gameAnalyzer.parseMove(player_input);
+        if(!temp.isEmpty())
+        {
+            gamePosition = temp;
+            done = true;
+            return;
+        } else {
+            std::cout<< "INVALID MOVE" <<std::endl;
+        }
+    }
+}
+
 int main(){
+    chooseColor();
+    bool whiteToPlay = true;
+
+    TESTbot dockfish(Difficulty::EASY);
+    Eval chosenMove;
+
+    while(true)
+    {
+        gameAnalyzer.loadFromPosition(&gamePosition);
+        std::cout << gameAnalyzer.boardAsString() << std::endl;
+        if(whiteToPlay==player_white)
+        {
+            playerMove();
+        }else{
+            std::cout<< "Bot is thinking..." <<std::endl;
+            chosenMove = dockfish.MiniMax(gamePosition,4,Eval(-1),Eval(1));
+            std::cout<< "Bot played " << chosenMove.m_Move.AsString(true) << "\n";
+            gamePosition = gamePosition.transpose(chosenMove.m_Move);
+        }
+        whiteToPlay = !whiteToPlay;
+    }
+    // std::cout << gameAnalyzer.boardAsString() << std::endl;
+    // playerMove();
+    // std::cout << gameAnalyzer.boardAsString() << std::endl;
+    return 0;
+}
+
+int NOTmain(){
     std::string input;
     int i = 0;
 
@@ -84,7 +158,7 @@ int main(){
         {
             std::cout<< "Calculating best move..." <<std::endl;
             auto a = std::chrono::high_resolution_clock::now();
-            chosenMove = dockfish.MiniMax(currentPos,5,Eval(-1),Eval(1));
+            chosenMove = dockfish.MiniMax(currentPos,3,Eval(-1),Eval(1));
             auto b = std::chrono::high_resolution_clock::now();
             std::cout<< "Calculated in "
             << std::chrono::duration_cast<std::chrono::seconds>(b-a).count()
@@ -128,5 +202,5 @@ int main(){
     //     std::cout << mySquare.getFEN() << std::endl;
     //     i++;
     // }
-
+    return 0;
 }

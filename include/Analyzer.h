@@ -92,7 +92,11 @@ public:
 
     std::string boardAsString();//
 
-
+    /**
+     * @brief Parses a move written in Standard Algebraic Notation (SAN) and returns the position that results from the move. Returns an invalid position if the resulting position is illegal.
+     * @note This is a temporary solution as it changes the stored position.
+     */
+    Position parseMove(const std::string& SAN);
 
     bool isWhiteToMove() const;//
 

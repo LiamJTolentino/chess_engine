@@ -66,7 +66,6 @@ void Analyzer::calculateAttackMatrix()
     }
 }
 
-// TODO: Implement pawn moves
 void Analyzer::attacksFromSquare(int row, int col)
 {
     BoardSquare currentSquare = SquareAt(row,col);
@@ -180,6 +179,278 @@ bool Analyzer::isInCheck() const
     return false;
 }
 
+
+
+
+Position Analyzer::parseMove(const std::string& SAN)
+{
+    // std::cout<< SAN.size() <<"\n";
+    Position output(POS_TYPE::EMPTY);
+
+    if(SAN.size() <= 0){ return output; }
+
+    int char_index = SAN.size() - 1; // Starting from the last character
+    // Default move params
+    bool pawn_move = true;
+    MVpiece piece = MVpiece::MV_PAWN;
+    int start_row = -1; // Negative to indicate we need to find it later
+    int start_col = -1;
+    int dest_row = -1;
+    int dest_col = -1;
+
+    std::string ranks = "12345678";
+    std::string files = "abcdefgh";
+    std::string pieces = "KQRBN";
+
+    enum class State{
+        START,
+        INVALID,
+        CASTLE,
+        PARSE_LONG_CASTLE,
+        PARSE_DEST_ROW,
+        PARSE_DEST_COL,
+        ACCEPT_MOVED_PIECE,
+        ACCEPT,
+        ACCEPT_SHORT_CASTLE,
+        ACCEPT_LONG_CASTLE
+    };
+
+    State current_state = State::START;
+    char currentChar;
+
+    while(char_index >= 0) // Reading each character from right to left
+    {
+        currentChar = SAN[char_index];
+        // std::cout<<"i=" << char_index << "\tchar: " <<currentChar<< "\n";
+        switch (current_state)
+        {
+
+        case State::INVALID: //                                     Invalid move string
+            char_index = 0; // End the loop basically
+            break;
+
+        case State::ACCEPT: //                                      Valid move string
+            char_index = 0;
+            break;
+
+        case State::START: //                                       Last character in the string
+            if (currentChar=='O')// We know it is a castling move
+            {
+                piece = MV_SHORT_CASTLE;
+                current_state = State::CASTLE;
+            } else if(ranks.find(currentChar) != std::string::npos){ // Regular moves
+                int rank = currentChar - '0'; // Cast to int
+                dest_row = 8 - rank;
+                current_state = State::PARSE_DEST_COL;
+            } else if(pieces.find(currentChar) != std::string::npos){ // Pawn promotions
+                pawn_move = true;
+                switch (currentChar)
+                {
+                case 'K': // Pawns cannot promote to King
+                    current_state = State::INVALID;
+                    break;
+                case 'Q': // Queen Promotion
+                    piece = MV_QUEEN;
+                    current_state = State::PARSE_DEST_ROW;
+                    break;
+                case 'R': // Rook Promotion
+                    piece = MV_ROOK;
+                    current_state = State::PARSE_DEST_ROW;
+                    break;
+                case 'B': // Bishop Promotion
+                    piece = MV_BISHOP;
+                    current_state = State::PARSE_DEST_ROW;
+                    break;
+                case 'N': // Knight Promotion
+                    piece = MV_KNIGHT;
+                    current_state = State::PARSE_DEST_ROW;
+                    break;
+                default:
+                    current_state = State::INVALID;
+                    break;
+                }
+            } else {
+                current_state = State::START;
+                break;
+            }
+            break;
+        
+        case State::PARSE_DEST_ROW: //                              Parsing the destination rank
+            if(ranks.find(currentChar) != std::string::npos)
+            {
+                int rank = currentChar - '0'; // Cast to int
+                dest_row = 8 - rank;
+                current_state = State::PARSE_DEST_COL;
+            }
+            break;
+        
+        case State::PARSE_DEST_COL: //                              Parsing the destination file
+            if(files.find(currentChar) != std::string::npos)
+            {
+                dest_col = files.find(currentChar);
+                current_state = State::ACCEPT_MOVED_PIECE;
+            } else {
+                current_state = State::INVALID;
+            }
+            break;
+
+        case State::ACCEPT_MOVED_PIECE: //                         Either a piece type or piece square
+            if(pieces.find(currentChar) != std::string::npos)
+            {
+                pawn_move = false;
+                switch (currentChar)
+                {
+                case 'K': // King move
+                    piece = MV_KING;
+                    current_state = State::ACCEPT;
+                    break;
+                case 'Q': // Queen move
+                    piece = MV_QUEEN;
+                    current_state = State::ACCEPT;
+                    break;
+                case 'R': // Rook move
+                    piece = MV_ROOK;
+                    current_state = State::ACCEPT;
+                    break;
+                case 'B': // Bishop move
+                    piece = MV_BISHOP;
+                    current_state = State::ACCEPT;
+                    break;
+                case 'N': // Knight move
+                    piece = MV_KNIGHT;
+                    current_state = State::ACCEPT;
+                    break;
+                default:
+                    current_state = State::INVALID;
+                    break;
+                }
+            }
+            if(ranks.find(currentChar) != std::string::npos)
+            {
+                int rank = currentChar - '0'; // Cast to int
+                start_row = 8 - rank;
+            }
+            if(files.find(currentChar) != std::string::npos)
+            {
+                start_col = files.find(currentChar);
+            }
+            break;
+        
+        case State::CASTLE:
+            switch (currentChar)
+            {
+            case '-':
+                break;
+            case 'O':
+                piece = MV_SHORT_CASTLE;
+                current_state = State::ACCEPT_SHORT_CASTLE;
+                break;
+            default:
+                current_state = State::INVALID;
+                break;
+            }
+            break;
+            
+        case State::ACCEPT_SHORT_CASTLE: //                                      Valid move string
+            switch (currentChar)
+            {
+            case '-':
+                current_state = State::PARSE_LONG_CASTLE;
+                break;
+            default:
+                current_state = State::INVALID;
+                break;
+            }
+            break;
+        
+        case State::PARSE_LONG_CASTLE:
+            switch (currentChar)
+            {
+            case 'O':
+                piece = MV_LONG_CASTLE;
+                current_state = State::ACCEPT_LONG_CASTLE;
+                break;
+            default:
+                current_state = State::INVALID;
+                break;
+            }
+            break;
+
+        case State::ACCEPT_LONG_CASTLE: //                                      Valid move string
+            char_index = 0;
+            break;
+        
+        default:
+            return output;
+        }
+        --char_index;
+    }
+
+    // If it is not in any of the accept states, we just return the blank position
+    if(!(current_state==State::ACCEPT
+    ||   current_state==State::ACCEPT_MOVED_PIECE
+    ||   current_state==State::ACCEPT_SHORT_CASTLE
+    ||   current_state==State::ACCEPT_LONG_CASTLE))
+    {
+        return output;
+    }
+
+    // === Create and apply move to position === //
+    Position currentPos = Position(this);
+    ChessMove move;
+
+    // Castling we don't worry about the start and end squares
+    if(current_state==State::ACCEPT_SHORT_CASTLE
+    || current_state==State::ACCEPT_LONG_CASTLE)
+    {
+        move = ChessMove(0, piece, 0, 0, 0, 0);
+        output = currentPos.transpose(move);
+        loadFromPosition(&output);
+        if(isPositionLegal())
+        {
+            return output;
+        } else {
+            return Position(POS_TYPE::EMPTY);
+        }
+    }
+
+    // Handle ambiguity
+    BoardSquare moved_piece(whiteToPlay,piece);
+    std::vector<Attacker> potential_attackers = attack_matrix[dest_row][dest_col]
+                                .getAttackersOfType(moved_piece);
+    if(potential_attackers.empty()) { return output; } // There are no pieces that can move there
+    if(potential_attackers.size()==1)// If there is exactly one attacker, we don't have ambiguity
+    {
+        start_row = potential_attackers.at(0).row;
+        start_col = potential_attackers.at(0).col;
+    }
+    if(start_row<0 || start_col<0) // If these are still negative, that means the string didn't provide them
+    {
+        for(Attacker atk : potential_attackers)
+        {
+            if(start_row == atk.row && start_col<0)
+            {
+                start_col = atk.col;
+                break;
+            }
+            if(start_col == atk.col && start_row<0)
+            {
+                start_row = atk.row;
+                break;
+            }
+        }
+    }
+
+    move = ChessMove(pawn_move, piece, start_row, start_col, dest_row, dest_col);
+    output = currentPos.transpose(move);
+    loadFromPosition(&output);
+    if(isPositionLegal())
+    {
+        return output;
+    } else {
+        return Position(POS_TYPE::EMPTY);
+    }
+}
 
 
 
@@ -443,18 +714,19 @@ void Analyzer::loadFromFen(const std::string& FEN)
 
 std::string Analyzer::boardAsString()
 {
-    std::string output = "================\n";
+    std::string output = "   ================\n";
     for (int row=0; row< 8; row++)
     {
-        output += "|";
+        output += std::to_string(8-row) + "  |";
         for (int col=0; col<8; col++)
         {
             // output += unicodemap[board[row][col]];
             output += board[row][col].getUnicode();
             output += "|";
         }
-        output += "\n================\n";
+        output += "\n   ================\n";
     }
+    output += "   |a|b|c|d|e|f|g|h|\n";
     output += (whiteToPlay ? "White" : "Black");
     output += " to move";
     return output;
@@ -539,13 +811,13 @@ float Analyzer::getHangingScore() const
                 continue;
             }
 
-            sort(attackers.begin(),attackers.end(),
-            [](const Attacker &a, const Attacker &b)
-            { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
+            // sort(attackers.begin(),attackers.end(),
+            // [](const Attacker &a, const Attacker &b)
+            // { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
 
-            sort(defenders.begin(),defenders.end(),
-            [](const Attacker &a, const Attacker &b)
-            { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
+            // sort(defenders.begin(),defenders.end(),
+            // [](const Attacker &a, const Attacker &b)
+            // { return std::abs(a.piece.getMaterialValue()) < std::abs(a.piece.getMaterialValue());});
 
             size_t a_i = 0;
             size_t d_i = 0;
@@ -624,6 +896,31 @@ std::vector<Attacker> AttackSquare::getAttackers(bool whitePieces) const
 const std::vector<Attacker>& AttackSquare::getAttackVector() const
 {
     return attacks;
+}
+
+bool AttackSquare::isTherePieceAttacking(const BoardSquare piece) const
+{
+    for(Attacker atk : attacks)
+    {
+        if(atk.piece==piece)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<Attacker> AttackSquare::getAttackersOfType(const BoardSquare piece) const
+{
+    std::vector<Attacker> output;
+    for(Attacker atk : attacks)
+    {
+        if(atk.piece==piece)
+        {
+            output.push_back(atk);
+        }
+    }
+    return output;
 }
 
 void AttackSquare::addAttacker(BoardSquare piece, std::uint8_t rownum, std::uint8_t colnum)
